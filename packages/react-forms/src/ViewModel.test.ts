@@ -1,7 +1,23 @@
 import { ViewModel } from './ViewModel.namespace'
 
+describe('FieldViewModel', () => {
+  describe('text', () => {
+    it('returns a constructor', () => {
+      const Model = ViewModel.text()
+      const model = Model.construct('abc')
+      expect(model.value).toEqual('abc')
+    })
+    it('has validation method: optional', () => {
+      const Model = ViewModel.text().optional()
+      const model = Model.construct('abc')
+      expect(model.value).toEqual('abc')
+      expect(model.errors).toEqual([])
+    })
+  })
+})
+
 function sample1() {
-  const makeGroup = ViewModel.group({
+  const Model = ViewModel.group({
     username: ViewModel.text(),
     password: ViewModel.password(),
   })
@@ -9,7 +25,7 @@ function sample1() {
     username: 'jfreeman',
     password: 'hunter2',
   }
-  return { group: makeGroup(initValue), initValue }
+  return { group: Model.construct(initValue), initValue }
 }
 
 describe('GroupViewModel', () => {

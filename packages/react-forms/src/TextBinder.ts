@@ -1,15 +1,18 @@
-import { FieldViewModel, ShouldBe } from './FieldViewModel'
+import { Binder, ShouldBe } from './Binder'
+import { constructFieldViewModel } from './FieldViewModel'
+import { ViewModelConstructor } from './ViewModel.interface'
 
-export class TextFieldViewModel extends FieldViewModel<string> {
+export class TextBinder
+  implements Binder<string | null>, ViewModelConstructor<string | null> {
   // Non-null should be the default, just as in SQL.
   private _required: boolean = true
   private _minLength: number = 0
   private _maxLength: number = Number.MAX_SAFE_INTEGER
   private _pattern?: RegExp
 
-  public constructor(public initValue: string | null, type: string = 'text') {
-    super(type, initValue)
-  }
+  public constructor(public readonly type = 'text') {}
+
+  public construct = constructFieldViewModel
 
   public optional(): this {
     this._required = false
@@ -33,11 +36,11 @@ export class TextFieldViewModel extends FieldViewModel<string> {
     return this
   }
 
-  protected _parse(repr: string | null): ShouldBe<string | null> {
+  public parse(repr: string | null): ShouldBe<string | null> {
     return { value: repr }
   }
 
-  protected _validate(value: string | null): React.ReactNode[] {
+  public validate(value: string | null): React.ReactNode[] {
     const errors: React.ReactNode[] = []
     if (typeof value === 'string') {
       if (value.length < this._minLength) {
@@ -62,7 +65,7 @@ export class TextFieldViewModel extends FieldViewModel<string> {
     return errors
   }
 
-  protected _render(value: string | null): string | null {
+  public render(value: string | null): string | null {
     return value
   }
 }

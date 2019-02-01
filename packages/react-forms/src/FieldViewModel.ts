@@ -1,14 +1,15 @@
 import { computed, observable } from 'mobx'
 import * as React from 'react'
 
+import { Binder, ShouldBe } from './Binder'
 import { ViewModel } from './ViewModel.interface'
 
-export type ShouldBe<V> = { value: V } | { errors: React.ReactNode[] }
-
 // TODO: Add type parameter for `repr`.
-export abstract class FieldViewModel<V, R = V>
-  implements ViewModel<V | null, R | null> {
-  public constructor(public type: string, public initValue: V | null) {}
+export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
+  public constructor(
+    private readonly binder: Binder<V | null, R | null>,
+    public initValue: V | null,
+  ) {}
 
   @observable
   public errors: React.ReactNode[] = []
@@ -19,7 +20,7 @@ export abstract class FieldViewModel<V, R = V>
   private _value: V | null = this.initValue
 
   @observable
-  private _repr: R | null = this._render(this.initValue)
+  private _repr: R | null = this.binder.render(this.initValue)
 
   @observable
   public touched: boolean = false
@@ -33,6 +34,10 @@ export abstract class FieldViewModel<V, R = V>
     this.touched = !untouched
   }
 
+  public get type(): string {
+    return this.binder.type
+  }
+
   @computed
   public get value(): V | null {
     return this._value
@@ -44,7 +49,7 @@ export abstract class FieldViewModel<V, R = V>
 
   public set value(value: V | null) {
     this._value = value
-    this._repr = this._render(value)
+    this._repr = this.binder.render(value)
   }
 
   @computed
@@ -55,23 +60,21 @@ export abstract class FieldViewModel<V, R = V>
   public set repr(repr: R | null) {
     this.touched = true
     this._repr = repr
-    const result: ShouldBe<V | null> = this._parse(repr)
+    const result: ShouldBe<V | null> = this.binder.parse(repr)
     if ('errors' in result) {
       this.errors = result.errors
       return
     }
     this._value = result.value
-    this.errors = this._validate(this._value)
+    this.errors = this.binder.validate(this._value)
   }
+}
 
-  // Takes the representation and returns either a value or an array of error
-  // messages (as HTML or text).
-  protected abstract _parse(repr: R | null): ShouldBe<V | null>
-
-  // Takes the value and returns a possibly empty array of error messages (as
-  // HTML or text).
-  protected abstract _validate(value: V | null): React.ReactNode[]
-
-  // Takes the value and returns the representation. Must not fail.
-  protected abstract _render(value: V | null): R | null
+// Every binder that wants to construct a `FieldViewModel` as a callable
+// object can use this handler.
+export function constructFieldViewModel<V, R = V>(
+  this: Binder<V, R>,
+  initValue: V,
+) {
+  return new FieldViewModel(this, initValue)
 }

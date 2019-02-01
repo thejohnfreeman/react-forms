@@ -1,5 +1,5 @@
 import map from 'just-map-values'
-import { computed } from 'mobx'
+import { computed, observable } from 'mobx'
 
 import { ViewModel } from './ViewModel.interface'
 
@@ -15,6 +15,9 @@ export class GroupViewModel<
   public constructor(public readonly members: G) {
     this.proxy = makeGroupProxy(this)
   }
+
+  @observable
+  public errors: React.ReactNode[] = []
 
   public get value(): V {
     return this.proxy
