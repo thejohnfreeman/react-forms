@@ -1,4 +1,4 @@
-import { computed, observable } from 'mobx'
+import { action, computed, observable } from 'mobx'
 import * as React from 'react'
 
 import { Binder, ShouldBe } from './Binder'
@@ -36,6 +36,20 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
   @computed
   public get dirty(): boolean {
     return !this.clean
+  }
+
+  @action
+  public clear() {
+    this.value = this.binder.defaultValue
+  }
+
+  @action
+  public reset() {
+    this.value = this.initValue
+  }
+
+  public save() {
+    this.initValue = this.value
   }
 
   @computed
@@ -81,6 +95,7 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
 
   public set value(value: V | null) {
     this._value = value
+    this.errors = this.binder.validate(this._value)
     this._repr = this.binder.render(value)
   }
 

@@ -93,6 +93,18 @@ export class GroupViewModel<
   public get dirty(): boolean {
     return !this.clean
   }
+
+  public clear() {
+    Object.values(this.members).forEach(vm => vm.clear())
+  }
+
+  public reset() {
+    Object.values(this.members).forEach(vm => vm.reset())
+  }
+
+  public save() {
+    Object.values(this.members).forEach(vm => vm.save())
+  }
 }
 
 // TODO: Use a real Proxy to make this easier.

@@ -10,7 +10,10 @@ export class TextBinder
   private _maxLength: number = Number.MAX_SAFE_INTEGER
   private _pattern?: RegExp
 
-  public constructor(public readonly type = 'text') {}
+  public constructor(
+    public readonly type = 'text',
+    public readonly defaultValue = null,
+  ) {}
 
   public construct = constructFieldViewModel
 

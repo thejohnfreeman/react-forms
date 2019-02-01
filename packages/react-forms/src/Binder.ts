@@ -3,7 +3,9 @@ export type ShouldBe<V> = { value: V } | { errors: React.ReactNode[] }
 // A Binder handles the binding between value (i.e. model) and representation
 // (i.e. view).
 export interface Binder<V, R = V> {
-  type: string
+  readonly type: string
+
+  readonly defaultValue: V
 
   equals(a: V, b: V): boolean
 
