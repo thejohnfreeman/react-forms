@@ -19,6 +19,19 @@ export class GroupViewModel<
   @observable
   public errors: React.ReactNode[] = []
 
+  @computed
+  public get invalid(): boolean {
+    return !this.valid
+  }
+
+  @computed
+  public get valid(): boolean {
+    return (
+      this.errors.length < 1 &&
+      Object.values(this.members).every(vm => vm.valid)
+    )
+  }
+
   public get value(): V {
     return this.proxy
   }

@@ -6,10 +6,12 @@ export interface ViewModel<V, R = V> {
   // disabled: boolean
   // enabled: boolean
   errors: React.ReactNode[]
+  readonly invalid: boolean
   // reset: () => void
   // save: () => void
   touched: boolean
   untouched: boolean
+  readonly valid: boolean
   value: V
   // Short alias for `value`.
   $: V

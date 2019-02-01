@@ -11,19 +11,29 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
     public initValue: V | null,
   ) {}
 
-  @observable
-  public errors: React.ReactNode[] = []
-
   // Even if a null (i.e. missing) value is not valid, we must be able to
   // represent it.
   @observable
   private _value: V | null = this.initValue
 
   @observable
+  public errors: React.ReactNode[] = this.binder.validate(this.initValue)
+
+  @observable
   private _repr: R | null = this.binder.render(this.initValue)
 
   @observable
   public touched: boolean = false
+
+  @computed
+  public get invalid(): boolean {
+    return !this.valid
+  }
+
+  @computed
+  public get valid(): boolean {
+    return this.errors.length < 1
+  }
 
   @computed
   public get untouched(): boolean {
@@ -74,7 +84,7 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
 // object can use this handler.
 export function constructFieldViewModel<V, R = V>(
   this: Binder<V, R>,
-  initValue: V,
+  initValue: V | null = null,
 ) {
   return new FieldViewModel(this, initValue)
 }

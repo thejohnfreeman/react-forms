@@ -13,6 +13,18 @@ describe('FieldViewModel', () => {
       expect(model.value).toEqual('abc')
       expect(model.errors).toEqual([])
     })
+    it('can start valid', () => {
+      const Model = ViewModel.text()
+      const model = Model.construct('abc')
+      expect(model.valid).toEqual(true)
+      expect(model.invalid).toEqual(false)
+    })
+    it('can start invalid', () => {
+      const Model = ViewModel.text()
+      const model = Model.construct()
+      expect(model.valid).toEqual(false)
+      expect(model.invalid).toEqual(true)
+    })
   })
 })
 
