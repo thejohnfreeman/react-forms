@@ -16,7 +16,7 @@ import { Button, TextField, Errors } from '@thejohnfreeman/react-forms/material-
 
 // Build the constructor for our view models.
 // Note: fields are required (i.e. non-null) by default, just as in SQL.
-const makeViewModel = ViewModel.group({
+const MyViewModel = ViewModel.group({
   username: ViewModel.text(),
   password: ViewModel.password().minLength(8),
 })
@@ -27,7 +27,7 @@ class MyComponent extends React.Component {
   private readonly auth = this.props.backend.auth
 
   // Initializes with `username` and `password` from `props`, if present.
-  private readonly viewModel = makeViewModel(this.props)
+  private readonly viewModel = MyViewModel.construct(this.props)
 
   // Only called when form is valid.
   private readonly onSubmit = ({ username, password }) => {
