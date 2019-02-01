@@ -65,6 +65,24 @@ export class GroupViewModel<
   public set untouched(untouched: boolean) {
     this.touched = !untouched
   }
+
+  @computed
+  public get enabled(): boolean {
+    return Object.values(this.members).every(vm => vm.enabled)
+  }
+
+  public set enabled(enabled: boolean) {
+    Object.values(this.members).forEach(vm => (vm.enabled = enabled))
+  }
+
+  @computed
+  public get disabled(): boolean {
+    return !this.enabled
+  }
+
+  public set disabled(disabled: boolean) {
+    this.enabled = !disabled
+  }
 }
 
 // TODO: Use a real Proxy to make this easier.

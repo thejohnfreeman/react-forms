@@ -3,8 +3,8 @@ export interface ViewModel<V, R = V> {
   // clean: boolean
   // clear: () => void
   // dirty: boolean
-  // disabled: boolean
-  // enabled: boolean
+  disabled: boolean
+  enabled: boolean
   errors: React.ReactNode[]
   readonly invalid: boolean
   // reset: () => void

@@ -25,6 +25,18 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
   @observable
   public touched: boolean = false
 
+  @observable
+  public enabled: boolean = true
+
+  @computed
+  public get disabled(): boolean {
+    return !this.enabled
+  }
+
+  public set disabled(disabled: boolean) {
+    this.enabled = !disabled
+  }
+
   @computed
   public get invalid(): boolean {
     return !this.valid
