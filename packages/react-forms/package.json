@@ -51,7 +51,9 @@
     "typescript": "^3.2.4"
   },
   "dependencies": {
+    "just-map-values": "^1.1.0",
     "mobx": "^5.9.0",
-    "react": "^16.7.0"
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
   }
 }
