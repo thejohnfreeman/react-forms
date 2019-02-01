@@ -15,9 +15,10 @@ import { Form, ViewModel } from '@thejohnfreeman/react-forms'
 import { Button, TextField, Errors } from '@thejohnfreeman/react-forms/material-ui'
 
 // Build the constructor for our view models.
+// Note: fields are required (i.e. non-null) by default, just as in SQL.
 const makeViewModel = ViewModel.group({
-  username: ViewModel.text().required(),
-  password: ViewModel.password().required().minLength(8),
+  username: ViewModel.text(),
+  password: ViewModel.password().minLength(8),
 })
 
 @observer

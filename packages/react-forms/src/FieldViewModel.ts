@@ -3,15 +3,18 @@ import * as React from 'react'
 
 import { ViewModel } from './ViewModel.interface'
 
-type ShouldBe<V> = { value: V } | { errors: React.ReactNode[] }
+export type ShouldBe<V> = { value: V } | { errors: React.ReactNode[] }
 
 // TODO: Add type parameter for `repr`.
-export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
+export abstract class FieldViewModel<V, R = V>
+  implements ViewModel<V | null, R | null> {
+  public constructor(public type: string, public initValue: V | null) {}
+
   @observable
   public errors: React.ReactNode[] = []
 
-  public constructor(public type: string, public initValue: V | null) {}
-
+  // Even if a null (i.e. missing) value is not valid, we must be able to
+  // represent it.
   @observable
   private _value: V | null = this.initValue
 
@@ -61,18 +64,14 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
     this.errors = this._validate(this._value)
   }
 
-  // @ts-ignore
-  protected _parse(repr: R | null): ShouldBe<V | null> {
-    return { value: null }
-  }
+  // Takes the representation and returns either a value or an array of error
+  // messages (as HTML or text).
+  protected abstract _parse(repr: R | null): ShouldBe<V | null>
 
-  // @ts-ignore
-  protected _validate(value: V | null): React.ReactNode[] {
-    return []
-  }
+  // Takes the value and returns a possibly empty array of error messages (as
+  // HTML or text).
+  protected abstract _validate(value: V | null): React.ReactNode[]
 
-  // @ts-ignore
-  protected _render(value: V | null): R | null {
-    return null
-  }
+  // Takes the value and returns the representation. Must not fail.
+  protected abstract _render(value: V | null): R | null
 }

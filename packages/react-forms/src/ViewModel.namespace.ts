@@ -3,7 +3,8 @@ import map from 'just-map-values'
 // Cannoth both import *and* re-export.
 // https://stackoverflow.com/q/54466881/618906
 import { ViewModel as LocalViewModel } from './ViewModel.interface'
-import { FieldViewModel } from './FieldViewModel'
+import { TextFieldViewModel } from './TextFieldViewModel'
+import { PasswordFieldViewModel } from './PasswordFieldViewModel'
 import { GroupViewModel } from './GroupViewModel'
 
 interface Constructor<V, R = V> {
@@ -23,10 +24,10 @@ export namespace ViewModel {
   }
 
   export function password(): Constructor<string | null> {
-    return initValue => new FieldViewModel('password', initValue)
+    return initValue => new PasswordFieldViewModel(initValue)
   }
 
   export function text(): Constructor<string | null> {
-    return initValue => new FieldViewModel('text', initValue)
+    return initValue => new TextFieldViewModel(initValue)
   }
 }
