@@ -14,6 +14,7 @@ import { observer } from '@thejohnfreeman/observer'
 import { Form, ViewModel } from '@thejohnfreeman/react-forms'
 import { Button, TextField, Errors } from '@thejohnfreeman/react-forms/material-ui'
 
+// Build the constructor for our view models.
 const makeViewModel = ViewModel.group({
   username: ViewModel.text().required(),
   password: ViewModel.password().required().minLength(8),

@@ -6,23 +6,27 @@ import { ViewModel as LocalViewModel } from './ViewModel.interface'
 import { FieldViewModel } from './FieldViewModel'
 import { GroupViewModel } from './GroupViewModel'
 
-interface Constructor<T> {
-  (initValue: T): LocalViewModel<T>
+interface Constructor<V, R = V> {
+  (initValue: V): LocalViewModel<V, R>
 }
 
 export namespace ViewModel {
-  export function group<G>(
-    ctors: { [K in keyof G]: Constructor<G[K]> },
-  ): Constructor<G> {
+  export function group<
+    G extends { [key: string]: LocalViewModel<any, any> },
+    V = { [K in keyof G]: G[K]['value'] },
+    R = { [K in keyof G]: G[K]['repr'] }
+  >(
+    ctors: { [K in keyof G]: Constructor<G[K]['value'], G[K]['repr']> },
+  ): Constructor<V, R> {
     return initValues =>
-      new GroupViewModel<G>(map(ctors, (ctor, key) => ctor(initValues[key])))
+      new GroupViewModel(map(ctors, (ctor, key) => ctor(initValues[key])))
   }
 
-  export function password(): (value: string) => FieldViewModel<string> {
+  export function password(): Constructor<string | null> {
     return initValue => new FieldViewModel('password', initValue)
   }
 
-  export function text() {
+  export function text(): Constructor<string | null> {
     return initValue => new FieldViewModel('text', initValue)
   }
 }
