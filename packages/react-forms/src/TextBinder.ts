@@ -36,6 +36,10 @@ export class TextBinder
     return this
   }
 
+  public equals(a: string | null, b: string | null) {
+    return a === b
+  }
+
   public parse(repr: string | null): ShouldBe<string | null> {
     return { value: repr }
   }

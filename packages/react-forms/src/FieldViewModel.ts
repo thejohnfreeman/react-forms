@@ -29,6 +29,16 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
   public enabled: boolean = true
 
   @computed
+  public get clean(): boolean {
+    return this.binder.equals(this._value, this.initValue)
+  }
+
+  @computed
+  public get dirty(): boolean {
+    return !this.clean
+  }
+
+  @computed
   public get disabled(): boolean {
     return !this.enabled
   }

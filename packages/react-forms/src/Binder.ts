@@ -5,6 +5,8 @@ export type ShouldBe<V> = { value: V } | { errors: React.ReactNode[] }
 export interface Binder<V, R = V> {
   type: string
 
+  equals(a: V, b: V): boolean
+
   // Takes the representation and returns either a value or an array of error
   // messages (as HTML or text).
   parse(repr: R): ShouldBe<V>

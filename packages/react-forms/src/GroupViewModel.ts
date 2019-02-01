@@ -83,6 +83,16 @@ export class GroupViewModel<
   public set disabled(disabled: boolean) {
     this.enabled = !disabled
   }
+
+  @computed
+  public get clean(): boolean {
+    return Object.values(this.members).every(vm => vm.clean)
+  }
+
+  @computed
+  public get dirty(): boolean {
+    return !this.clean
+  }
 }
 
 // TODO: Use a real Proxy to make this easier.
