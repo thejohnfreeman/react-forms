@@ -1,7 +1,7 @@
 {
   "name": "@thejohnfreeman/react-forms",
   "version": "1.0.0",
-  "description": "Low effort, high quality forms.",
+  "description": "Low effort, high quality forms in React.",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --project tsconfig.build.json",

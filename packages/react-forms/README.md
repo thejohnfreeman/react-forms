@@ -1,6 +1,6 @@
 # react-forms
 
-Low effort, high quality forms.
+Low effort, high quality forms in React.
 
 [![npm](https://img.shields.io/npm/v/@thejohnfreeman/react-forms.svg)](https://www.npmjs.com/package/@thejohnfreeman/react-forms)
 [![code style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://github.com/prettier/prettier)
@@ -10,6 +10,7 @@ Low effort, high quality forms.
 ## Usage
 
 ```typescript
+import * as React from 'react'
 import { observer } from '@thejohnfreeman/observer'
 import { Form, ViewModel } from '@thejohnfreeman/react-forms'
 import { Button, TextField, Errors } from '@thejohnfreeman/react-forms/material-ui'
