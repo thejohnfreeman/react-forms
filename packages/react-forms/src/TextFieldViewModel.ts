@@ -2,9 +2,10 @@ import { FieldViewModel, ShouldBe } from './FieldViewModel'
 
 export class TextFieldViewModel extends FieldViewModel<string> {
   // Non-null should be the default, just as in SQL.
-  private _required = true
-  private _minLength = 0
-  private _maxLength = Number.MAX_SAFE_INTEGER
+  private _required: boolean = true
+  private _minLength: number = 0
+  private _maxLength: number = Number.MAX_SAFE_INTEGER
+  private _pattern?: RegExp
 
   public constructor(public initValue: string | null, type: string = 'text') {
     super(type, initValue)
@@ -22,6 +23,13 @@ export class TextFieldViewModel extends FieldViewModel<string> {
 
   public maxLength(maxLength: number): this {
     this._maxLength = maxLength
+    return this
+  }
+
+  public pattern(pattern: RegExp, flags?: string): this
+  public pattern(pattern: string, flags?: string): this
+  public pattern(pattern, flags) {
+    this._pattern = new RegExp(pattern, flags)
     return this
   }
 
@@ -44,6 +52,9 @@ export class TextFieldViewModel extends FieldViewModel<string> {
             value.length
           } characters).`,
         )
+      }
+      if (this._pattern && !this._pattern.test(value)) {
+        errors.push(`Please match this pattern: ${this._pattern}`)
       }
     } else if (this._required) {
       errors.push('Please enter this field.')
