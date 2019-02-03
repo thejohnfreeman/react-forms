@@ -18,15 +18,15 @@
     "jsx": "react",
     // Declare global variables from ES2017 and the DOM.
     "lib": ["es2017", "dom"],
-    // Generate a CommonJS module for Webpack.
-    "module": "esnext",
+    // Generate an ES2015 module for Parcel.
+    "module": "es2015",
     // Resolve dependencies like Node.js.
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
     "removeComments": true,
-    // Attach inline source maps.
+    // Generate source map.
     "sourceMap": true,
     // Suppress noImplicitAny errors when indexing.
     "suppressImplicitAnyIndexErrors": true,

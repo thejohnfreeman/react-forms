@@ -1,5 +1,4 @@
 import { action, computed, observable } from 'mobx'
-import * as React from 'react'
 
 import { Binder, ShouldBe } from './Binder'
 import { ViewModel } from './ViewModel'
