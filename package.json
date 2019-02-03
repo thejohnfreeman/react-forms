@@ -2,6 +2,7 @@
   "name": "@thejohnfreeman/react-forms-workspace",
   "private": true,
   "scripts": {
+    "install": "lerna bootstrap",
     "lint": "lerna run lint",
     "test": "lerna run test"
   },
