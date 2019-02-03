@@ -1,0 +1,11 @@
+{
+  "name": "@thejohnfreeman/react-forms-workspace",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.10.7"
+  },
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ]
+}
