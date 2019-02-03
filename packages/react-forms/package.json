@@ -60,5 +60,8 @@
     "mobx": "^5.9.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
