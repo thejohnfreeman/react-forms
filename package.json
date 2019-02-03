@@ -1,6 +1,10 @@
 {
   "name": "@thejohnfreeman/react-forms-workspace",
   "private": true,
+  "scripts": {
+    "lint": "lerna run lint",
+    "test": "lerna run test"
+  },
   "devDependencies": {
     "lerna": "^3.10.7"
   },
