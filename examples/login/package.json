@@ -1,0 +1,21 @@
+{
+  "name": "login",
+  "version": "1.0.0",
+  "description": "The login form shown in the README.",
+  "author": "John Freeman <jfreeman08@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
+  "dependencies": {
+    "@material-ui/core": "^3.9.1",
+    "@thejohnfreeman/react-forms": "^1.0.0",
+    "mobx": "^5.9.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.11.0",
+    "prettier": "^1.16.3"
+  }
+}
