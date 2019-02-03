@@ -1,6 +1,6 @@
 import { Binder, ShouldBe } from './Binder'
 import { constructFieldViewModel } from './FieldViewModel'
-import { ViewModelConstructor } from './ViewModel.interface'
+import { ViewModelConstructor } from './ViewModel'
 
 export class TextBinder
   implements Binder<string | null>, ViewModelConstructor<string | null> {

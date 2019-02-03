@@ -1,12 +1,14 @@
 import map from 'just-map-values'
 import { computed, observable } from 'mobx'
 
-import { ViewModel } from './ViewModel.interface'
+import { ViewModel } from './ViewModel'
+
+export type ViewModelGroup = { [key: string]: ViewModel<any, any> }
 
 // We really want type aliases within class scopes.
 // https://github.com/Microsoft/TypeScript/issues/7061
 export class GroupViewModel<
-  G extends { [key: string]: ViewModel<any, any> },
+  G extends ViewModelGroup,
   V = { [K in keyof G]: G[K]['value'] },
   R = { [K in keyof G]: G[K]['repr'] }
 > implements ViewModel<V, R> {

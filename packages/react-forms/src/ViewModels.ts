@@ -2,16 +2,13 @@ import map from 'just-map-values'
 
 // Cannoth both import *and* re-export.
 // https://stackoverflow.com/q/54466881/618906
-import {
-  ViewModel as GenericViewModel,
-  ViewModelConstructor,
-} from './ViewModel.interface'
-import { GroupViewModel } from './GroupViewModel'
+import { ViewModelConstructor } from './ViewModel'
+import { GroupViewModel, ViewModelGroup } from './GroupViewModel'
 import { TextBinder } from './TextBinder'
 
-export namespace ViewModel {
+export namespace ViewModels {
   export function group<
-    G extends { [key: string]: GenericViewModel<any, any> },
+    G extends ViewModelGroup,
     V = { [K in keyof G]: G[K]['value'] },
     R = { [K in keyof G]: G[K]['repr'] }
   >(

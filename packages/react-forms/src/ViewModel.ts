@@ -1,4 +1,3 @@
-// export interface ViewModel<V, R = V> {
 export interface ViewModel<V, R = V> {
   readonly clean: boolean
   clear: () => void

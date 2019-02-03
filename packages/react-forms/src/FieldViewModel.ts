@@ -2,7 +2,7 @@ import { action, computed, observable } from 'mobx'
 import * as React from 'react'
 
 import { Binder, ShouldBe } from './Binder'
-import { ViewModel } from './ViewModel.interface'
+import { ViewModel } from './ViewModel'
 
 // TODO: Add type parameter for `repr`.
 export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
