@@ -5,9 +5,7 @@
   "types": "dist/index.d.ts",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build:cjs": "tsc --project tsconfig.commonjs.json",
     "build:es": "tsc --project tsconfig.es2015.json",
@@ -16,10 +14,7 @@
     "test": "jest"
   },
   "jest": {
-    "preset": "ts-jest",
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/jest.setup.ts"
-    ]
+    "preset": "ts-jest"
   },
   "repository": {
     "type": "git",
