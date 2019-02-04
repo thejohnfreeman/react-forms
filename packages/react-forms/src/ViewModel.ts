@@ -18,5 +18,5 @@ export interface ViewModel<V, R = V> {
 }
 
 export interface ViewModelConstructor<V, R = V> {
-  construct(initValue: V): ViewModel<V, R>
+  construct(initValue?: V): ViewModel<V, R>
 }

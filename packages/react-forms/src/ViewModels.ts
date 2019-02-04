@@ -17,7 +17,7 @@ export namespace ViewModels {
     },
   ): ViewModelConstructor<V, R> {
     return {
-      construct(initValues: { [K in keyof G]?: V[K] }) {
+      construct(initValues: { [K in keyof G]?: V[K] } = {}) {
         return new GroupViewModel(
           map(ctors, (ctor, key) => ctor.construct(initValues[key])),
         )
