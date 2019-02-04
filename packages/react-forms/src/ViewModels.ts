@@ -33,11 +33,11 @@ export namespace ViewModels {
     }
   }
 
-  export function password(): ViewModelConstructor<string | null> & TextBinder {
+  export function password(): TextBinder {
     return new TextBinder('password')
   }
 
-  export function text(): ViewModelConstructor<string | null> & TextBinder {
+  export function text(): TextBinder {
     return new TextBinder()
   }
 }

@@ -1,9 +1,11 @@
 import { Binder, ShouldBe } from './Binder'
-import { constructFieldViewModel } from './FieldViewModel'
-import { ViewModelConstructor } from './ViewModel'
+import { FieldViewModel } from './FieldViewModel'
+import { ViewModel, ViewModelConstructor } from './ViewModel'
 
 export class TextBinder
-  implements Binder<string | null>, ViewModelConstructor<string | null> {
+  implements
+    Binder<string | null, string>,
+    ViewModelConstructor<string | null, string> {
   // Non-null should be the default, just as in SQL.
   private _required: boolean = true
   private _minLength: number = 0
@@ -15,7 +17,11 @@ export class TextBinder
     public readonly defaultValue = null,
   ) {}
 
-  public construct = constructFieldViewModel
+  public construct(
+    initValue: string | null = null,
+  ): ViewModel<string | null, string> {
+    return new FieldViewModel<string, string>(this, initValue)
+  }
 
   public optional(): this {
     this._required = false
@@ -43,8 +49,8 @@ export class TextBinder
     return a === b
   }
 
-  public parse(repr: string | null): ShouldBe<string | null> {
-    return { value: repr }
+  public parse(repr: string | undefined): ShouldBe<string | null> {
+    return { value: repr || null }
   }
 
   public validate(value: string | null): React.ReactNode[] {
@@ -72,7 +78,7 @@ export class TextBinder
     return errors
   }
 
-  public render(value: string | null): string | null {
-    return value
+  public render(value: string | null): string {
+    return value || ''
   }
 }

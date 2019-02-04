@@ -4,9 +4,9 @@ import { Binder, ShouldBe } from './Binder'
 import { ViewModel } from './ViewModel'
 
 // TODO: Add type parameter for `repr`.
-export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
+export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
   public constructor(
-    private readonly binder: Binder<V | null, R | null>,
+    private readonly binder: Binder<V | null, R>,
     public initValue: V | null,
   ) {}
 
@@ -19,7 +19,7 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
   public errors: React.ReactNode[] = this.binder.validate(this.initValue)
 
   @observable
-  private _repr: R | null = this.binder.render(this.initValue)
+  private _repr: R = this.binder.render(this.initValue)
 
   @observable
   public touched: boolean = false
@@ -99,11 +99,11 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R | null> {
   }
 
   @computed
-  public get repr(): R | null {
+  public get repr(): R {
     return this._repr
   }
 
-  public set repr(repr: R | null) {
+  public set repr(repr: R) {
     this.touched = true
     this._repr = repr
     const result: ShouldBe<V | null> = this.binder.parse(repr)
