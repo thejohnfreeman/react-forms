@@ -23,6 +23,7 @@ class _Input extends React.Component<InputProps> {
     return (
       <KendoInput
         {...this.props}
+        type={this.props.type || field.type}
         label={titleCase(this.props.name)}
         style={{ width: '100%' }}
         onChange={this.context.form.onChange}
