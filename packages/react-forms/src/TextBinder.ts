@@ -34,7 +34,7 @@ export class TextBinder
 
   public pattern(pattern: RegExp, flags?: string): this
   public pattern(pattern: string, flags?: string): this
-  public pattern(pattern, flags) {
+  public pattern(pattern: any, flags?: string) {
     this._pattern = new RegExp(pattern, flags)
     return this
   }

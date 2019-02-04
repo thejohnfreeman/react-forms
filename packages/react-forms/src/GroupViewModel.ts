@@ -4,13 +4,17 @@ import { computed, observable } from 'mobx'
 import { ViewModel } from './ViewModel'
 
 export type ViewModelGroup = { [key: string]: ViewModel<any, any> }
+export type Flatten<
+  G extends ViewModelGroup,
+  K extends keyof ViewModel<any, any>
+> = { [J in keyof G]: G[J][K] }
 
 // We really want type aliases within class scopes.
 // https://github.com/Microsoft/TypeScript/issues/7061
 export class GroupViewModel<
   G extends ViewModelGroup,
-  V = { [K in keyof G]: G[K]['value'] },
-  R = { [K in keyof G]: G[K]['repr'] }
+  V extends Flatten<G, 'value'> = Flatten<G, 'value'>,
+  R extends Flatten<G, 'repr'> = Flatten<G, 'repr'>
 > implements ViewModel<V, R> {
   private readonly proxy: V
 
@@ -47,7 +51,7 @@ export class GroupViewModel<
   }
 
   public get repr(): R {
-    return map(this.members, vm => vm.repr)
+    return map(this.members, vm => vm.repr) as R
   }
 
   @computed
@@ -110,9 +114,11 @@ export class GroupViewModel<
 }
 
 // TODO: Use a real Proxy to make this easier.
-function makeGroupProxy<G extends { [key: string]: ViewModel<any, any> }, V, R>(
-  gvm: GroupViewModel<G, V, R>,
-): V {
+function makeGroupProxy<
+  G extends ViewModelGroup,
+  V extends Flatten<G, 'value'> = Flatten<G, 'value'>,
+  R extends Flatten<G, 'repr'> = Flatten<G, 'repr'>
+>(gvm: GroupViewModel<G, V, R>): V {
   const proxy = {}
   Object.keys(gvm.members).forEach(key => {
     Object.defineProperty(proxy, key, {

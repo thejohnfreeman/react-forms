@@ -3,21 +3,21 @@ import map from 'just-map-values'
 // Cannoth both import *and* re-export.
 // https://stackoverflow.com/q/54466881/618906
 import { ViewModelConstructor } from './ViewModel'
-import { GroupViewModel, ViewModelGroup } from './GroupViewModel'
+import { Flatten, GroupViewModel, ViewModelGroup } from './GroupViewModel'
 import { TextBinder } from './TextBinder'
 
 export namespace ViewModels {
   export function group<
     G extends ViewModelGroup,
-    V = { [K in keyof G]: G[K]['value'] },
-    R = { [K in keyof G]: G[K]['repr'] }
+    V extends Flatten<G, 'value'> = Flatten<G, 'value'>,
+    R extends Flatten<G, 'repr'> = Flatten<G, 'repr'>
   >(
     ctors: {
       [K in keyof G]: ViewModelConstructor<G[K]['value'], G[K]['repr']>
     },
   ): ViewModelConstructor<V, R> {
     return {
-      construct(initValues) {
+      construct(initValues: { [K in keyof G]?: V[K] }) {
         return new GroupViewModel(
           map(ctors, (ctor, key) => ctor.construct(initValues[key])),
         )

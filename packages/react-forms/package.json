@@ -2,9 +2,16 @@
   "name": "@thejohnfreeman/react-forms",
   "version": "1.0.0",
   "description": "Low effort, high quality forms in React.",
-  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc --project tsconfig.build.json",
+    "build:cjs": "tsc --project tsconfig.commonjs.json",
+    "build:es": "tsc --project tsconfig.es2015.json",
+    "build": "npm run build:cjs && npm run build:es",
     "lint": "tsc --noEmit && tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
     "test": "jest"
   },
