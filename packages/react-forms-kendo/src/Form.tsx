@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import * as React from 'react'
 
 import {
@@ -22,9 +23,18 @@ export type FormProps<G extends ViewModelGroup> = {
 export class Form<
   G extends ViewModelGroup = ViewModelGroup
 > extends React.Component<FormProps<G>> {
-  public readonly onChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const name = event.currentTarget.name
-    this.props.viewModel.members[name].repr = event.currentTarget.value
+  get viewModel() {
+    return this.props.viewModel
+  }
+
+  get fields() {
+    return this.props.viewModel.members
+  }
+
+  // TODO: What is the event type?
+  public readonly onChange = (event: any) => {
+    const name = event.target.name
+    this.props.viewModel.members[name].repr = event.target.value
   }
 
   private readonly onSubmit = (event: React.FormEvent) => {
@@ -37,7 +47,10 @@ export class Form<
       // We have to construct a new context value on each render
       // to trigger updates in children dependent on that context.
       <FormContext.Provider value={{ form: this }}>
-        <form className={this.props.className} onSubmit={this.onSubmit}>
+        <form
+          className={classNames(this.props.className, 'k-form')}
+          onSubmit={this.onSubmit}
+        >
           {this.props.children}
         </form>
       </FormContext.Provider>

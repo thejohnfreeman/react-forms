@@ -46,6 +46,7 @@
     "@progress/kendo-react-inputs": "^2.6.1",
     "@progress/kendo-react-intl": "^2.6.1",
     "@thejohnfreeman/react-forms": "^1.0.0",
+    "@types/classnames": "^2.2.7",
     "@types/jest": "^23.3.13",
     "@types/lodash-es": "^4.17.1",
     "@types/react": "^16.8.1",
@@ -67,6 +68,7 @@
     "@progress/kendo-react-inputs": "^2.6.1",
     "@progress/kendo-react-intl": "^2.6.1",
     "@thejohnfreeman/react-forms": "^1.0.0",
+    "mobx": "^5.9.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
   },
@@ -75,6 +77,8 @@
   },
   "dependencies": {
     "change-case": "^3.1.0",
-    "lodash-es": "^4.17.11"
+    "classnames": "^2.2.6",
+    "lodash-es": "^4.17.11",
+    "mobx-react": "^5.4.3"
   }
 }
