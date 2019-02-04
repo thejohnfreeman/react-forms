@@ -1,0 +1,80 @@
+{
+  "name": "@thejohnfreeman/react-forms-kendo",
+  "version": "1.0.0",
+  "description": "",
+  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build:cjs": "tsc --project tsconfig.commonjs.json",
+    "build:es": "tsc --project tsconfig.es2015.json",
+    "build": "npm run build:cjs && npm run build:es",
+    "lint": "tsc --noEmit && tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "ts-jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thejohnfreeman/react-forms.git"
+  },
+  "keywords": [
+    "react",
+    "forms",
+    "kendo",
+    "mobx",
+    "declarative",
+    "validation",
+    "mvvm",
+    "mvc",
+    "model",
+    "view",
+    "controller"
+  ],
+  "author": "John Freeman <jfreeman08@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thejohnfreeman/react-forms/issues"
+  },
+  "homepage": "https://github.com/thejohnfreeman/react-forms#readme",
+  "devDependencies": {
+    "@progress/kendo-react-buttons": "^2.6.1",
+    "@progress/kendo-react-inputs": "^2.6.1",
+    "@progress/kendo-react-intl": "^2.6.1",
+    "@thejohnfreeman/react-forms": "^1.0.0",
+    "@types/jest": "^23.3.13",
+    "@types/lodash-es": "^4.17.1",
+    "@types/react": "^16.8.1",
+    "jest": "^24.0.0",
+    "jest-dom": "^3.0.1",
+    "mobx": "^5.9.0",
+    "prettier": "^1.16.4",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-testing-library": "^5.4.4",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.17.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.3.1"
+  },
+  "peerDependencies": {
+    "@progress/kendo-react-buttons": "^2.6.1",
+    "@progress/kendo-react-inputs": "^2.6.1",
+    "@progress/kendo-react-intl": "^2.6.1",
+    "@thejohnfreeman/react-forms": "^1.0.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "change-case": "^3.1.0",
+    "lodash-es": "^4.17.11"
+  }
+}
