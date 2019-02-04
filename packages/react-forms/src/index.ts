@@ -1,2 +1,2 @@
 export { FieldViewModel } from './FieldViewModel'
-export { GroupViewModel } from './GroupViewModel'
+export { Flatten, GroupViewModel, ViewModelGroup } from './GroupViewModel'
