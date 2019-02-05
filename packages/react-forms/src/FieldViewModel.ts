@@ -106,12 +106,12 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
   public set repr(repr: R) {
     this.touched = true
     this._repr = repr
-    const result: ShouldBe<V | null> = this.binder.parse(repr)
-    if ('errors' in result) {
-      this.errors = result.errors
+    const parsed: ShouldBe<V | null> = this.binder.parse(repr)
+    if ('errors' in parsed) {
+      this.errors = parsed.errors
       return
     }
-    this._value = result.value
+    this._value = parsed.value
     this.errors = this.binder.validate(this._value)
   }
 }
