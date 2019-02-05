@@ -12,14 +12,19 @@ Low effort, high quality forms in React.
 ```typescript
 import * as React from 'react'
 import { observer } from '@thejohnfreeman/observer'
-import { Form, ViewModel } from '@thejohnfreeman/react-forms'
-import { Button, TextField, Errors } from '@thejohnfreeman/react-forms/material-ui'
+import { ViewModels } from '@thejohnfreeman/react-forms'
+import {
+  Button,
+  Errors,
+  Form,
+  TextField
+} from '@thejohnfreeman/react-forms-material'
 
 // Build the constructor for our view models.
 // Note: fields are required (i.e. non-null) by default, just as in SQL.
-const MyViewModel = ViewModel.group({
-  username: ViewModel.text(),
-  password: ViewModel.password().minLength(8),
+const MyViewModel = ViewModels.group({
+  username: ViewModels.text(),
+  password: ViewModels.password().minLength(8),
 })
 
 @observer
