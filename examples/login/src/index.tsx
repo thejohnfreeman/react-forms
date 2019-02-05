@@ -1,4 +1,5 @@
 import CssBaseline from '@material-ui/core/CssBaseline'
+import Grid from '@material-ui/core/Grid'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
@@ -9,9 +10,16 @@ import * as ReactDOM from 'react-dom'
 // too small to worry about.
 // https://material-ui.com/style/typography/#install-with-npm
 
+import { LogInForm } from './KendoLogInForm'
+
 ReactDOM.render(
   <>
     <CssBaseline />
+    <Grid container>
+      <Grid item>
+        <LogInForm />
+      </Grid>
+    </Grid>
   </>,
   document.getElementById('root'),
 )
