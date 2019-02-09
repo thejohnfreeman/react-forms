@@ -8,7 +8,8 @@
   "scripts": {
     "build:cjs": "tsc --project tsconfig.commonjs.json",
     "build:es": "tsc --project tsconfig.es2015.json",
-    "build": "npm run build:cjs && npm run build:es",
+    "build": "yarn build:cjs && yarn build:es",
+    "prepare": "yarn build",
     "lint": "tsc --noEmit && tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
     "test": "jest"
   },
