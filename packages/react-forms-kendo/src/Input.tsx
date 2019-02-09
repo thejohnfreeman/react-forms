@@ -10,7 +10,7 @@ import * as React from 'react'
 import { FormContext } from './Form'
 
 // `name` is optional in `KendoInputProps`
-export type InputProps = KendoInputProps & { name: string }
+export type InputProps = KendoInputProps & { label?: string; name: string }
 
 class _Input extends React.Component<InputProps> {
   public static contextType = FormContext
@@ -24,7 +24,7 @@ class _Input extends React.Component<InputProps> {
       <KendoInput
         {...this.props}
         type={this.props.type || field.type}
-        label={titleCase(this.props.name)}
+        label={this.props.label || titleCase(this.props.name)}
         style={{ width: '100%' }}
         onChange={this.context.form.onChange}
         value={field.repr}

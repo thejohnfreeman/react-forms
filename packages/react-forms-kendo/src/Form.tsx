@@ -34,7 +34,7 @@ export class Form<
   // TODO: What is the event type?
   public readonly onChange = (event: any) => {
     const name = event.target.name
-    this.props.viewModel.members[name].repr = event.target.value
+    this.fields[name].repr = event.target.value
   }
 
   private readonly onSubmit = (event: React.FormEvent) => {
