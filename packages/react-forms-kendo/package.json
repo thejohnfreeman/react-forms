@@ -1,6 +1,6 @@
 {
   "name": "@thejohnfreeman/react-forms-kendo",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "types": "dist/index.d.ts",
   "main": "dist/cjs/index.js",
@@ -45,7 +45,7 @@
     "@progress/kendo-react-buttons": "^2.6.1",
     "@progress/kendo-react-inputs": "^2.6.1",
     "@progress/kendo-react-intl": "^2.6.1",
-    "@thejohnfreeman/react-forms": "^1.0.0",
+    "@thejohnfreeman/react-forms": "^0.1.0",
     "@types/classnames": "^2.2.7",
     "@types/jest": "^23.3.13",
     "@types/lodash-es": "^4.17.1",
@@ -67,7 +67,7 @@
     "@progress/kendo-react-buttons": "^2.6.1",
     "@progress/kendo-react-inputs": "^2.6.1",
     "@progress/kendo-react-intl": "^2.6.1",
-    "@thejohnfreeman/react-forms": "^1.0.0",
+    "@thejohnfreeman/react-forms": "^0.1.0",
     "mobx": "^5.9.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
