@@ -1,8 +1,9 @@
 import map from 'just-map-values'
 
-import { ViewModelConstructor } from './ViewModel'
+import { DebugBinder } from './DebugBinder'
 import { Flatten, GroupViewModel, ViewModelGroup } from './GroupViewModel'
 import { TextBinder } from './TextBinder'
+import { ViewModelConstructor } from './ViewModel'
 
 // TODO: Is there really no better way to declare these types?
 interface GroupViewModelConstructor<
@@ -14,6 +15,10 @@ interface GroupViewModelConstructor<
 }
 
 export namespace ViewModels {
+  export function debug<T = any>(): DebugBinder<T> {
+    return new DebugBinder()
+  }
+
   export function group<
     G extends ViewModelGroup,
     V extends Flatten<G, 'value'> = Flatten<G, 'value'>,
