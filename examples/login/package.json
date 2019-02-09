@@ -5,6 +5,7 @@
   "author": "John Freeman <jfreeman08@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "lint": "tsc --noEmit && tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
     "start": "parcel src/index.html"
   },
   "dependencies": {
@@ -21,7 +22,11 @@
     "react-dom": "^16.7.0"
   },
   "devDependencies": {
+    "@types/react": "^16.7.22",
     "parcel-bundler": "^1.11.0",
-    "prettier": "^1.16.3"
+    "prettier": "^1.16.3",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.3.3"
   }
 }
