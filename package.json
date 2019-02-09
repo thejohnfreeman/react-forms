@@ -4,13 +4,14 @@
   "scripts": {
     "install": "lerna bootstrap",
     "lint": "lerna run lint",
+    "prepare": "lerna run prepare",
     "test": "lerna run test"
   },
   "devDependencies": {
     "lerna": "^3.10.7"
   },
   "workspaces": [
-    "packages/*",
-    "examples/*"
+    "examples/*",
+    "packages/*"
   ]
 }

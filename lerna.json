@@ -1,8 +1,8 @@
 {
   "npmClient": "yarn",
   "packages": [
-    "packages/*",
-    "examples/*"
+    "examples/*",
+    "packages/*"
   ],
   "useWorkspaces": true,
   "version": "0.0.0"
