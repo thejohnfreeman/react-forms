@@ -10,22 +10,22 @@ import { ShouldBe } from './Binder'
 
 // A binder for dates as strings. For dates as dates, use DateBinder.
 export class DateStringBinder extends AbstractBinder<string, Date | undefined> {
-  private _format: string | undefined = undefined
+  public optFormat: string | undefined = undefined
 
   public constructor(defaultValue: string | null = null) {
     super('date-string', defaultValue)
   }
 
   public format(format?: string): this {
-    this._format = format
+    this.optFormat = format
     return this
   }
 
   public parse(repr: Date | undefined): ShouldBe<string | null> {
-    return { value: repr ? dayjs(repr).format(this._format) : null }
+    return { value: repr ? dayjs(repr).format(this.optFormat) : null }
   }
 
   public render(value: string | null): Date | undefined {
-    return value ? dayjs(value, this._format as any).toDate() : undefined
+    return value ? dayjs(value, this.optFormat as any).toDate() : undefined
   }
 }
