@@ -1,5 +1,6 @@
 import map from 'just-map-values'
 
+import { DateStringBinder } from './DateStringBinder'
 import { DebugBinder } from './DebugBinder'
 import { Flatten, GroupViewModel, ViewModelGroup } from './GroupViewModel'
 import { TextBinder } from './TextBinder'
@@ -15,6 +16,10 @@ interface GroupViewModelConstructor<
 }
 
 export namespace ViewModels {
+  export function dateString(defaultValue?: string): DateStringBinder {
+    return new DateStringBinder(defaultValue)
+  }
+
   export function debug<T = any>(): DebugBinder<T> {
     return new DebugBinder()
   }
@@ -42,7 +47,7 @@ export namespace ViewModels {
     return new TextBinder('password')
   }
 
-  export function text(): TextBinder {
-    return new TextBinder()
+  export function text(defaultValue?: string): TextBinder {
+    return new TextBinder('text', defaultValue)
   }
 }

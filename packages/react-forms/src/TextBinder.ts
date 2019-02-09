@@ -16,7 +16,7 @@ export class TextBinder
 
   public constructor(
     public readonly type = 'text',
-    public readonly defaultValue = null,
+    public readonly defaultValue: string | null = null,
   ) {}
 
   public construct(
