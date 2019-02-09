@@ -11,6 +11,8 @@ export class TextBinder
   private _minLength: number = 0
   private _maxLength: number = Number.MAX_SAFE_INTEGER
   private _pattern?: RegExp
+  // If true, do not trim the string in parse.
+  private _raw: boolean = false
 
   public constructor(
     public readonly type = 'text',
@@ -45,12 +47,23 @@ export class TextBinder
     return this
   }
 
+  public raw(): this {
+    this._raw = true
+    return this
+  }
+
   public equals(a: string | null, b: string | null) {
     return a === b
   }
 
   public parse(repr: string | undefined): ShouldBe<string | null> {
-    return { value: repr || null }
+    if (!repr) {
+      return { value: null }
+    }
+    if (!this._raw) {
+      repr = repr.trim()
+    }
+    return { value: repr }
   }
 
   public validate(value: string | null): React.ReactNode[] {
