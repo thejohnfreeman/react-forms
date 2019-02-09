@@ -18,15 +18,20 @@ export type InputProps = KendoInputProps & {
 class _Input extends Field<InputProps> {
   public render() {
     const { label, name, type, ...kendoProps } = this.props
+    const opts = this.field.binder
     return (
       <label className="k-form-field">
         <span>{label || titleCase(name)}</span>
         <KendoInput
           {...kendoProps}
+          maxLength={opts.optMaxLength}
+          minLength={opts.optMinLength}
+          pattern={opts.optPattern}
           name={name}
           onChange={this.context.form.onChange}
-          type={type || this.field.type}
+          required={opts.optRequired}
           style={{ width: '100%' }}
+          type={type || this.field.type}
           value={this.field.repr}
           validityStyles={
             this.field.touched || this.context.form.viewModel.touched
