@@ -5,7 +5,12 @@ import { Button } from '@progress/kendo-react-buttons'
 import * as React from 'react'
 
 import { ViewModels } from '@thejohnfreeman/react-forms'
-import { DatePicker, Form, Input } from '@thejohnfreeman/react-forms-kendo'
+import {
+  DatePicker,
+  Form,
+  Input,
+  Switch,
+} from '@thejohnfreeman/react-forms-kendo'
 import { observer } from '@thejohnfreeman/observer'
 
 export type LogInFormProps = {}
@@ -16,11 +21,13 @@ const LogInViewModel = ViewModels.group({
   username: ViewModels.text(),
   password: ViewModels.password().minLength(8),
   asOfDate: ViewModels.dateString(),
+  rememberMe: ViewModels.boolean(),
 })
 
 class _LogInForm extends React.Component<LogInFormProps> {
   private readonly viewModel = LogInViewModel.construct({
     asOfDate: '2018-02-09',
+    rememberMe: false,
   })
 
   private readonly onSubmit = async values => {
@@ -39,6 +46,7 @@ class _LogInForm extends React.Component<LogInFormProps> {
         <Input name="username" required />
         <Input name="password" required minLength={8} />
         <DatePicker name="asOfDate" />
+        <Switch name="rememberMe" />
         <Button className="mt-3" type="submit" disabled={this.isLoggingIn}>
           {this.isLoggingIn ? 'Logging in...' : 'Log in'}
         </Button>
