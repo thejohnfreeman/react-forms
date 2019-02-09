@@ -1,30 +1,28 @@
 import { titleCase } from 'change-case'
 import { observer } from 'mobx-react'
-import * as React from 'react'
 import {
   DatePicker as KendoDatePicker,
   DatePickerProps as KendoDatePickerProps,
 } from '@progress/kendo-react-dateinputs'
+import * as React from 'react'
 
-import { FormContext } from './Form'
+import { Field } from './Field'
 
 export type DatePickerProps = KendoDatePickerProps & {
   label?: React.ReactNode
   name: string
 }
 
-class _DatePicker extends React.Component<DatePickerProps> {
-  public static contextType = FormContext
-
+class _DatePicker extends Field<DatePickerProps> {
   public render() {
-    // TODO: @computed field?
-    const field = this.context.form.fields[this.props.name]
+    const { label, name, ...kendoProps } = this.props
     return (
       <label className="k-form-field">
-        <span>{this.props.label || titleCase(this.props.name)}</span>
+        <span>{label || titleCase(name)}</span>
         <KendoDatePicker
-          {...this.props}
-          value={field.repr}
+          {...kendoProps}
+          name={name}
+          value={this.field.repr}
           onChange={this.context.form.onChange}
         />
       </label>
