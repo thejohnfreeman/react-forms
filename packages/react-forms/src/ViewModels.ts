@@ -4,6 +4,7 @@ import { BooleanBinder } from './BooleanBinder'
 import { DateStringBinder } from './DateStringBinder'
 import { DebugBinder } from './DebugBinder'
 import { Flatten, GroupViewModel, ViewModelGroup } from './GroupViewModel'
+import { ObjectBinder } from './ObjectBinder'
 import { TextBinder } from './TextBinder'
 import { ViewModelConstructor } from './ViewModel'
 
@@ -46,6 +47,12 @@ export namespace ViewModels {
         return new GroupViewModel(viewModelGroup)
       },
     }
+  }
+
+  export function object<O extends object>(
+    defaultValue: O | null = null,
+  ): ObjectBinder<O> {
+    return new ObjectBinder(defaultValue)
   }
 
   export function password(): TextBinder {
