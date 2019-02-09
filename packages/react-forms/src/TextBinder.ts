@@ -1,33 +1,15 @@
-import { Binder, ShouldBe } from './Binder'
-import { FieldViewModel } from './FieldViewModel'
-import { ViewModel, ViewModelConstructor } from './ViewModel'
+import { AbstractBinder } from './AbstractBinder'
+import { ShouldBe } from './Binder'
 
-export class TextBinder
-  implements
-    Binder<string | null, string>,
-    ViewModelConstructor<string | null, string> {
-  // Non-null should be the default, just as in SQL.
-  private _required: boolean = true
+export class TextBinder extends AbstractBinder<string, string> {
   private _minLength: number = 0
   private _maxLength: number = Number.MAX_SAFE_INTEGER
   private _pattern?: RegExp
   // If true, do not trim the string in parse.
   private _raw: boolean = false
 
-  public constructor(
-    public readonly type = 'text',
-    public readonly defaultValue: string | null = null,
-  ) {}
-
-  public construct(
-    initValue: string | null = null,
-  ): ViewModel<string | null, string> {
-    return new FieldViewModel<string, string>(this, initValue)
-  }
-
-  public optional(): this {
-    this._required = false
-    return this
+  public constructor(type = 'text', defaultValue: string | null = null) {
+    super(type, defaultValue)
   }
 
   public minLength(minLength: number): this {
@@ -52,10 +34,6 @@ export class TextBinder
     return this
   }
 
-  public equals(a: string | null, b: string | null) {
-    return a === b
-  }
-
   public parse(repr: string | undefined): ShouldBe<string | null> {
     if (!repr) {
       return { value: null }
@@ -67,7 +45,7 @@ export class TextBinder
   }
 
   public validate(value: string | null): React.ReactNode[] {
-    const errors: React.ReactNode[] = []
+    const errors: React.ReactNode[] = super.validate(value)
     if (typeof value === 'string') {
       if (value.length < this._minLength) {
         errors.push(
@@ -85,8 +63,6 @@ export class TextBinder
       if (this._pattern && !this._pattern.test(value)) {
         errors.push(`Please match this pattern: ${this._pattern}`)
       }
-    } else if (this._required) {
-      errors.push('Please enter this field.')
     }
     return errors
   }
