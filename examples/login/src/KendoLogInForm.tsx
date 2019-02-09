@@ -5,12 +5,7 @@ import { Button } from '@progress/kendo-react-buttons'
 import * as React from 'react'
 
 import { ViewModels } from '@thejohnfreeman/react-forms'
-import {
-  DatePicker,
-  Form,
-  Input,
-  Switch,
-} from '@thejohnfreeman/react-forms-kendo'
+import { Form, Input, SwitchButton } from '@thejohnfreeman/react-forms-kendo'
 import { observer } from '@thejohnfreeman/observer'
 
 export type LogInFormProps = {}
@@ -20,18 +15,16 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 const LogInViewModel = ViewModels.group({
   username: ViewModels.text(),
   password: ViewModels.password().minLength(8),
-  asOfDate: ViewModels.dateString(),
   rememberMe: ViewModels.boolean(),
 })
 
 class _LogInForm extends React.Component<LogInFormProps> {
   private readonly viewModel = LogInViewModel.construct({
-    asOfDate: '2018-02-09',
     rememberMe: false,
   })
 
   private readonly onSubmit = async values => {
-    console.log('submit:', values)
+    console.log('submit:', { ...values })
     this.isLoggingIn = true
     await sleep(1000)
     this.isLoggingIn = false
@@ -45,8 +38,7 @@ class _LogInForm extends React.Component<LogInFormProps> {
       <Form viewModel={this.viewModel} onSubmit={this.onSubmit}>
         <Input name="username" required />
         <Input name="password" required minLength={8} />
-        <DatePicker name="asOfDate" />
-        <Switch name="rememberMe" />
+        <SwitchButton name="rememberMe" />
         <Button className="mt-3" type="submit" disabled={this.isLoggingIn}>
           {this.isLoggingIn ? 'Logging in...' : 'Log in'}
         </Button>
