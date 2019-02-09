@@ -1,4 +1,5 @@
 import { titleCase } from 'change-case'
+import { action } from 'mobx'
 import { observer } from 'mobx-react'
 import {
   Switch as KendoSwitch,
@@ -14,9 +15,9 @@ export type SwitchProps = KendoSwitchProps & {
 }
 
 class _Switch extends Field<SwitchProps> {
-  private readonly onChange = (event: any) => {
+  private readonly onChange = action((event: any) => {
     this.field.repr = event.target.value
-  }
+  })
 
   public render() {
     const { label, name, ...kendoProps } = this.props
@@ -24,10 +25,10 @@ class _Switch extends Field<SwitchProps> {
       <label className="k-form-field">
         <span>{label || titleCase(name)}</span>
         <KendoSwitch
-          {...kendoProps}
           disabled={this.field.disabled}
           onChange={this.onChange}
           checked={this.field.repr}
+          {...kendoProps}
         />
       </label>
     )

@@ -23,7 +23,6 @@ class _Input extends Field<InputProps> {
       <label className="k-form-field">
         <span>{label || titleCase(name)}</span>
         <KendoInput
-          {...kendoProps}
           disabled={this.field.disabled}
           maxLength={opts.optMaxLength}
           minLength={opts.optMinLength}
@@ -37,6 +36,7 @@ class _Input extends Field<InputProps> {
           validityStyles={
             this.field.touched || this.context.form.viewModel.touched
           }
+          {...kendoProps}
         />
       </label>
     )
