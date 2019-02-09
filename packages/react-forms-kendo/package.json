@@ -9,11 +9,7 @@
     "build:cjs": "tsc --project tsconfig.commonjs.json",
     "build:es": "tsc --project tsconfig.es2015.json",
     "build": "npm run build:cjs && npm run build:es",
-    "lint": "tsc --noEmit && tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
-    "test": "jest"
-  },
-  "jest": {
-    "preset": "ts-jest"
+    "lint": "tsc --noEmit && tslint --project tsconfig.json 'src/**/*.{ts,tsx}'"
   },
   "repository": {
     "type": "git",
@@ -45,17 +41,12 @@
     "@progress/kendo-react-intl": "^2.6.1",
     "@thejohnfreeman/react-forms": "^0.1.0",
     "@types/classnames": "^2.2.7",
-    "@types/jest": "^23.3.13",
     "@types/lodash-es": "^4.17.1",
     "@types/react": "^16.8.1",
-    "jest": "^24.0.0",
-    "jest-dom": "^3.0.1",
     "mobx": "^5.9.0",
     "prettier": "^1.16.4",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-testing-library": "^5.4.4",
-    "ts-jest": "^23.10.5",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
     "tslint-react": "^3.6.0",
