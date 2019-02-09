@@ -14,7 +14,7 @@ export type SwitchProps = KendoSwitchProps & {
 }
 
 class _Switch extends Field<SwitchProps> {
-  private onChange = (event: any) => {
+  private readonly onChange = (event: any) => {
     this.field.repr = event.target.value
   }
 
