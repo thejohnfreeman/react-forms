@@ -10,14 +10,15 @@ import * as ReactDOM from 'react-dom'
 // too small to worry about.
 // https://material-ui.com/style/typography/#install-with-npm
 
-import { LogInForm } from './KendoLogInForm'
+// import { LogInForm as ComponentUnderTest } from './KendoLogInForm'
+import { CarSearchForm as ComponentUnderTest } from './KendoCarSearchForm'
 
 ReactDOM.render(
   <>
     <CssBaseline />
     <Grid container>
       <Grid item>
-        <LogInForm />
+        <ComponentUnderTest />
       </Grid>
     </Grid>
   </>,
