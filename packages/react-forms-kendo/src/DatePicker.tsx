@@ -21,6 +21,7 @@ class _DatePicker extends Field<DatePickerProps> {
         <span>{label || titleCase(name)}</span>
         <KendoDatePicker
           {...kendoProps}
+          disabled={this.field.disabled}
           name={name}
           value={this.field.repr}
           onChange={this.context.form.onChange}

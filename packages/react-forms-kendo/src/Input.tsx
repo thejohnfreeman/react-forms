@@ -24,6 +24,7 @@ class _Input extends Field<InputProps> {
         <span>{label || titleCase(name)}</span>
         <KendoInput
           {...kendoProps}
+          disabled={this.field.disabled}
           maxLength={opts.optMaxLength}
           minLength={opts.optMinLength}
           pattern={opts.optPattern}
