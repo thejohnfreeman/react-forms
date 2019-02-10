@@ -1,6 +1,7 @@
 {
   "name": "login",
   "version": "0.1.0",
+  "private": true,
   "description": "The login form shown in the README.",
   "author": "John Freeman <jfreeman08@gmail.com>",
   "license": "MIT",
