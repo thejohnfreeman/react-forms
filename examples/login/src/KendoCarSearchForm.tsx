@@ -1,7 +1,6 @@
 import '@progress/kendo-theme-material/dist/all.css'
 
-import { asyncComputed } from 'computed-async-mobx'
-import { computed } from 'mobx'
+import { autorun, observable } from 'mobx'
 import { Button } from '@progress/kendo-react-buttons'
 import * as React from 'react'
 
@@ -60,26 +59,41 @@ class _CarSearchForm extends React.Component<CarSearchFormProps> {
     }),
   )
 
-  @computed
-  private get makeOptions(): Options {
-    const vehicleType = this.viewModel.$.vehicleType
-    return vehicleType ? makes(vehicleType.text) : undefined
-  }
+  @observable
+  private makeOptions: Options
 
-  private modelOptions = asyncComputed(undefined, 200, async () => {
-    const vehicleType = this.viewModel.$.vehicleType
-    const make = this.viewModel.$.make
-    return vehicleType && make
-      ? await models(vehicleType.text, make.text)
-      : undefined
+  private readonly _unsubMakeOptions = autorun(() => {
+    const fields = this.viewModel.$
+    const vehicleType = fields.vehicleType
+    fields.make = null
+    this.makeOptions = vehicleType ? makes(vehicleType.text) : undefined
   })
+
+  @observable
+  private modelOptions: Options
+
+  private readonly _unsubModelOptions = autorun(async () => {
+    const fields = this.viewModel.$
+    const vehicleType = fields.vehicleType
+    const make = fields.make
+    fields.model = null
+    this.modelOptions =
+      vehicleType && make
+        ? await models(vehicleType.text, make.text)
+        : undefined
+  })
+
+  public componentDidUnmount() {
+    this._unsubMakeOptions()
+    this._unsubModelOptions()
+  }
 
   public render() {
     return (
       <Form viewModel={this.viewModel} onSubmit={this.onSubmit}>
         <ComboBox options={this.vehicleTypeOptions} name="vehicleType" />
         <ComboBox options={this.makeOptions} name="make" />
-        <ComboBox options={this.modelOptions.get()} name="model" />
+        <ComboBox options={this.modelOptions} name="model" />
         <Button className="mt-3" type="submit">
           Search
         </Button>
