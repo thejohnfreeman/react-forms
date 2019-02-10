@@ -8,12 +8,12 @@ import * as React from 'react'
 
 import { Field } from './Field'
 
-export type Options = { text: string; value: number }[] | undefined
+export type Options<T = number> = { text: string; value: T }[] | undefined
 
 export type ComboBoxProps = KendoComboBoxProps & {
   label?: string
   name: string
-  options: Options
+  options: Options<any>
 }
 
 // Assumes that the options and value are always and only
