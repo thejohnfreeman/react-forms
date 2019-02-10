@@ -1,4 +1,5 @@
 import { Binder, ShouldBe } from './Binder'
+import { DebugBinder } from './DebugBinder'
 import { ViewModel, ViewModelConstructor } from './ViewModel'
 import { FieldViewModel } from './FieldViewModel'
 
@@ -15,6 +16,10 @@ export abstract class AbstractBinder<V, R = V>
   public optional(): this {
     this.optRequired = false
     return this
+  }
+
+  public debug(): DebugBinder<V, R> {
+    return new DebugBinder(this)
   }
 
   public construct(initValue: V | null = null): ViewModel<V | null, R> {

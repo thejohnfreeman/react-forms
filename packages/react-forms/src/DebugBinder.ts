@@ -2,39 +2,43 @@ import { Binder, ShouldBe } from './Binder'
 import { FieldViewModel } from './FieldViewModel'
 import { ViewModel, ViewModelConstructor } from './ViewModel'
 
-// A binder for debugging controls with an unknown representation. This binder
-// will accept any representation and assign it to the value unchanged, and it
-// logs every parse and render.
-export class DebugBinder<T>
-  implements
-    Binder<T | null, T | undefined>,
-    ViewModelConstructor<T | null, T | undefined> {
-  public constructor(
-    public readonly type = 'debug',
-    public readonly defaultValue = null,
-  ) {}
+// A binder for debugging other binders. It proxies another binder, logging
+// each method's arguments and return value.
+export class DebugBinder<V, R>
+  implements Binder<V | null, R>, ViewModelConstructor<V | null, R> {
+  public constructor(private readonly _target: Binder<V | null, R>) {}
 
-  public construct(
-    initValue: T | null = null,
-  ): ViewModel<T | null, T | undefined> {
-    return new FieldViewModel<T, T | undefined>(this, initValue)
+  public get type() {
+    return this._target.type
   }
 
-  public equals(a: T | null, b: T | null) {
-    return a === b
+  public get defaultValue() {
+    return this._target.defaultValue
   }
 
-  public parse(repr: T | undefined): ShouldBe<T | null> {
-    console.log('parse', repr)
-    return { value: repr || null }
+  public construct(initValue: V | null = null): ViewModel<V | null, R> {
+    return new FieldViewModel<V, R>(this, initValue)
   }
 
-  public validate(_value: T | null): React.ReactNode[] {
-    return []
+  public equals(a: V | null, b: V | null) {
+    return this._target.equals(a, b)
   }
 
-  public render(value: T | null): T | undefined {
-    console.log('parse', value)
-    return value || undefined
+  public parse(repr: R): ShouldBe<V | null> {
+    const parsed = this._target.parse(repr)
+    console.log('parse(', repr, ') =>', parsed)
+    return parsed
+  }
+
+  public validate(value: V | null): React.ReactNode[] {
+    const errors = this._target.validate(value)
+    console.log('validate(', value, ') =>', errors)
+    return errors
+  }
+
+  public render(value: V | null): R {
+    const rendered = this._target.render(value)
+    console.log('render(', value, ') =>', rendered)
+    return rendered
   }
 }
