@@ -11,7 +11,8 @@ import * as ReactDOM from 'react-dom'
 // https://material-ui.com/style/typography/#install-with-npm
 
 // import { LogInForm as ComponentUnderTest } from './KendoLogInForm'
-import { CarSearchForm as ComponentUnderTest } from './KendoCarSearchForm'
+// import { CarSearchForm as ComponentUnderTest } from './KendoCarSearchForm'
+import { AddressForm as ComponentUnderTest } from './KendoAddressForm'
 
 ReactDOM.render(
   <>

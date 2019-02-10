@@ -36,8 +36,8 @@ class _LogInForm extends React.Component<LogInFormProps> {
   public render() {
     return (
       <Form viewModel={this.viewModel} onSubmit={this.onSubmit}>
-        <Input name="username" required />
-        <Input name="password" required minLength={8} />
+        <Input name="username" />
+        <Input name="password" />
         <SwitchButton name="rememberMe" />
         <Button className="mt-3" type="submit" disabled={this.isLoggingIn}>
           {this.isLoggingIn ? 'Logging in...' : 'Log in'}

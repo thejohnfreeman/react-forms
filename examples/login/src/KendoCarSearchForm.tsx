@@ -94,9 +94,7 @@ class _CarSearchForm extends React.Component<CarSearchFormProps> {
         <ComboBox options={this.vehicleTypeOptions} name="vehicleType" />
         <ComboBox options={this.makeOptions} name="make" />
         <ComboBox options={this.modelOptions} name="model" />
-        <Button className="mt-3" type="submit">
-          Search
-        </Button>
+        <Button type="submit">Search</Button>
       </Form>
     )
   }
