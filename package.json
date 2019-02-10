@@ -5,7 +5,8 @@
     "install": "lerna bootstrap",
     "lint": "lerna run lint",
     "prepare": "lerna run prepare",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "watch": "lerna run --parallel watch"
   },
   "devDependencies": {
     "lerna": "^3.10.7"

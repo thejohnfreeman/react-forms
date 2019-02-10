@@ -11,7 +11,8 @@
     "build": "yarn build:cjs && yarn build:es",
     "prepare": "yarn build",
     "prepublishOnly": "yarn lint",
-    "lint": "tsc --noEmit && tslint --project tsconfig.json 'src/**/*.{ts,tsx}'"
+    "lint": "tsc --noEmit && tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
+    "watch": "yarn build:es --watch"
   },
   "repository": {
     "type": "git",

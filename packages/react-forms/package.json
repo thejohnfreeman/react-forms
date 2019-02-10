@@ -12,7 +12,8 @@
     "prepare": "yarn build",
     "prepublishOnly": "yarn test && yarn lint",
     "lint": "tsc --noEmit && tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
-    "test": "jest"
+    "test": "jest",
+    "watch": "yarn build:es --watch"
   },
   "jest": {
     "preset": "ts-jest"
