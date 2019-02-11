@@ -1,0 +1,35 @@
+{
+  "name": "bootstrap",
+  "version": "0.1.1",
+  "private": true,
+  "description": "Examples in Material UI.",
+  "author": "John Freeman <jfreeman08@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "tsc --noEmit && tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
+    "start": "parcel src/index.html"
+  },
+  "dependencies": {
+    "@progress/kendo-react-buttons": "^2.6.1",
+    "@progress/kendo-react-dropdowns": "^2.6.1",
+    "@progress/kendo-react-inputs": "^2.6.1",
+    "@progress/kendo-react-intl": "^2.6.1",
+    "@progress/kendo-theme-bootstrap": "^3.2.0",
+    "@thejohnfreeman/observer": "^1.0.0",
+    "@thejohnfreeman/react-forms": "^0.1.1",
+    "@thejohnfreeman/react-forms-kendo": "^0.1.1",
+    "bootstrap": "^4.2.1",
+    "mobx": "^5.9.0",
+    "react": "^16.7.0",
+    "react-bootstrap": "^1.0.0-beta.5",
+    "react-dom": "^16.7.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.7.22",
+    "parcel-bundler": "^1.11.0",
+    "prettier": "^1.16.3",
+    "tslint": "^5.12.1",
+    "tslint-config-thejohnfreeman": "^1.0.1",
+    "typescript": "^3.3.3"
+  }
+}
