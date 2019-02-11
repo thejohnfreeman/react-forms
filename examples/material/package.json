@@ -1,8 +1,8 @@
 {
-  "name": "login",
+  "name": "material",
   "version": "0.1.1",
   "private": true,
-  "description": "The login form shown in the README.",
+  "description": "Examples in Material UI.",
   "author": "John Freeman <jfreeman08@gmail.com>",
   "license": "MIT",
   "scripts": {
