@@ -1,3 +1,5 @@
+import '@progress/kendo-theme-material/dist/all.css'
+
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import * as React from 'react'

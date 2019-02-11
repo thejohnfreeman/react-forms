@@ -1,5 +1,3 @@
-import '@progress/kendo-theme-material/dist/all.css'
-
 import { autorun, observable } from 'mobx'
 import { Button } from '@progress/kendo-react-buttons'
 import * as React from 'react'
