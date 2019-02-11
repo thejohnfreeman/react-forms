@@ -81,7 +81,7 @@ class _CarSearchForm extends React.Component<CarSearchFormProps> {
         : undefined
   })
 
-  public componentDidUnmount() {
+  public componentWillUnmount() {
     this._unsubMakeOptions()
     this._unsubModelOptions()
   }
