@@ -1,3 +1,5 @@
+import axios from 'axios'
+import { reaction } from 'mobx'
 import { Button } from '@progress/kendo-react-buttons'
 import * as React from 'react'
 
@@ -32,6 +34,35 @@ class _AddressForm extends React.Component<AddressFormProps> {
 
   private readonly onSubmit = async values => {
     console.log('submit:', { ...values, state: values.state.value })
+  }
+
+  private readonly unsubZip = reaction(
+    () => this.viewModel.$.zip,
+    async zip => {
+      if (zip.length < 5) {
+        return
+      }
+      let response
+      try {
+        response = await axios.get(`https://api.zippopotam.us/us/${zip}`)
+      } catch {
+        // Unknown zip code. Not an error.
+        return
+      }
+      const place = response.data['places'][0]
+      if (!place || zip !== response.data['post code']) {
+        return
+      }
+      console.log('place', place)
+      this.viewModel.$.city = place['place name']
+      this.viewModel.$.state = STATE_OPTIONS!.find(
+        ({ value }) => value === place['state abbreviation'],
+      )
+    },
+  )
+
+  public componentWillUnmount() {
+    this.unsubZip()
   }
 
   public render() {
