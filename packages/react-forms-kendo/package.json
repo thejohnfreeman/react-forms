@@ -40,6 +40,7 @@
   "devDependencies": {
     "@progress/kendo-react-buttons": "^2.6.1",
     "@progress/kendo-react-dateinputs": "^2.6.1",
+    "@progress/kendo-react-dropdowns": "^2.6.1",
     "@progress/kendo-react-inputs": "^2.6.1",
     "@progress/kendo-react-intl": "^2.6.1",
     "@thejohnfreeman/react-forms": "^0.1.1",
@@ -57,6 +58,7 @@
   "peerDependencies": {
     "@progress/kendo-react-buttons": "^2.6.1",
     "@progress/kendo-react-dateinputs": "^2.6.1",
+    "@progress/kendo-react-dropdowns": "^2.6.1",
     "@progress/kendo-react-inputs": "^2.6.1",
     "@progress/kendo-react-intl": "^2.6.1",
     "@thejohnfreeman/react-forms": "^0.1.0",

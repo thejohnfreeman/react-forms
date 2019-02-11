@@ -1,4 +1,5 @@
 import { titleCase } from 'change-case'
+import classNames from 'classnames'
 import { observer } from 'mobx-react'
 import {
   Input as KendoInput,
@@ -10,6 +11,7 @@ import { Field } from './Field'
 
 // `name` is optional in `KendoInputProps`
 export type InputProps = KendoInputProps & {
+  className?: string
   label?: string
   name: string
   type?: string
@@ -17,10 +19,10 @@ export type InputProps = KendoInputProps & {
 
 class _Input extends Field<InputProps> {
   public render() {
-    const { label, name, type, ...kendoProps } = this.props
+    const { className, label, name, type, ...kendoProps } = this.props
     const opts = this.field.binder
     return (
-      <label className="k-form-field">
+      <label className={classNames(className, 'k-form-field')}>
         <span>{label || titleCase(name)}</span>
         <KendoInput
           disabled={this.field.disabled}

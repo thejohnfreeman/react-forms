@@ -1,4 +1,5 @@
 import { titleCase } from 'change-case'
+import classNames from 'classnames'
 import { observer } from 'mobx-react'
 import {
   ComboBox as KendoComboBox,
@@ -11,6 +12,7 @@ import { Field } from './Field'
 export type Options<T = number> = { text: string; value: T }[] | undefined
 
 export type ComboBoxProps = KendoComboBoxProps & {
+  className?: string
   label?: string
   name: string
   options: Options<any>
@@ -20,9 +22,9 @@ export type ComboBoxProps = KendoComboBoxProps & {
 // { text: string, value: number }
 class _ComboBox extends Field<ComboBoxProps> {
   public render() {
-    const { label, name, options, ...kendoProps } = this.props
+    const { className, label, name, options, ...kendoProps } = this.props
     return (
-      <label className="k-form-field">
+      <label className={classNames(className, 'k-form-field')}>
         <span>{label || titleCase(name)}</span>
         <KendoComboBox
           data={options}

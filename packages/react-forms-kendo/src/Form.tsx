@@ -48,7 +48,7 @@ export class Form<
       // to trigger updates in children dependent on that context.
       <FormContext.Provider value={{ form: this }}>
         <form
-          className={classNames(this.props.className, 'k-form')}
+          className={classNames('k-form', this.props.className)}
           onSubmit={this.onSubmit}
         >
           {this.props.children}
