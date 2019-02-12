@@ -1,5 +1,6 @@
 import { titleCase } from 'change-case'
 import classNames from 'classnames'
+import { computed } from 'mobx'
 import { observer } from 'mobx-react'
 import {
   ComboBox as KendoComboBox,
@@ -8,8 +9,7 @@ import {
 import * as React from 'react'
 
 import { Field } from './Field'
-
-export type Options<T = number> = { text: string; value: T }[] | undefined
+import { newOptionsSource, Options, OptionsSource } from './OptionsSource'
 
 export type ComboBoxProps = KendoComboBoxProps & {
   className?: string
@@ -19,19 +19,26 @@ export type ComboBoxProps = KendoComboBoxProps & {
 }
 
 // Assumes that the options and value are always and only
-// { text: string, value: number }
+// { text: string, value: any }
 class _ComboBox extends Field<ComboBoxProps> {
+  @computed
+  private get optionsSource(): OptionsSource<any> {
+    return newOptionsSource(this.props.options)
+  }
+
   public render() {
     const { className, label, name, options, ...kendoProps } = this.props
     return (
       <label className={classNames(className, 'k-form-field')}>
         <span>{label || titleCase(name)}</span>
         <KendoComboBox
-          data={options}
+          data={this.optionsSource.options}
           dataItemKey="value"
           disabled={this.field.disabled}
+          filterable={true}
           name={name}
           onChange={this.context.form.onChange}
+          onFilterChange={this.optionsSource.onFilterChange}
           textField="text"
           value={this.field.repr}
           {...kendoProps}
