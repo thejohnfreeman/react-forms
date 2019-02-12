@@ -65,7 +65,7 @@
     "@progress/kendo-react-dropdowns": "^2.6.1",
     "@progress/kendo-react-inputs": "^2.6.1",
     "@progress/kendo-react-intl": "^2.6.1",
-    "@thejohnfreeman/react-forms": "^0.1.0",
+    "@thejohnfreeman/react-forms": "^0.3.0",
     "mobx": "^5.9.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
