@@ -24,8 +24,9 @@ class _SwitchButton extends Field<SwitchButtonProps> {
   public render() {
     const { className, label, name, ...kendoProps } = this.props
     return (
-      <p className={classNames(className, 'k-form-field')}>
+      <p className="k-form-field">
         <KendoButton
+          className={classNames(className, 'form-control')}
           name={name}
           onClick={this.onChange}
           selected={this.field.repr}

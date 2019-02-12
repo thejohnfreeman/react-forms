@@ -24,9 +24,10 @@ class _Switch extends Field<SwitchProps> {
   public render() {
     const { className, label, name, ...kendoProps } = this.props
     return (
-      <label className={classNames(className, 'k-form-field')}>
+      <label className="k-form-field">
         <span>{label || titleCase(name)}</span>
         <KendoSwitch
+          className={classNames(className, 'form-control')}
           disabled={this.field.disabled}
           onChange={this.onChange}
           checked={this.field.repr}

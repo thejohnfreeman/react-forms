@@ -22,10 +22,10 @@ class _Input extends Field<InputProps> {
     const { className, label, name, type, ...kendoProps } = this.props
     const opts = this.field.binder
     return (
-      <label>
+      <label className="k-form-field">
         <span>{label || titleCase(name)}</span>
         <KendoInput
-          className={classNames(className, 'k-form-field', 'form-control')}
+          className={classNames(className, 'form-control')}
           disabled={this.field.disabled}
           maxLength={opts.optMaxLength}
           minLength={opts.optMinLength}

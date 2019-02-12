@@ -29,10 +29,10 @@ class _ComboBox extends Field<ComboBoxProps> {
   public render() {
     const { className, label, name, options, ...kendoProps } = this.props
     return (
-      <label>
+      <label className="k-form-field">
         <span>{label || titleCase(name)}</span>
         <KendoComboBox
-          className={classNames(className, 'k-form-field', 'form-control')}
+          className={classNames(className, 'form-control')}
           data={this.optionsSource.options}
           dataItemKey="value"
           disabled={this.field.disabled}
