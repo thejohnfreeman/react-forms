@@ -3,7 +3,7 @@ import { Button } from '@progress/kendo-react-buttons'
 import * as React from 'react'
 
 import { ViewModels } from '@thejohnfreeman/react-forms'
-import { Form, Input, SwitchButton } from '@thejohnfreeman/react-forms-kendo'
+import { Form, Checkbox, Input } from '@thejohnfreeman/react-forms-kendo'
 import { observer } from '@thejohnfreeman/observer'
 
 export type LogInFormProps = {}
@@ -13,7 +13,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 const LogInViewModel = ViewModels.group({
   username: ViewModels.text(),
   password: ViewModels.password().minLength(8),
-  rememberMe: ViewModels.boolean(),
+  rememberMe: ViewModels.boolean().optional(),
 })
 
 class _LogInForm extends React.Component<LogInFormProps> {
@@ -36,7 +36,7 @@ class _LogInForm extends React.Component<LogInFormProps> {
       <Form viewModel={this.viewModel} onSubmit={this.onSubmit}>
         <Input name="username" />
         <Input name="password" />
-        <SwitchButton name="rememberMe" />
+        <Checkbox name="rememberMe" />
         <Button className="mt-3" type="submit" disabled={this.isLoggingIn}>
           {this.isLoggingIn ? 'Logging in...' : 'Log in'}
         </Button>
