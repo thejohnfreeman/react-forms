@@ -19,9 +19,10 @@ class _DatePicker extends Field<DatePickerProps> {
   public render() {
     const { className, label, name, ...kendoProps } = this.props
     return (
-      <label className={classNames(className, 'k-form-field')}>
+      <label>
         <span>{label || titleCase(name)}</span>
         <KendoDatePicker
+          className={classNames(className, 'k-form-field', 'form-control')}
           disabled={this.field.disabled}
           name={name}
           onChange={this.context.form.onChange}
