@@ -3,6 +3,7 @@
 Low effort, high quality forms in React.
 
 [![npm](https://img.shields.io/npm/v/@thejohnfreeman/react-forms.svg)](https://www.npmjs.com/package/@thejohnfreeman/react-forms)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@thejohnfreeman/react-forms.svg?style=flat)](https://bundlephobia.com/result?p=@thejohnfreeman/react-forms)
 [![code style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://github.com/prettier/prettier)
 [![build status](https://travis-ci.org/thejohnfreeman/react-forms.svg?branch=master)](https://travis-ci.org/thejohnfreeman/react-forms)
 
