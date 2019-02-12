@@ -1,6 +1,6 @@
 {
   "name": "material",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "description": "Examples in Material UI.",
   "author": "John Freeman <jfreeman08@gmail.com>",
@@ -17,8 +17,8 @@
     "@progress/kendo-react-intl": "^2.6.1",
     "@progress/kendo-theme-material": "^2.2.0",
     "@thejohnfreeman/observer": "^1.0.0",
-    "@thejohnfreeman/react-forms": "^0.3.0",
-    "@thejohnfreeman/react-forms-kendo": "^0.3.2",
+    "@thejohnfreeman/react-forms": "^0.3.3",
+    "@thejohnfreeman/react-forms-kendo": "^0.3.3",
     "mobx": "^5.9.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
