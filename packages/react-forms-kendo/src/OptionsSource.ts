@@ -1,3 +1,4 @@
+import { isArrayLike, map } from 'lodash-es'
 import { computed, observable } from 'mobx'
 import {
   CompositeFilterDescriptor,
@@ -5,19 +6,34 @@ import {
   filterBy as kendoFilterBy,
 } from '@progress/kendo-data-query'
 
+interface DataResult<T> {
+  data: T[]
+  total: number
+}
+
 export type Options<T = number> = { text: string; value: T }[] | undefined
 
-// function toOptions(incoming: Options): Options
-// function toOptions(incoming: DataResult): Options
-// function toOptions(incoming: any): Options {
-//   if (typeof incoming === 'undefined' || Array.isArray(incoming)) {
-//     return incoming
-//   }
-//   if ('data' in incoming) {
-//     return incoming.data
-//   }
-//   console.error('expected options', incoming)
-// }
+export type OptionsLike<T = number> = T[] | DataResult<T> | Options<T>
+
+function toOptions<T>(optionsLike: OptionsLike<T>): Options<T> {
+  if (typeof optionsLike === 'undefined') {
+    return optionsLike
+  }
+  if (isArrayLike(optionsLike)) {
+    if (!optionsLike.length) {
+      return undefined
+    }
+    const elt = optionsLike[0]
+    if (typeof elt === 'object' && 'text' in elt && 'value' in elt) {
+      return optionsLike as Options<T>
+    }
+    return map(optionsLike, value => ({ text: '' + value, value: value as T }))
+  }
+  if ('data' in optionsLike) {
+    return toOptions(optionsLike.data)
+  }
+  console.error('expected options', optionsLike)
+}
 
 interface FilterChangeEvent {
   filter: FilterDescriptor
@@ -57,6 +73,8 @@ export class ArrayOptionsSource<T> implements OptionsSource<T> {
 
 // We want to handle different kinds of options arguments, from a constant
 // array to an asynchronous function that returns a Kendo `DataResult`.
-export function newOptionsSource<T>(options: Options<T>): OptionsSource<T> {
-  return new ArrayOptionsSource(options)
+export function newOptionsSource<T>(
+  optionsLike: OptionsLike<T>,
+): OptionsSource<T> {
+  return new ArrayOptionsSource(toOptions(optionsLike))
 }

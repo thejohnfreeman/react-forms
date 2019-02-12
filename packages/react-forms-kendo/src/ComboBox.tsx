@@ -9,13 +9,13 @@ import {
 import * as React from 'react'
 
 import { Field } from './Field'
-import { newOptionsSource, Options, OptionsSource } from './OptionsSource'
+import { newOptionsSource, OptionsLike, OptionsSource } from './OptionsSource'
 
 export type ComboBoxProps = KendoComboBoxProps & {
   className?: string
   label?: string
   name: string
-  options: Options<any>
+  options: OptionsLike<any>
 }
 
 // Assumes that the options and value are always and only
