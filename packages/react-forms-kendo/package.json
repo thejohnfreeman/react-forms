@@ -48,6 +48,7 @@
     "@types/lodash-es": "^4.17.1",
     "@types/react": "^16.8.1",
     "@types/recompose": "^0.30.3",
+    "@types/uuid": "^3.4.4",
     "mobx": "^5.9.0",
     "prettier": "^1.16.4",
     "react": "^16.7.0",
@@ -75,6 +76,7 @@
     "classnames": "^2.2.6",
     "lodash-es": "^4.17.11",
     "mobx-react": "^5.4.3",
-    "recompose": "^0.30.0"
+    "recompose": "^0.30.0",
+    "uuid": "^3.3.2"
   }
 }

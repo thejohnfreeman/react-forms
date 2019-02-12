@@ -4,6 +4,7 @@ import { action } from 'mobx'
 import { observer } from 'mobx-react'
 import * as React from 'react'
 import { defaultProps } from 'recompose'
+import uuidv4 from 'uuid/v4'
 
 import { Field } from './Field'
 
@@ -20,6 +21,8 @@ class _Pick extends Field<PickProps> {
     this.field.repr = event.target.checked
   })
 
+  private readonly id = uuidv4()
+
   public render() {
     const { className, label, name, type } = this.props
     return (
@@ -30,13 +33,13 @@ class _Pick extends Field<PickProps> {
           className="custom-control-input"
           checked={this.field.repr}
           disabled={this.field.disabled}
-          id={name}
+          id={this.id}
           name={name}
           onChange={this.onChange}
           required={this.field.binder.optRequired}
           type={type}
         />
-        <label className="custom-control-label" htmlFor={name}>
+        <label className="custom-control-label" htmlFor={this.id}>
           {label || titleCase(name)}
         </label>
       </div>
