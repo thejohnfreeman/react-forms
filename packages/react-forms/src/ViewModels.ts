@@ -1,6 +1,7 @@
 import map from 'just-map-values'
 
 import { BooleanBinder } from './BooleanBinder'
+import { DateBinder } from './DateBinder'
 import { DateStringBinder } from './DateStringBinder'
 import { Flatten, GroupViewModel, ViewModelGroup } from './GroupViewModel'
 import { ObjectBinder } from './ObjectBinder'
@@ -19,6 +20,10 @@ interface GroupViewModelConstructor<
 export namespace ViewModels {
   export function boolean(defaultValue: boolean = false): BooleanBinder {
     return new BooleanBinder(defaultValue)
+  }
+
+  export function date(defaultValue?: Date): DateBinder {
+    return new DateBinder(defaultValue)
   }
 
   export function dateString(defaultValue?: string): DateStringBinder {
