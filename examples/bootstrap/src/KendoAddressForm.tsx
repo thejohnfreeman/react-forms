@@ -53,9 +53,9 @@ class _AddressForm extends React.Component<AddressFormProps> {
       if (!place || zip !== response.data['post code']) {
         return
       }
-      console.log('place', place)
-      this.viewModel.$.city = place['place name']
-      this.viewModel.$.state = STATE_OPTIONS!.find(
+      const fields = this.viewModel.$
+      fields.city = place['place name']
+      fields.state = STATE_OPTIONS!.find(
         ({ value }) => value === place['state abbreviation'],
       )
     },
