@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import { action, computed, observable } from 'mobx'
 import * as React from 'react'
 
 import {
@@ -23,12 +24,23 @@ export type FormProps<G extends ViewModelGroup> = {
 export class Form<
   G extends ViewModelGroup = ViewModelGroup
 > extends React.Component<FormProps<G>> {
-  get viewModel() {
+  public get viewModel() {
     return this.props.viewModel
   }
 
-  get fields() {
+  public get fields() {
     return this.props.viewModel.members
+  }
+
+  // We want a read/write private interface, but a readonly public interface,
+  // so we must split this field between a private observable and a public
+  // computed.
+  @observable
+  private _submitted = false
+
+  @computed
+  public get submitted() {
+    return this._submitted
   }
 
   // TODO: What is the event type?
@@ -37,8 +49,10 @@ export class Form<
     this.fields[name].repr = event.target.value
   }
 
+  @action
   private readonly onSubmit = (event: React.FormEvent) => {
     event.preventDefault()
+    this._submitted = true
     this.props.onSubmit(this.props.viewModel.value)
   }
 

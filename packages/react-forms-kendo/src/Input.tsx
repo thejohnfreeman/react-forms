@@ -36,7 +36,8 @@ class _Input extends Field<InputProps> {
           type={type || this.field.type}
           value={this.field.repr}
           validityStyles={
-            this.field.touched || this.context.form.viewModel.touched
+            this.field.touched ||
+            (this.context.form.viewModel.touched && this.context.form.submitted)
           }
           {...kendoProps}
         />
