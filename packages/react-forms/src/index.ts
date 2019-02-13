@@ -1,4 +1,5 @@
 export { AbstractBinder } from './AbstractBinder'
 export { FieldViewModel } from './FieldViewModel'
 export { Flatten, GroupViewModel, ViewModelGroup } from './GroupViewModel'
+export { ViewModel } from './ViewModel'
 export { ViewModels } from './ViewModels'
