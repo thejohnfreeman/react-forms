@@ -2,7 +2,7 @@ import { isNil } from 'lodash-es'
 import { computed } from 'mobx'
 import * as React from 'react'
 
-import { FormContext } from './FormContext'
+import { FormContext } from './Form'
 
 export type FieldProps = { name: string }
 

@@ -7,12 +7,15 @@ import {
   ViewModelGroup,
 } from '@thejohnfreeman/react-forms'
 
-import { FormContext } from './FormContext'
+// How do we say "a Form of any ViewModelGroup"?
+export const FormContext = React.createContext<{
+  form: Form<any> | null
+}>({ form: null })
 
 export type FormProps<G extends ViewModelGroup> = {
   className?: string
   viewModel: GroupViewModel<G>
-  onSubmit: (value: Flatten<G, 'value'>) => void
+  onSubmit?: (value: Flatten<G, 'value'>) => void
 }
 
 // Require users to set `key` on `Form`s? It triggers state reconstruction and
@@ -20,6 +23,36 @@ export type FormProps<G extends ViewModelGroup> = {
 export class Form<
   G extends ViewModelGroup = ViewModelGroup
 > extends React.Component<FormProps<G>> {
+  // If the context is non-null, this is a nested form.
+  public static contextType = FormContext
+
+  // This method may go unused, but we cannot conditionally initialize it
+  // inside the constructor because the context is not available there.
+  @action
+  private readonly onSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+    this._submitted = true
+    this.props.onSubmit!(this.props.viewModel.value)
+  }
+
+  public componentDidMount() {
+    if (this.parent) {
+      // We are a nested form.
+      if (this.props.onSubmit) {
+        console.error('onSubmit prop to nested form will be ignored')
+      }
+    } else {
+      // We are a root form.
+      if (!this.props.onSubmit) {
+        console.error('missing onSubmit prop on root form')
+      }
+    }
+  }
+
+  private get parent(): Form<any> | null {
+    return this.context.form
+  }
+
   public get viewModel() {
     return this.props.viewModel
   }
@@ -35,8 +68,8 @@ export class Form<
   private _submitted = false
 
   @computed
-  public get submitted() {
-    return this._submitted
+  public get submitted(): boolean {
+    return this.parent ? this.parent.submitted : this._submitted
   }
 
   // TODO: What is the event type?
@@ -45,25 +78,27 @@ export class Form<
     this.fields[name].repr = event.target.value
   }
 
-  @action
-  private readonly onSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    this._submitted = true
-    this.props.onSubmit(this.props.viewModel.value)
-  }
-
   public render() {
-    return (
+    let element = (
       // We have to construct a new context value on each render
       // to trigger updates in children dependent on that context.
       <FormContext.Provider value={{ form: this }}>
+        {this.props.children}
+      </FormContext.Provider>
+    )
+
+    // Wrap in a <form> only if we are the root <Form>.
+    if (!this.parent) {
+      element = (
         <form
           className={classNames('k-form', this.props.className)}
           onSubmit={this.onSubmit}
         >
-          {this.props.children}
+          {element}
         </form>
-      </FormContext.Provider>
-    )
+      )
+    }
+
+    return element
   }
 }
