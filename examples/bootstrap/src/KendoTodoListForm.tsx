@@ -1,14 +1,8 @@
-import { observable } from 'mobx'
 import { Button } from '@progress/kendo-react-buttons'
 import * as React from 'react'
 
 import { GroupViewModel, ViewModels } from '@thejohnfreeman/react-forms'
-import {
-  Checkbox,
-  Form,
-  Input,
-  SubForm,
-} from '@thejohnfreeman/react-forms-kendo'
+import { Checkbox, Form, Input } from '@thejohnfreeman/react-forms-kendo'
 import { observer } from '@thejohnfreeman/observer'
 
 const TodoListItemViewModel = ViewModels.group({
@@ -23,14 +17,14 @@ type TodoListItemFormProps = {
 class TodoListItemForm extends React.Component<TodoListItemFormProps> {
   public render() {
     return (
-      <SubForm viewModel={this.props.viewModel}>
+      <Form viewModel={this.props.viewModel}>
         <div className="form-group">
           <Input name="text" />
         </div>
         <div className="form-group">
           <Checkbox name="done" />
         </div>
-      </SubForm>
+      </Form>
     )
   }
 }
