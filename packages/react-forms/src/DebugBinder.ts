@@ -1,12 +1,16 @@
 import { Binder, ShouldBe } from './Binder'
-import { FieldViewModel } from './FieldViewModel'
 import { ViewModel, ViewModelConstructor } from './ViewModel'
+
+type BinderViewModelConstructor<V, R> = Binder<V | null, R> &
+  ViewModelConstructor<V | null, R>
 
 // A binder for debugging other binders. It proxies another binder, logging
 // each method's arguments and return value.
 export class DebugBinder<V, R>
   implements Binder<V | null, R>, ViewModelConstructor<V | null, R> {
-  public constructor(private readonly _target: Binder<V | null, R>) {}
+  public constructor(
+    private readonly _target: BinderViewModelConstructor<V, R>,
+  ) {}
 
   public get type() {
     return this._target.type
@@ -16,8 +20,12 @@ export class DebugBinder<V, R>
     return this._target.defaultValue
   }
 
-  public construct(initValue: V | null = null): ViewModel<V | null, R> {
-    return new FieldViewModel<V, R>(this, initValue)
+  public construct(
+    initValue: V | null = this._target.defaultValue,
+  ): ViewModel<V | null, R> {
+    const viewModel = this._target.construct(initValue)
+    console.log('construct(', initValue, ') =>', viewModel)
+    return viewModel
   }
 
   public equals(a: V | null, b: V | null) {

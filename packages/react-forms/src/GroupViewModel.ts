@@ -129,7 +129,3 @@ function makeGroupProxy<
   })
   return Object.freeze(proxy) as V
 }
-
-// export function group(ctors: ) {
-//   return function makeGroup(
-// }

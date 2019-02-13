@@ -13,7 +13,10 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
   // Even if a null (i.e. missing) value is not valid, we must be able to
   // represent it.
   @observable
-  private _value: V | null = this.initValue
+  private _value: V | null =
+    typeof this.initValue === 'undefined'
+      ? this.binder.defaultValue
+      : this.initValue
 
   @observable
   public errors: React.ReactNode[] = this.binder.validate(this.initValue)

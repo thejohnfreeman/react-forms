@@ -22,7 +22,9 @@ export abstract class AbstractBinder<V, R = V>
     return new DebugBinder(this)
   }
 
-  public construct(initValue: V | null = null): ViewModel<V | null, R> {
+  public construct(
+    initValue: V | null = this.defaultValue,
+  ): ViewModel<V | null, R> {
     return new FieldViewModel<V, R>(this, initValue)
   }
 
