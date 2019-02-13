@@ -9,6 +9,7 @@ export type Flatten<
   K extends keyof ViewModel<any, any>
 > = { [J in keyof G]: G[J][K] }
 
+// TODO: Rename to ObjectViewModel.
 // We really want type aliases within class scopes.
 // https://github.com/Microsoft/TypeScript/issues/7061
 export class GroupViewModel<

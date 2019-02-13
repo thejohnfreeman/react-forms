@@ -1,5 +1,6 @@
 import map from 'just-map-values'
 
+import { ArrayViewModel, ViewModelArray } from './ArrayViewModel'
 import { BooleanBinder } from './BooleanBinder'
 import { DateBinder } from './DateBinder'
 import { DateStringBinder } from './DateStringBinder'
@@ -17,7 +18,24 @@ interface GroupViewModelConstructor<
   construct(initValue?: Partial<V>): GroupViewModel<G, V, R>
 }
 
+interface ArrayViewModelConstructor<V, R>
+  extends ViewModelConstructor<V[], R[]> {
+  construct(initValues?: V[]): ArrayViewModel<V, R>
+}
+
 export namespace ViewModels {
+  export function array<V, R>(
+    ctor: ViewModelConstructor<V, R>,
+  ): ArrayViewModelConstructor<V, R> {
+    return {
+      construct(initValues: V[] = []): ArrayViewModel<V, R> {
+        return new ArrayViewModel(
+          initValues.map(initValue => ctor.construct(initValue)),
+        )
+      },
+    }
+  }
+
   export function boolean(defaultValue: boolean = false): BooleanBinder {
     return new BooleanBinder(defaultValue)
   }
@@ -39,6 +57,8 @@ export namespace ViewModels {
       [K in keyof G]: ViewModelConstructor<G[K]['value'], G[K]['repr']>
     },
   ): GroupViewModelConstructor<G, V, R> {
+    // TODO: Add a `debug()` method that tells `construct(...)` to log to
+    // console.
     return {
       construct(initValues: Partial<V> = {}): GroupViewModel<G, V, R> {
         const viewModelGroup = map(ctors, (ctor, key) =>
