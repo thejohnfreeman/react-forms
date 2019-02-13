@@ -1,6 +1,6 @@
 import map from 'just-map-values'
 
-import { ArrayViewModel, ViewModelArray } from './ArrayViewModel'
+import { ArrayViewModel } from './ArrayViewModel'
 import { BooleanBinder } from './BooleanBinder'
 import { DateBinder } from './DateBinder'
 import { DateStringBinder } from './DateStringBinder'
