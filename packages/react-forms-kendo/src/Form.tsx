@@ -1,17 +1,13 @@
 import classNames from 'classnames'
 import { action, computed, observable } from 'mobx'
 import * as React from 'react'
-
 import {
   Flatten,
   GroupViewModel,
   ViewModelGroup,
 } from '@thejohnfreeman/react-forms'
 
-// How do we say "a Form of any ViewModelGroup"?
-export const FormContext = React.createContext<{
-  form: Form<any>
-} | null>(null)
+import { FormContext } from './FormContext'
 
 export type FormProps<G extends ViewModelGroup> = {
   className?: string
