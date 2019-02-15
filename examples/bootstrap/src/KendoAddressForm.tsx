@@ -72,11 +72,15 @@ class _AddressForm extends React.Component<AddressFormProps> {
         viewModel={this.viewModel}
         onSubmit={this.onSubmit}
       >
-        <Input className="order-1" name="address1" label="Address Line 1" />
-        <Input className="order-2" name="address2" label="Address Line 2" />
-        <Input className="order-5" name="zip" />
-        <Input className="order-3" name="city" />
-        <ComboBox className="order-4" options={STATE_OPTIONS} name="state" />
+        <Input rootClassName="order-1" name="address1" label="Address Line 1" />
+        <Input rootClassName="order-2" name="address2" label="Address Line 2" />
+        <Input rootClassName="order-5" name="zip" />
+        <Input rootClassName="order-3" name="city" />
+        <ComboBox
+          rootClassName="order-4"
+          options={STATE_OPTIONS}
+          name="state"
+        />
         <Button className="order-5" type="submit">
           Submit
         </Button>
