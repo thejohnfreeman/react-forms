@@ -28,7 +28,7 @@
     "parcel-bundler": "^1.11.0",
     "prettier": "^1.16.3",
     "tslint": "^5.12.1",
-    "tslint-config-thejohnfreeman": "^1.0.1",
+    "tslint-config-thejohnfreeman": "^1.0.2",
     "typescript": "^3.3.3"
   }
 }

@@ -55,7 +55,7 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "tslint": "^5.12.1",
-    "tslint-config-thejohnfreeman": "^1.0.1",
+    "tslint-config-thejohnfreeman": "^1.0.2",
     "typescript": "^3.3.1"
   },
   "peerDependencies": {
@@ -82,5 +82,6 @@
     "recompose": "^0.30.0",
     "rxjs": "^6.4.0",
     "uuid": "^3.3.2"
-  }
+  },
+  "gitHead": "e6ea8d18f5bc58e9655355244d6e3a26864ea920"
 }
