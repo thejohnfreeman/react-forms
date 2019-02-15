@@ -12,10 +12,11 @@ import { Field } from './Field'
 import { newOptionsSource, OptionsLike, OptionsSource } from './OptionsSource'
 
 export type ComboBoxProps = KendoComboBoxProps & {
-  className?: string
+  inputClassName?: string
   label?: string
   name: string
   options: OptionsLike<any>
+  rootClassName?: string
 }
 
 // Assumes that the options and value are always and only
@@ -27,12 +28,19 @@ class _ComboBox extends Field<ComboBoxProps> {
   }
 
   public render() {
-    const { className, label, name, options, ...kendoProps } = this.props
+    const {
+      inputClassName,
+      label,
+      name,
+      options,
+      rootClassName,
+      ...kendoProps
+    } = this.props
     return (
-      <label className="k-form-field">
+      <label className={classNames(rootClassName, 'k-form-field')}>
         <span>{label || titleCase(name)}</span>
         <KendoComboBox
-          className={classNames(className, 'form-control')}
+          className={classNames(inputClassName, 'form-control')}
           data={this.optionsSource.options}
           dataItemKey="value"
           disabled={this.field.disabled}

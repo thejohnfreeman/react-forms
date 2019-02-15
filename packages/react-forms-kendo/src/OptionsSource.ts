@@ -71,8 +71,9 @@ export class ArrayOptionsSource<T> implements OptionsSource<T> {
   }
 }
 
-// We want to handle different kinds of options arguments, from a constant
-// array to an asynchronous function that returns a Kendo `DataResult`.
+// TODO: We want to handle different kinds of options arguments, from
+// a constant array to an asynchronous function that returns a Kendo
+// `DataResult`.
 export function newOptionsSource<T>(
   optionsLike: OptionsLike<T>,
 ): OptionsSource<T> {

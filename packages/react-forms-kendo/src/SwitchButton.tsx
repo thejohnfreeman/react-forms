@@ -11,9 +11,10 @@ import * as React from 'react'
 import { Field } from './Field'
 
 export type SwitchButtonProps = KendoButtonProps & {
-  className?: string
+  inputClassName?: string
   label?: string
   name: string
+  rootClassName?: string
 }
 
 class _SwitchButton extends Field<SwitchButtonProps> {
@@ -22,11 +23,17 @@ class _SwitchButton extends Field<SwitchButtonProps> {
   })
 
   public render() {
-    const { className, label, name, ...kendoProps } = this.props
+    const {
+      inputClassName,
+      label,
+      name,
+      rootClassName,
+      ...kendoProps
+    } = this.props
     return (
-      <p className="k-form-field">
+      <p className={classNames(rootClassName, 'k-form-field')}>
         <KendoButton
-          className={classNames(className, 'form-control')}
+          className={classNames(inputClassName, 'form-control')}
           name={name}
           onClick={this.onChange}
           selected={this.field.repr}

@@ -11,21 +11,29 @@ import { Field } from './Field'
 
 // `name` is optional in `KendoInputProps`
 export type InputProps = KendoInputProps & {
-  className?: string
+  inputClassName?: string
   label?: string
   name: string
+  rootClassName?: string
   type?: string
 }
 
 class _Input extends Field<InputProps> {
   public render() {
-    const { className, label, name, type, ...kendoProps } = this.props
+    const {
+      inputClassName,
+      label,
+      name,
+      rootClassName,
+      type,
+      ...kendoProps
+    } = this.props
     const opts = this.field.binder
     return (
-      <label className="k-form-field">
+      <label className={classNames(rootClassName, 'k-form-field')}>
         <span>{label || titleCase(name)}</span>
         <KendoInput
-          className={classNames(className, 'form-control')}
+          className={classNames(inputClassName, 'form-control')}
           disabled={this.field.disabled}
           maxLength={opts.optMaxLength}
           minLength={opts.optMinLength}

@@ -10,9 +10,10 @@ import { Field } from './Field'
 
 // `name` is optional in `KendoPickProps`
 type PickProps = {
-  className?: string
+  inputClassName?: string
   label?: string
   name: string
+  rootClassName?: string
   type: 'checkbox' | 'radio'
 }
 
@@ -24,13 +25,17 @@ class _Pick extends Field<PickProps> {
   private readonly id = uuidv4()
 
   public render() {
-    const { className, label, name, type } = this.props
+    const { inputClassName, label, name, rootClassName, type } = this.props
     return (
       <div
-        className={classNames(className, 'custom-control', `custom-${type}`)}
+        className={classNames(
+          rootClassName,
+          'custom-control',
+          `custom-${type}`,
+        )}
       >
         <input
-          className="custom-control-input"
+          className={classNames(inputClassName, 'custom-control-input')}
           checked={this.field.repr}
           disabled={this.field.disabled}
           id={this.id}

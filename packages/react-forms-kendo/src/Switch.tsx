@@ -11,9 +11,10 @@ import * as React from 'react'
 import { Field } from './Field'
 
 export type SwitchProps = KendoSwitchProps & {
-  className?: string
+  inputClassName?: string
   label?: string
   name: string
+  rootClassName?: string
 }
 
 class _Switch extends Field<SwitchProps> {
@@ -22,12 +23,18 @@ class _Switch extends Field<SwitchProps> {
   })
 
   public render() {
-    const { className, label, name, ...kendoProps } = this.props
+    const {
+      inputClassName,
+      label,
+      name,
+      rootClassName,
+      ...kendoProps
+    } = this.props
     return (
-      <label className="k-form-field">
+      <label className={classNames(rootClassName, 'k-form-field')}>
         <span>{label || titleCase(name)}</span>
         <KendoSwitch
-          className={classNames(className, 'form-control')}
+          className={classNames(inputClassName, 'form-control')}
           disabled={this.field.disabled}
           onChange={this.onChange}
           checked={this.field.repr}
