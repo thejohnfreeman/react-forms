@@ -15,7 +15,7 @@ export type ComboBoxProps = KendoComboBoxProps & {
   inputClassName?: string
   label?: string
   name: string
-  options: OptionsLike<any>
+  options?: OptionsLike<any>
   rootClassName?: string
 }
 
@@ -24,7 +24,7 @@ export type ComboBoxProps = KendoComboBoxProps & {
 class _ComboBox extends Field<ComboBoxProps> {
   @computed
   private get optionsSource(): OptionsSource<any> {
-    return newOptionsSource(this.props.options)
+    return newOptionsSource(this.props.options || this.field.binder.options)
   }
 
   public render() {
