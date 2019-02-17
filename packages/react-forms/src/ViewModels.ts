@@ -6,6 +6,7 @@ import { DateBinder } from './DateBinder'
 import { DateStringBinder } from './DateStringBinder'
 import { Flatten, GroupViewModel, ViewModelGroup } from './GroupViewModel'
 import { ObjectBinder } from './ObjectBinder'
+import { Option, OptionBinder } from './OptionBinder'
 import { TextBinder } from './TextBinder'
 import { ViewModelConstructor } from './ViewModel'
 
@@ -73,6 +74,13 @@ export namespace ViewModels {
     defaultValue: O | null = null,
   ): ObjectBinder<O> {
     return new ObjectBinder(defaultValue)
+  }
+
+  export function oneOf<T>(
+    options: Option<T>[],
+    defaultValue: T | null = null,
+  ) {
+    return new OptionBinder(options, defaultValue)
   }
 
   export function password(): TextBinder {
