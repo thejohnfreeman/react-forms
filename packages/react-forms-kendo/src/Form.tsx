@@ -14,7 +14,7 @@ export const FormContext = React.createContext<{
 
 export type FormProps<G extends ViewModelGroup> = {
   className?: string
-  viewModel: GroupViewModel<G>
+  viewModel?: GroupViewModel<G>
   onSubmit?: (value: Flatten<G, 'value'>) => void
 }
 
@@ -32,7 +32,7 @@ export class Form<
   private readonly onSubmit = (event: React.FormEvent) => {
     event.preventDefault()
     this._submitted = true
-    this.props.onSubmit!(this.props.viewModel.value)
+    this.props.onSubmit!(this.props.viewModel!.value)
   }
 
   public componentDidMount() {
@@ -53,12 +53,12 @@ export class Form<
     return this.context.form
   }
 
-  public get viewModel() {
-    return this.props.viewModel
+  public get viewModel(): GroupViewModel<G> {
+    return this.props.viewModel || this.parent!.viewModel
   }
 
   public get fields() {
-    return this.props.viewModel.members
+    return this.viewModel.members
   }
 
   // We want a read/write private interface, but a readonly public interface,
@@ -72,6 +72,7 @@ export class Form<
     return this.parent ? this.parent.submitted : this._submitted
   }
 
+  // This default onChange handler is good for most controls.
   // TODO: What is the event type?
   public readonly onChange = (event: any) => {
     const name = event.target.name
