@@ -23,7 +23,7 @@ const AddressViewModel = ViewModels.group({
   address1: ViewModels.text(),
   address2: ViewModels.text().optional(),
   city: ViewModels.text(),
-  state: ViewModels.object(),
+  state: ViewModels.oneOf(STATE_OPTIONS),
   zip: ViewModels.text(),
 })
 
@@ -33,7 +33,7 @@ class _AddressForm extends React.Component<AddressFormProps> {
   private readonly viewModel = AddressViewModel.construct()
 
   private readonly onSubmit = async values => {
-    console.log('submit:', { ...values, state: values.state.value })
+    console.log('submit:', { ...values })
   }
 
   private readonly unsubZip = reaction(
@@ -55,9 +55,7 @@ class _AddressForm extends React.Component<AddressFormProps> {
       }
       const fields = this.viewModel.$
       fields.city = place['place name']
-      fields.state = STATE_OPTIONS!.find(
-        ({ value }) => value === place['state abbreviation'],
-      )
+      fields.state = place['state abbreviation']
     },
   )
 
@@ -76,11 +74,7 @@ class _AddressForm extends React.Component<AddressFormProps> {
         <Input rootClassName="order-2" name="address2" label="Address Line 2" />
         <Input rootClassName="order-5" name="zip" />
         <Input rootClassName="order-3" name="city" />
-        <ComboBox
-          rootClassName="order-4"
-          options={STATE_OPTIONS}
-          name="state"
-        />
+        <ComboBox rootClassName="order-4" name="state" />
         <Button className="order-5" type="submit">
           Submit
         </Button>
