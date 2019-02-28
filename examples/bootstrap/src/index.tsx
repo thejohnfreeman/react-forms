@@ -14,8 +14,9 @@ import * as ReactDOM from 'react-dom'
 
 // import { LogInForm as ComponentUnderTest } from './KendoLogInForm'
 // import { CarSearchForm as ComponentUnderTest } from './KendoCarSearchForm'
-import { AddressForm as ComponentUnderTest } from './KendoAddressForm'
+// import { AddressForm as ComponentUnderTest } from './KendoAddressForm'
 // import { TodoListForm as ComponentUnderTest } from './KendoTodoListForm'
+import { AutoCompleteForm as ComponentUnderTest } from './KendoAutoCompleteForm'
 
 ReactDOM.render(
   <Container>
