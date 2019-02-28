@@ -1,19 +1,8 @@
-// We want a ComboBox that takes options from a query function.
-// We really just want ComboBox that checks whether its options prop is
-// a function.
-
 import * as React from 'react'
-import { ComboBoxFilterChangeEvent } from '@progress/kendo-react-dropdowns'
-import { of, from, Observable, Subject } from 'rxjs'
-import { map, switchAll } from 'rxjs/operators'
+import { from, Observable } from 'rxjs'
 import { observer } from '@thejohnfreeman/observer'
 import { ViewModels } from '@thejohnfreeman/react-forms'
-import {
-  Form,
-  ComboBox,
-  ComboBoxProps,
-} from '@thejohnfreeman/react-forms-kendo'
-import { Omit } from 'utility-types'
+import { Form, ComboBox, Options } from '@thejohnfreeman/react-forms-kendo'
 
 import { STATES } from './states'
 
@@ -24,88 +13,22 @@ const stateOptions = STATES.map(({ name, abbreviation }) => ({
   value: abbreviation,
 }))
 
-type OptionsArray = { text: string; value: any }[]
-type ObservableLike<T> = T | Promise<T> | Observable<T>
-type OptionsFunction = (query: string) => ObservableLike<OptionsArray>
-type OptionsLike = OptionsArray | OptionsFunction
-
-function searchArray(options: OptionsArray, query: string) {
-  return options.filter(({ text }) =>
+function searchArray(options: Options<string>, query: string) {
+  return options!.filter(({ text }) =>
     text.toLowerCase().includes(query.toLowerCase()),
   )
 }
 
-function asObservable<T>(value: ObservableLike<T>): Observable<T> {
-  if (value && typeof value === 'object') {
-    if (typeof value['then'] === 'function') {
-      return from(value as Promise<T>)
-    } else if (typeof value['subscribe'] === 'function') {
-      return value as Observable<T>
-    }
-  }
-  return of(value as T)
-}
-
-type OptionsPipeline = [(query: string) => void, Observable<OptionsArray>]
-
-function useOptionsPipeline(options: OptionsLike): OptionsPipeline {
-  const search =
-    typeof options === 'function'
-      ? options
-      : (query: string) => searchArray(options, query)
-  const query$ = new Subject<string>()
-  const results$ = query$.pipe(
-    map(search),
-    map(asObservable),
-    switchAll(),
-  )
-  return [(query: string) => query$.next(query), results$]
-}
-
-export interface DynamicComboBoxProps extends Omit<ComboBoxProps, 'options'> {
-  options: OptionsLike
-}
-
-export class DynamicComboBox extends React.Component<DynamicComboBoxProps> {
-  public state = { options: [] }
-
-  private readonly pipeline = useOptionsPipeline(this.props.options)
-  private readonly ssOptions = this.pipeline[1].subscribe(options =>
-    this.setState({ options }),
-  )
-
-  private onFilterChange = (event: ComboBoxFilterChangeEvent) => {
-    this.pipeline[0](event.filter.value)
-  }
-
-  public componentWillUnmount() {
-    this.ssOptions.unsubscribe()
-  }
-
-  public render() {
-    const { options, ...props } = this.props
-    return (
-      <ComboBox
-        {...props}
-        onFilterChange={this.onFilterChange}
-        options={this.state.options}
-      />
-    )
-  }
-}
-
-const search = (query: string): OptionsArray => {
-  console.log('search')
+const search = (query: string): Options<string> => {
   return searchArray(stateOptions, query)
 }
 
-const searchAsync = async (query: string): Promise<OptionsArray> => {
-  console.log('searchAsync')
+const searchAsync = async (query: string): Promise<Options<string>> => {
   await sleep(1000)
   return searchArray(stateOptions, query)
 }
 
-const searchObservable = (query: string): Observable<OptionsArray> => {
+const searchObservable = (query: string): Observable<Options<string>> => {
   return from(searchAsync(query))
 }
 
@@ -123,18 +46,10 @@ class _AutoCompleteForm extends React.Component {
   public render() {
     return (
       <Form viewModel={this.viewModel} onSubmit={this.onSubmit}>
-        <DynamicComboBox
-          name="query"
-          label="stateOptions"
-          options={stateOptions}
-        />
-        <DynamicComboBox name="query" label="search" options={search} />
-        <DynamicComboBox
-          name="query"
-          label="searchAsync"
-          options={searchAsync}
-        />
-        <DynamicComboBox
+        <ComboBox name="query" label="stateOptions" options={stateOptions} />
+        <ComboBox name="query" label="search" options={search} />
+        <ComboBox name="query" label="searchAsync" options={searchAsync} />
+        <ComboBox
           name="query"
           label="searchObservable"
           options={searchObservable}
