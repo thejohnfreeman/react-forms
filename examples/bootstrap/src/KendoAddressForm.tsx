@@ -2,7 +2,7 @@ import axios from 'axios'
 import { reaction } from 'mobx'
 import { Button } from '@progress/kendo-react-buttons'
 import * as React from 'react'
-
+import { observer } from '@thejohnfreeman/observer'
 import { ViewModels } from '@thejohnfreeman/react-forms'
 import {
   ComboBox,
@@ -10,7 +10,6 @@ import {
   Input,
   Options,
 } from '@thejohnfreeman/react-forms-kendo'
-import { observer } from '@thejohnfreeman/observer'
 
 import { STATES } from './states'
 
