@@ -5,40 +5,63 @@ import {
   FilterDescriptor,
   filterBy as kendoFilterBy,
 } from '@progress/kendo-data-query'
+import { ComboBoxFilterChangeEvent } from '@progress/kendo-react-dropdowns'
+import { of, from, Observable, Subject } from 'rxjs'
+import { map as rxMap, switchAll } from 'rxjs/operators'
 
+// Kendo does not export its `FilterChangeEvent`. It is subtyped for every
+// dropdown type (though none of them add any props).
+type FilterChangeEvent = ComboBoxFilterChangeEvent
+
+// Kendo's `DataResult` is not strongly typed.
 interface DataResult<T> {
   data: T[]
   total: number
 }
 
-export type Options<T = number> = { text: string; value: T }[] | undefined
-
-export type OptionsLike<T = number> = T[] | DataResult<T> | Options<T>
-
-function toOptions<T>(optionsLike: OptionsLike<T>): Options<T> {
-  if (typeof optionsLike === 'undefined') {
-    return optionsLike
+// Turn a promise, observable, or solo value into an observable.
+function asObservable<T>(observableLike: ObservableLike<T>): Observable<T> {
+  if (observableLike && typeof observableLike === 'object') {
+    if (typeof observableLike['then'] === 'function') {
+      return from(observableLike as Promise<T>)
+    } else if (typeof observableLike['subscribe'] === 'function') {
+      return observableLike as Observable<T>
+    }
   }
-  if (isArrayLike(optionsLike)) {
-    if (!optionsLike.length) {
+  return of(observableLike as T)
+}
+
+export type Options<T = number> = { text: string; value: T }[] | undefined
+export type OptionsArrayLike<T> = T[] | DataResult<T> | Options<T>
+export type ObservableLike<T> = T | Promise<T> | Observable<T>
+export type OptionsFunction<T> = (
+  query: string,
+) => ObservableLike<OptionsArrayLike<T>>
+export type OptionsLike<T> = OptionsArrayLike<T> | OptionsFunction<T>
+
+function asOptions<T>(arrayLike: OptionsArrayLike<T>): Options<T> {
+  if (typeof arrayLike === 'undefined') {
+    return arrayLike
+  }
+  if (isArrayLike(arrayLike)) {
+    // Empty options become `undefined`.
+    if (!arrayLike.length) {
       return undefined
     }
-    const elt = optionsLike[0]
+    const elt = arrayLike[0]
     if (typeof elt === 'object' && 'text' in elt && 'value' in elt) {
-      return optionsLike as Options<T>
+      return arrayLike as Options<T>
     }
-    return map(optionsLike, value => ({ text: '' + value, value: value as T }))
+    return map(arrayLike, value => ({ text: '' + value, value: value as T }))
   }
-  if ('data' in optionsLike) {
-    return toOptions(optionsLike.data)
+  if ('data' in arrayLike) {
+    return asOptions(arrayLike.data)
   }
-  console.error('expected options', optionsLike)
+  console.error('expected options', arrayLike)
 }
 
-interface FilterChangeEvent {
-  filter: FilterDescriptor
-}
-
+// We need a version of Kendo's `filterBy` for which both the options array
+// and the filter are optional.
 function filterBy(
   options: Options<any>,
   descriptor: FilterDescriptor | CompositeFilterDescriptor | undefined,
@@ -51,8 +74,8 @@ function filterBy(
 }
 
 export interface OptionsSource<T> {
-  options: Options<T>
-  onFilterChange?: (event: FilterChangeEvent) => void
+  readonly options: Options<T>
+  readonly onFilterChange?: (event: FilterChangeEvent) => void
 }
 
 export class ArrayOptionsSource<T> implements OptionsSource<T> {
@@ -71,11 +94,35 @@ export class ArrayOptionsSource<T> implements OptionsSource<T> {
   }
 }
 
-// TODO: We want to handle different kinds of options arguments, from
-// a constant array to an asynchronous function that returns a Kendo
-// `DataResult`.
+export class FunctionOptionsSource<T> implements OptionsSource<T> {
+  private readonly query$: Subject<string>
+
+  public constructor(search: OptionsFunction<T>) {
+    this.query$ = new Subject<string>()
+    this.query$
+      .pipe(
+        rxMap(search),
+        rxMap(asObservable),
+        switchAll(),
+        rxMap(asOptions),
+      )
+      .subscribe(options => (this.options = options))
+  }
+
+  public readonly onFilterChange = (event: FilterChangeEvent) => {
+    this.query$.next(event.filter.value)
+  }
+
+  @observable
+  public options: Options<T>
+}
+
+// We take a wide range of options arguments, from a constant array to an
+// asynchronous function that returns a Kendo `DataResult`.
 export function newOptionsSource<T>(
   optionsLike: OptionsLike<T>,
 ): OptionsSource<T> {
-  return new ArrayOptionsSource(toOptions(optionsLike))
+  return typeof optionsLike === 'function'
+    ? new FunctionOptionsSource(optionsLike)
+    : new ArrayOptionsSource(asOptions(optionsLike))
 }
