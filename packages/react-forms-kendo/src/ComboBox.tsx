@@ -27,6 +27,10 @@ class _ComboBox extends Field<ComboBoxProps> {
     return newOptionsSource(this.props.options || this.field.binder.options)
   }
 
+  private readonly onOpen = () => {
+    this.optionsSource.filter(this.field.repr || '')
+  }
+
   public render() {
     const {
       inputClassName,
@@ -48,6 +52,7 @@ class _ComboBox extends Field<ComboBoxProps> {
           name={name}
           onChange={this.context.form.onChange}
           onFilterChange={this.optionsSource.onFilterChange}
+          onOpen={this.onOpen}
           textField="text"
           value={this.field.repr}
           {...kendoProps}

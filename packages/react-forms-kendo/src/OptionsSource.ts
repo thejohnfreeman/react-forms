@@ -75,7 +75,8 @@ function filterBy(
 
 export interface OptionsSource<T> {
   readonly options: Options<T>
-  readonly onFilterChange?: (event: FilterChangeEvent) => void
+  readonly onFilterChange: (event: FilterChangeEvent) => void
+  readonly filter: (query: string) => void
 }
 
 export class ArrayOptionsSource<T> implements OptionsSource<T> {
@@ -86,6 +87,14 @@ export class ArrayOptionsSource<T> implements OptionsSource<T> {
 
   public readonly onFilterChange = (event: FilterChangeEvent) => {
     this.filterDescriptor = event.filter
+  }
+
+  public readonly filter = (query: string) => {
+    this.filterDescriptor = {
+      field: 'text',
+      operator: 'contains',
+      value: query,
+    }
   }
 
   @computed
@@ -111,6 +120,10 @@ export class FunctionOptionsSource<T> implements OptionsSource<T> {
 
   public readonly onFilterChange = (event: FilterChangeEvent) => {
     this.query$.next(event.filter.value)
+  }
+
+  public readonly filter = (query: string) => {
+    this.query$.next(query)
   }
 
   @observable
