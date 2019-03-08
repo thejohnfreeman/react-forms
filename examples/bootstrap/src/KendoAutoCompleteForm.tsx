@@ -1,3 +1,4 @@
+import { Button } from '@progress/kendo-react-buttons'
 import * as React from 'react'
 import { from, Observable } from 'rxjs'
 import { observer } from '@thejohnfreeman/observer'
@@ -54,6 +55,9 @@ class _AutoCompleteForm extends React.Component {
           label="searchObservable"
           options={searchObservable}
         />
+        <Button className="order-5" type="submit">
+          Submit
+        </Button>
       </Form>
     )
   }
