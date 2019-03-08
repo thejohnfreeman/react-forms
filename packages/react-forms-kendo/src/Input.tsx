@@ -43,11 +43,11 @@ class _Input extends Field<InputProps> {
           required={opts.optRequired}
           style={{ width: '100%' }}
           type={type || this.field.type}
-          value={this.field.repr}
           validityStyles={
             this.field.touched ||
             (this.context.form.viewModel.touched && this.context.form.submitted)
           }
+          value={this.field.repr}
           {...kendoProps}
         />
       </label>

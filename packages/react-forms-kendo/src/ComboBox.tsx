@@ -55,6 +55,10 @@ class _ComboBox extends Field<ComboBoxProps> {
           onOpen={this.onOpen}
           required={this.field.binder.optRequired}
           textField="text"
+          validityStyles={
+            this.field.touched ||
+            (this.context.form.viewModel.touched && this.context.form.submitted)
+          }
           value={this.field.repr}
           {...kendoProps}
         />
