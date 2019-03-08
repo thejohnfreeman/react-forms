@@ -53,6 +53,7 @@ class _ComboBox extends Field<ComboBoxProps> {
           onChange={this.context.form.onChange}
           onFilterChange={this.optionsSource.onFilterChange}
           onOpen={this.onOpen}
+          required={this.field.binder.optRequired}
           textField="text"
           value={this.field.repr}
           {...kendoProps}
