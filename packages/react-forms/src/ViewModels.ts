@@ -5,6 +5,7 @@ import { BooleanBinder } from './BooleanBinder'
 import { DateBinder } from './DateBinder'
 import { DateStringBinder } from './DateStringBinder'
 import { Flatten, GroupViewModel, ViewModelGroup } from './GroupViewModel'
+import { IntegerBinder } from './IntegerBinder'
 import { ObjectBinder } from './ObjectBinder'
 import { Option, OptionBinder } from './OptionBinder'
 import { TextBinder } from './TextBinder'
@@ -68,6 +69,10 @@ export namespace ViewModels {
         return new GroupViewModel(viewModelGroup)
       },
     }
+  }
+
+  export function integer(defaultValue?: number): IntegerBinder {
+    return new IntegerBinder(defaultValue)
   }
 
   export function object<O extends object>(
