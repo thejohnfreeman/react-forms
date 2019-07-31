@@ -16,13 +16,15 @@ interface GroupViewModelConstructor<
   G extends ViewModelGroup,
   V extends Flatten<G, 'value'> = Flatten<G, 'value'>,
   R extends Flatten<G, 'repr'> = Flatten<G, 'repr'>
-> extends ViewModelConstructor<V, R> {
-  construct(initValue?: Partial<V>): GroupViewModel<G, V, R>
+  > extends ViewModelConstructor<V, R, GroupViewModel<G, V, R>> {
+  construct(
+    initValues?: GroupViewModel<G, V, R> | Partial<V>,
+  ): GroupViewModel<G, V, R>
 }
 
 interface ArrayViewModelConstructor<V, R>
   extends ViewModelConstructor<V[], R[]> {
-  construct(initValues?: V[]): ArrayViewModel<V, R>
+  construct(initValues?: ArrayViewModel<V, R> | V[]): ArrayViewModel<V, R>
 }
 
 export namespace ViewModels {
@@ -30,7 +32,12 @@ export namespace ViewModels {
     ctor: ViewModelConstructor<V, R>,
   ): ArrayViewModelConstructor<V, R> {
     return {
-      construct(initValues: V[] = []): ArrayViewModel<V, R> {
+      construct(
+        initValues: ArrayViewModel<V, R> | V[] = [],
+      ): ArrayViewModel<V, R> {
+        if (initValues instanceof ArrayViewModel) {
+          return initValues
+        }
         return new ArrayViewModel(
           initValues.map(initValue => ctor.construct(initValue)),
         )
@@ -62,7 +69,12 @@ export namespace ViewModels {
     // TODO: Add a `debug()` method that tells `construct(...)` to log to
     // console.
     return {
-      construct(initValues: Partial<V> = {}): GroupViewModel<G, V, R> {
+      construct(
+        initValues: GroupViewModel<G, V, R> | Partial<V> = {},
+      ): GroupViewModel<G, V, R> {
+        if (initValues instanceof GroupViewModel) {
+          return initValues
+        }
         const viewModelGroup = map(ctors, (ctor, key) =>
           ctor.construct(initValues[key]),
         ) as G

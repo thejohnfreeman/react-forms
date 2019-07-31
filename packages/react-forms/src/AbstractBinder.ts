@@ -41,8 +41,11 @@ export abstract class AbstractBinder<V, R = V>
   }
 
   public construct(
-    initValue: V | null = this.defaultValue,
+    initValue: FieldViewModel<V, R> | V | null = this.defaultValue,
   ): ViewModel<V | null, R> {
+    if (initValue instanceof FieldViewModel) {
+      return initValue
+    }
     return new FieldViewModel<V, R>(this, initValue)
   }
 

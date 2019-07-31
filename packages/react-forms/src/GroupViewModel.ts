@@ -1,6 +1,7 @@
 import map from 'just-map-values'
 import { computed, observable } from 'mobx'
 
+import { Errors } from './Binder'
 import { ViewModel } from './ViewModel'
 
 export type ViewModelGroup = { [key: string]: ViewModel<any, any> }
@@ -24,7 +25,7 @@ export class GroupViewModel<
   }
 
   @observable
-  public errors: React.ReactNode[] = []
+  public errors: Errors = []
 
   @computed
   public get invalid(): boolean {
