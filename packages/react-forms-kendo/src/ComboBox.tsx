@@ -9,6 +9,7 @@ import {
 import * as React from 'react'
 
 import { Field } from './Field'
+import { errorsToMessage } from './Message'
 import { newOptionsSource, OptionsLike, OptionsSource } from './OptionsSource'
 
 export type ComboBoxProps = KendoComboBoxProps & {
@@ -55,6 +56,8 @@ class _ComboBox extends Field<ComboBoxProps> {
           onOpen={this.onOpen}
           required={this.field.binder.optRequired}
           textField="text"
+          valid={this.field.valid}
+          validationMessage={errorsToMessage(this.field.errors)}
           validityStyles={
             this.field.touched ||
             (this.context.form.viewModel.touched && this.context.form.submitted)

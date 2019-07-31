@@ -8,6 +8,7 @@ import {
 import * as React from 'react'
 
 import { Field } from './Field'
+import { errorsToMessage } from './Message'
 
 export type DatePickerProps = KendoDatePickerProps & {
   inputClassName?: string
@@ -33,6 +34,12 @@ class _DatePicker extends Field<DatePickerProps> {
           disabled={this.field.disabled}
           name={name}
           onChange={this.context.form.onChange}
+          valid={this.field.valid}
+          validationMessage={errorsToMessage(this.field.errors)}
+          validityStyles={
+            this.field.touched ||
+            (this.context.form.viewModel.touched && this.context.form.submitted)
+          }
           value={this.field.repr}
           {...kendoProps}
         />

@@ -8,6 +8,7 @@ import {
 import * as React from 'react'
 
 import { Field } from './Field'
+import { errorsToMessage } from './Message'
 
 // `name` is optional in `KendoInputProps`
 export type InputProps = KendoInputProps & {
@@ -43,6 +44,9 @@ class _Input extends Field<InputProps> {
           required={opts.optRequired}
           style={{ width: '100%' }}
           type={type || this.field.type}
+          valid={this.field.valid}
+          // TODO: Switch to HTML popups.
+          validationMessage={errorsToMessage(this.field.errors)}
           validityStyles={
             this.field.touched ||
             (this.context.form.viewModel.touched && this.context.form.submitted)
