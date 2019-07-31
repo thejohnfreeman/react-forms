@@ -38,8 +38,8 @@ export class DebugBinder<V, R>
     return parsed
   }
 
-  public validate(value: V | null): React.ReactNode[] {
-    const errors = this._target.validate(value)
+  public async validate(value: V | null): Promise<React.ReactNode[]> {
+    const errors = await this._target.validate(value)
     console.log('validate(', value, ') =>', errors)
     return errors
   }

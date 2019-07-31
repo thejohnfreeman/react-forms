@@ -1,7 +1,9 @@
 import { action, computed, observable } from 'mobx'
 
-import { Binder, ShouldBe } from './Binder'
+import { Binder, Errors, ShouldBe } from './Binder'
 import { ViewModel } from './ViewModel'
+
+type PromiseLike<T> = T | Promise<T>
 
 // TODO: Add type parameter for `repr`.
 export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
@@ -18,8 +20,31 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
       ? this.binder.defaultValue
       : this.initValue
 
+  private _makeErrorsPromise(promise: Promise<Errors>) {
+    const errorsPromise = promise.then(errors => {
+      // Only the last assigned promise wins.
+      if (this._errorsPromise === errorsPromise) {
+        this._errors = errors
+      }
+    })
+    return errorsPromise
+  }
+
+  private _errorsPromise: Promise<void> = this._makeErrorsPromise(
+    this.binder.validate(this.initValue),
+  )
+
   @observable
-  public errors: React.ReactNode[] = this.binder.validate(this.initValue)
+  private _errors: Errors = []
+
+  @computed
+  public get errors(): Errors {
+    return this._errors
+  }
+
+  private setErrors(promiseLike: PromiseLike<Errors>) {
+    this._errorsPromise = this._makeErrorsPromise(Promise.resolve(promiseLike))
+  }
 
   @observable
   private _repr: R = this.binder.render(this.initValue)
@@ -97,7 +122,7 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
 
   public set value(value: V | null) {
     this._value = value
-    this.errors = this.binder.validate(this._value)
+    this.setErrors(this.binder.validate(this._value))
     this._repr = this.binder.render(value)
   }
 
@@ -111,11 +136,11 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
     this._repr = repr
     const parsed: ShouldBe<V | null> = this.binder.parse(repr)
     if ('errors' in parsed) {
-      this.errors = parsed.errors
+      this.setErrors(parsed.errors)
       return
     }
     this._value = parsed.value
-    this.errors = this.binder.validate(this._value)
+    this.setErrors(this.binder.validate(this._value))
   }
 }
 

@@ -1,5 +1,5 @@
 import { AbstractBinder } from './AbstractBinder'
-import { ShouldBe } from './Binder'
+import { Errors, ShouldBe } from './Binder'
 
 export class TextBinder extends AbstractBinder<string, string> {
   public optMinLength: number = 0
@@ -44,8 +44,8 @@ export class TextBinder extends AbstractBinder<string, string> {
     return { value: repr }
   }
 
-  public validate(value: string | null): React.ReactNode[] {
-    const errors: React.ReactNode[] = super.validate(value)
+  public async validate(value: string | null): Promise<Errors> {
+    const errors: Errors = await super.validate(value)
     if (typeof value === 'string') {
       if (value.length < this.optMinLength) {
         errors.push(
