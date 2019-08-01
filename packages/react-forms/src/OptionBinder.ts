@@ -1,7 +1,7 @@
 import { AbstractBinder } from './AbstractBinder'
 import { ShouldBe } from './Binder'
 
-export type Option<T> = { value: T; text: string }
+export type Option<T> = { text: string; value: T }
 
 export class OptionBinder<T> extends AbstractBinder<T, Option<T> | null> {
   public constructor(

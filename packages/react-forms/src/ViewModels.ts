@@ -16,7 +16,7 @@ interface GroupViewModelConstructor<
   G extends ViewModelGroup,
   V extends Flatten<G, 'value'> = Flatten<G, 'value'>,
   R extends Flatten<G, 'repr'> = Flatten<G, 'repr'>
-  > extends ViewModelConstructor<V, R, GroupViewModel<G, V, R>> {
+> extends ViewModelConstructor<V, R, GroupViewModel<G, V, R>> {
   construct(
     initValues?: GroupViewModel<G, V, R> | Partial<V>,
   ): GroupViewModel<G, V, R>
