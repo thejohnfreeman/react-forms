@@ -31,15 +31,21 @@ function asObservable<T>(observableLike: ObservableLike<T>): Observable<T> {
   return of(observableLike as T)
 }
 
-export type Options<T = number> = { text: string; value: T }[] | undefined
-export type OptionsArrayLike<T> = T[] | DataResult<T> | Options<T>
+// Values that can be converted to `Observable`.
 export type ObservableLike<T> = T | Promise<T> | Observable<T>
-export type OptionsFunction<T> = (
-  query: string,
-) => ObservableLike<OptionsArrayLike<T>>
-export type OptionsLike<T> = OptionsArrayLike<T> | OptionsFunction<T>
 
-function asOptions<T>(arrayLike: OptionsArrayLike<T>): Options<T> {
+// The type of the `options` attribute of a ComboBox.
+export type Options<T = number> = { text: string; value: T }[] | undefined
+// Arrays that can be converted to `Options`.
+export type OptionsLikeArray<T> = T[] | DataResult<T> | Options<T>
+// Functions that can be converted to `Options`.
+export type OptionsLikeFunction<T> = (
+  query: string,
+) => ObservableLike<OptionsLikeArray<T>>
+// Values that can be converted to `Options`.
+export type OptionsLike<T> = OptionsLikeArray<T> | OptionsLikeFunction<T>
+
+function asOptions<T>(arrayLike: OptionsLikeArray<T>): Options<T> {
   if (typeof arrayLike === 'undefined') {
     return arrayLike
   }
@@ -106,7 +112,7 @@ export class ArrayOptionsSource<T> implements OptionsSource<T> {
 export class FunctionOptionsSource<T> implements OptionsSource<T> {
   private readonly query$: Subject<string>
 
-  public constructor(search: OptionsFunction<T>) {
+  public constructor(search: OptionsLikeFunction<T>) {
     this.query$ = new Subject<string>()
     this.query$
       .pipe(
