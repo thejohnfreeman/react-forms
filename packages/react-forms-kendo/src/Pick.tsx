@@ -3,10 +3,10 @@ import classNames from 'classnames'
 import { action } from 'mobx'
 import { observer } from 'mobx-react'
 import * as React from 'react'
-import { defaultProps } from 'recompose'
 import uuidv4 from 'uuid/v4'
 
 import { Field } from './Field'
+import { defaultProps } from './recompose'
 
 // `name` is optional in `KendoPickProps`
 type PickProps = {

@@ -2,7 +2,6 @@ import classNames from 'classnames'
 import { action, computed, observable } from 'mobx'
 import * as React from 'react'
 import {
-  Flatten,
   GroupViewModel,
   ValueGroup,
   ViewModelGroup,
