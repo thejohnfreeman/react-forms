@@ -83,7 +83,7 @@ export namespace ViewModels {
   export function oneOf<T>(
     options: Option<T>[],
     defaultValue: T | null = null,
-  ) {
+  ): OptionBinder<T> {
     return new OptionBinder(options, defaultValue)
   }
 
