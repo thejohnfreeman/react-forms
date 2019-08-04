@@ -10,6 +10,7 @@ import {
   ViewModelGroupIsomorphicTo,
 } from './GroupViewModel'
 import { IntegerBinder } from './IntegerBinder'
+import { MoneyBinder } from './MoneyBinder'
 import { ObjectBinder } from './ObjectBinder'
 import { map } from './Objects'
 import { Option, OptionBinder } from './OptionBinder'
@@ -67,6 +68,10 @@ export namespace ViewModels {
 
   export function integer(defaultValue?: number): IntegerBinder {
     return new IntegerBinder(defaultValue)
+  }
+
+  export function money(defaultValue?: number): MoneyBinder {
+    return new MoneyBinder(defaultValue)
   }
 
   export function object<O extends object>(
