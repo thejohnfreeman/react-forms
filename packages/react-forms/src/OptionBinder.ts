@@ -1,12 +1,9 @@
-import { AbstractBinder } from './AbstractBinder'
+import { AbstractOptionalBinder } from './AbstractOptionalBinder'
 import { ShouldBe } from './Binder'
 
 export type Option<T> = { text: string; value: T }
 
-export class OptionBinder<T> extends AbstractBinder<
-  T | null,
-  Option<T> | undefined
-> {
+export class OptionBinder<T> extends AbstractOptionalBinder<T, Option<T>> {
   public constructor(
     public readonly options: Option<T>[],
     defaultValue: T | null = null,
