@@ -15,16 +15,21 @@ import { ObjectBinder } from './ObjectBinder'
 import { map } from './Objects'
 import { Option, OptionBinder } from './OptionBinder'
 import { TextBinder } from './TextBinder'
-import { ViewModelConstructor } from './ViewModel'
+import { ViewModel, ViewModelConstructor } from './ViewModel'
 
 export namespace ViewModels {
-  export function array<I, V extends I, R>(
-    ctor: ViewModelConstructor<I, V, R>,
-  ): ArrayViewModelConstructor<I, V, R> {
+  export function array<
+    I,
+    V extends I = I,
+    R = V,
+    M extends ViewModel<V, R> = ViewModel<V, R>
+  >(
+    ctor: ViewModelConstructor<I, V, R, M>,
+  ): ArrayViewModelConstructor<I, V, R, M> {
     return {
       construct(
-        initValues: ArrayViewModel<V, R> | I[] = [],
-      ): ArrayViewModel<V, R> {
+        initValues: ArrayViewModel<V, R, M> | I[] = [],
+      ): ArrayViewModel<V, R, M> {
         return initValues instanceof ArrayViewModel
           ? initValues
           : new ArrayViewModel(

@@ -2,15 +2,14 @@ import { computed, observable } from 'mobx'
 
 import { ViewModel, ViewModelConstructor } from './ViewModel'
 
-export type ViewModelArray<V, R> = ViewModel<V, R>[]
-
-export class ArrayViewModel<V, R> implements ViewModel<V[], R[]> {
-  public constructor(items: ViewModelArray<V, R>) {
+export class ArrayViewModel<V, R, M extends ViewModel<V, R>>
+  implements ViewModel<V[], R[]> {
+  public constructor(items: M[]) {
     this.items = items
   }
 
   @observable
-  public items: ViewModelArray<V, R>
+  public items: M[]
 
   @observable
   public errors: React.ReactNode[] = []
@@ -96,7 +95,11 @@ export class ArrayViewModel<V, R> implements ViewModel<V[], R[]> {
   }
 }
 
-export interface ArrayViewModelConstructor<I, V extends I, R>
-  extends ViewModelConstructor<I[], V[], R[], ArrayViewModel<V, R>> {
-  construct(initValues?: ArrayViewModel<V, R> | I[]): ArrayViewModel<V, R>
+export interface ArrayViewModelConstructor<
+  I,
+  V extends I = I,
+  R = V,
+  M extends ViewModel<V, R> = ViewModel<V, R>
+> extends ViewModelConstructor<I[], V[], R[], ArrayViewModel<V, R, M>> {
+  construct(initValues?: ArrayViewModel<V, R, M> | I[]): ArrayViewModel<V, R, M>
 }

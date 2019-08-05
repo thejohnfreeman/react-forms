@@ -1,7 +1,7 @@
-import { AbstractBinder } from './AbstractBinder'
+import { AbstractOptionalBinder } from './AbstractOptionalBinder'
 import { Errors, ShouldBe } from './Binder'
 
-export class TextBinder extends AbstractBinder<string> {
+export class TextBinder extends AbstractOptionalBinder<string> {
   public optMinLength: number = 0
   public optMaxLength: number = Number.MAX_SAFE_INTEGER
   public optPattern?: RegExp
