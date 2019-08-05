@@ -6,7 +6,7 @@ import { ShouldBe } from './Binder'
 // identifier).
 export class ObjectBinder<
   O extends object = { text: string; value: number }
-> extends AbstractBinder<O, O | null> {
+> extends AbstractBinder<O | null, O | null> {
   public constructor(defaultValue: O | null = null) {
     super('object', defaultValue)
   }

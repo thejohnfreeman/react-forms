@@ -6,19 +6,14 @@ import { ViewModel, ViewModelConstructor } from './ViewModel'
 type PromiseLike<T> = T | Promise<T>
 
 // TODO: Add type parameter for `repr`.
-export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
+export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
   public constructor(
-    private readonly binder: Binder<V | null, R>,
-    public initValue: V | null,
+    private readonly binder: Binder<V, R>,
+    public initValue: V,
   ) {}
 
-  // Even if a null (i.e. missing) value is not valid, we must be able to
-  // represent it.
   @observable
-  private _value: V | null =
-    typeof this.initValue === 'undefined'
-      ? this.binder.defaultValue
-      : this.initValue
+  private _value: V = this.initValue
 
   private _makeErrorsPromise(promise: Promise<Errors>) {
     const errorsPromise = promise.then(errors => {
@@ -112,15 +107,15 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
   }
 
   @computed
-  public get value(): V | null {
+  public get value(): V {
     return this._value
   }
 
-  public get $(): V | null {
+  public get $(): V {
     return this.value
   }
 
-  public set value(value: V | null) {
+  public set value(value: V) {
     this._value = value
     this.setErrors(this.binder.validate(this._value))
     this._repr = this.binder.render(value)
@@ -134,7 +129,7 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
   public set repr(repr: R) {
     this.touched = true
     this._repr = repr
-    const parsed: ShouldBe<V | null> = this.binder.parse(repr)
+    const parsed: ShouldBe<V> = this.binder.parse(repr)
     if ('errors' in parsed) {
       this.setErrors(parsed.errors)
       return
@@ -144,7 +139,7 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
   }
 }
 
-export interface FieldViewModelConstructor<I, V extends I, R>
-  extends ViewModelConstructor<I | null, V | null, R, FieldViewModel<V, R>> {
-  construct(initValue?: FieldViewModel<V, R> | I | null): FieldViewModel<V, R>
+export interface FieldViewModelConstructor<I, V extends I = I, R = V>
+  extends ViewModelConstructor<I, V, R, FieldViewModel<V, R>> {
+  construct(initValue?: FieldViewModel<V, R> | I): FieldViewModel<V, R>
 }

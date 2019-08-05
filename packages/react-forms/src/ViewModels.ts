@@ -66,11 +66,11 @@ export namespace ViewModels {
     }
   }
 
-  export function integer(defaultValue?: number): IntegerBinder {
+  export function integer(defaultValue: number | null = null): IntegerBinder {
     return new IntegerBinder(defaultValue)
   }
 
-  export function money(defaultValue?: number): MoneyBinder {
+  export function money(defaultValue: number | null = null): MoneyBinder {
     return new MoneyBinder(defaultValue)
   }
 
@@ -88,10 +88,10 @@ export namespace ViewModels {
   }
 
   export function password(): TextBinder {
-    return new TextBinder('password')
+    return new TextBinder('password', null)
   }
 
-  export function text(defaultValue?: string): TextBinder {
+  export function text(defaultValue: string | null = null): TextBinder {
     return new TextBinder('text', defaultValue)
   }
 }

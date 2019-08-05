@@ -1,6 +1,6 @@
-import { AbstractBinder } from './AbstractBinder'
+import { IdentityBinder } from './IdentityBinder'
 
-export class IntegerBinder extends AbstractBinder<number, number> {
+export class IntegerBinder extends IdentityBinder<number> {
   public constructor(defaultValue: number | null = null) {
     super('integer', defaultValue)
   }

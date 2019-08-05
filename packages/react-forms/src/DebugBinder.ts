@@ -1,15 +1,12 @@
 import { Binder, ShouldBe } from './Binder'
 import { ViewModel, ViewModelConstructor } from './ViewModel'
 
-type BinderViewModelConstructor<V, R> = Binder<V | null, R> &
-  ViewModelConstructor<V | null, V | null, R>
-
 // A binder for debugging other binders. It proxies another binder, logging
 // each method's arguments and return value.
-export class DebugBinder<V, R>
-  implements Binder<V | null, R>, ViewModelConstructor<V | null, V | null, R> {
+export class DebugBinder<I, V extends I, R>
+  implements Binder<V, R>, ViewModelConstructor<I, V, R> {
   public constructor(
-    private readonly _target: BinderViewModelConstructor<V, R>,
+    private readonly _target: Binder<V, R> & ViewModelConstructor<I, V, R>,
   ) {}
 
   public get type() {
@@ -21,30 +18,30 @@ export class DebugBinder<V, R>
   }
 
   public construct(
-    initValue: V | null = this._target.defaultValue,
-  ): ViewModel<V | null, R> {
+    initValue: ViewModel<V, R> | I = this._target.defaultValue,
+  ): ViewModel<V, R> {
     const viewModel = this._target.construct(initValue)
     console.log('construct(', initValue, ') =>', viewModel)
     return viewModel
   }
 
-  public equals(a: V | null, b: V | null) {
+  public equals(a: V, b: V) {
     return this._target.equals(a, b)
   }
 
-  public parse(repr: R): ShouldBe<V | null> {
+  public parse(repr: R): ShouldBe<V> {
     const parsed = this._target.parse(repr)
     console.log('parse(', repr, ') =>', parsed)
     return parsed
   }
 
-  public async validate(value: V | null): Promise<React.ReactNode[]> {
+  public async validate(value: V): Promise<React.ReactNode[]> {
     const errors = await this._target.validate(value)
     console.log('validate(', value, ') =>', errors)
     return errors
   }
 
-  public render(value: V | null): R {
+  public render(value: V): R {
     const rendered = this._target.render(value)
     console.log('render(', value, ') =>', rendered)
     return rendered

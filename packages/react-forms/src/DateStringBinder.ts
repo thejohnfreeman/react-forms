@@ -10,8 +10,11 @@ import { ShouldBe } from './Binder'
 
 // A binder for dates are modeled as strings (i.e. `repr` is `Date` but
 // `value` is `string`). For dates modeled as dates, use `DateBinder`.
-export class DateStringBinder extends AbstractBinder<string, Date | undefined> {
-  public optFormat: string | undefined = undefined
+export class DateStringBinder extends AbstractBinder<
+  string | null,
+  Date | undefined
+> {
+  public optFormat: string | undefined
 
   public constructor(defaultValue: string | null = null) {
     super('date-string', defaultValue)
