@@ -1,6 +1,6 @@
 import { computed, observable } from 'mobx'
 
-import { ViewModel } from './ViewModel'
+import { ViewModel, ViewModelConstructor } from './ViewModel'
 
 export type ViewModelArray<V, R> = ViewModel<V, R>[]
 
@@ -94,4 +94,9 @@ export class ArrayViewModel<V, R> implements ViewModel<V[], R[]> {
   public save() {
     this.items.forEach(vm => vm.save())
   }
+}
+
+export interface ArrayViewModelConstructor<I, V extends I, R>
+  extends ViewModelConstructor<I[], V[], R[], ArrayViewModel<V, R>> {
+  construct(initValues?: ArrayViewModel<V, R> | I[]): ArrayViewModel<V, R>
 }

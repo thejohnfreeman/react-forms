@@ -4,6 +4,7 @@ import * as React from 'react'
 import {
   Flatten,
   GroupViewModel,
+  ValueGroup,
   ViewModelGroup,
 } from '@thejohnfreeman/react-forms'
 
@@ -15,7 +16,7 @@ export const FormContext = React.createContext<{
 export type FormProps<G extends ViewModelGroup> = {
   className?: string
   viewModel?: GroupViewModel<G>
-  onSubmit?: (value: Flatten<G, 'value'>) => void
+  onSubmit?: (value: ValueGroup<G>) => void
 }
 
 // Require users to set `key` on `Form`s? It triggers state reconstruction and
@@ -32,7 +33,7 @@ export class Form<
   private readonly onSubmit = (event: React.FormEvent) => {
     event.preventDefault()
     this._submitted = true
-    this.props.onSubmit!(this.props.viewModel!.value)
+    this.props.onSubmit!(this.viewModel.value)
   }
 
   public componentDidMount() {

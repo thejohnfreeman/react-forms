@@ -1,24 +1,20 @@
-import map from 'just-map-values'
 import { computed, observable } from 'mobx'
 
 import { Errors } from './Binder'
-import { ViewModel } from './ViewModel'
+import { ObjectOf, Pluck, pluck } from './Objects'
+import { ViewModel, ViewModelConstructor } from './ViewModel'
 
-export type ViewModelGroup = { [key: string]: ViewModel<any, any> }
-export type Flatten<
-  G extends ViewModelGroup,
-  K extends keyof ViewModel<any, any>
-> = { [J in keyof G]: G[J][K] }
+export type ViewModelGroup = ObjectOf<ViewModel<unknown, unknown>>
+
+export type ValueGroup<G extends ViewModelGroup> = Pluck<G, 'value'>
+export type ReprGroup<G extends ViewModelGroup> = Pluck<G, 'repr'>
 
 // TODO: Rename to ObjectViewModel.
 // We really want type aliases within class scopes.
 // https://github.com/Microsoft/TypeScript/issues/7061
-export class GroupViewModel<
-  G extends ViewModelGroup,
-  V extends Flatten<G, 'value'> = Flatten<G, 'value'>,
-  R extends Flatten<G, 'repr'> = Flatten<G, 'repr'>
-> implements ViewModel<V, R> {
-  private readonly proxy: V
+export class GroupViewModel<G extends ViewModelGroup>
+  implements ViewModel<ValueGroup<G>, ReprGroup<G>> {
+  private readonly proxy: ValueGroup<G>
 
   public constructor(public readonly members: G) {
     this.proxy = makeGroupProxy(this)
@@ -40,20 +36,20 @@ export class GroupViewModel<
     )
   }
 
-  public get value(): V {
+  public get value(): ValueGroup<G> {
     return this.proxy
   }
 
-  public get $(): V {
+  public get $(): ValueGroup<G> {
     return this.value
   }
 
-  public set value(value: V) {
+  public set value(value: ValueGroup<G>) {
     Object.assign(this.proxy, value)
   }
 
-  public get repr(): R {
-    return map(this.members, vm => vm.repr) as R
+  public get repr(): ReprGroup<G> {
+    return pluck(this.members, 'repr')
   }
 
   @computed
@@ -116,12 +112,10 @@ export class GroupViewModel<
 }
 
 // TODO: Use a real Proxy to make this easier.
-function makeGroupProxy<
-  G extends ViewModelGroup,
-  V extends Flatten<G, 'value'> = Flatten<G, 'value'>,
-  R extends Flatten<G, 'repr'> = Flatten<G, 'repr'>
->(gvm: GroupViewModel<G, V, R>): V {
-  const proxy = {}
+function makeGroupProxy<G extends ViewModelGroup>(
+  gvm: GroupViewModel<G>,
+): ValueGroup<G> {
+  const proxy = {} as ValueGroup<G>
   Object.keys(gvm.members).forEach(key => {
     Object.defineProperty(proxy, key, {
       enumerable: true,
@@ -129,5 +123,27 @@ function makeGroupProxy<
       set: value => (gvm.members[key].value = value),
     })
   })
-  return Object.freeze(proxy) as V
+  return Object.freeze(proxy)
 }
+
+export interface GroupViewModelConstructor<G extends ViewModelGroup>
+  extends ViewModelConstructor<
+    Partial<ValueGroup<G>>,
+    ValueGroup<G>,
+    ReprGroup<G>,
+    GroupViewModel<G>
+  > {
+  construct(
+    initValues?: GroupViewModel<G> | Partial<ValueGroup<G>>,
+  ): GroupViewModel<G>
+}
+
+export type ViewModelConstructorGroup = ObjectOf<ViewModelConstructor<unknown>>
+
+export type ViewModelGroupIsomorphicTo<G extends ViewModelConstructorGroup> = {
+  [K in keyof G]: ReturnType<G[K]['construct']>
+}
+
+export type GroupViewModelConstructedBy<
+  C
+> = C extends GroupViewModelConstructor<infer G> ? GroupViewModel<G> : never

@@ -2,12 +2,12 @@ import { Binder, ShouldBe } from './Binder'
 import { ViewModel, ViewModelConstructor } from './ViewModel'
 
 type BinderViewModelConstructor<V, R> = Binder<V | null, R> &
-  ViewModelConstructor<V | null, R>
+  ViewModelConstructor<V | null, V | null, R>
 
 // A binder for debugging other binders. It proxies another binder, logging
 // each method's arguments and return value.
 export class DebugBinder<V, R>
-  implements Binder<V | null, R>, ViewModelConstructor<V | null, R> {
+  implements Binder<V | null, R>, ViewModelConstructor<V | null, V | null, R> {
   public constructor(
     private readonly _target: BinderViewModelConstructor<V, R>,
   ) {}

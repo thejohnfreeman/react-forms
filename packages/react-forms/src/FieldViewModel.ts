@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx'
 
 import { Binder, Errors, ShouldBe } from './Binder'
-import { ViewModel } from './ViewModel'
+import { ViewModel, ViewModelConstructor } from './ViewModel'
 
 type PromiseLike<T> = T | Promise<T>
 
@@ -144,11 +144,7 @@ export class FieldViewModel<V, R = V> implements ViewModel<V | null, R> {
   }
 }
 
-// Every binder that wants to construct a `FieldViewModel` as a callable
-// object can use this handler.
-export function constructFieldViewModel<V, R = V>(
-  this: Binder<V, R>,
-  initValue: V | null = null,
-) {
-  return new FieldViewModel(this, initValue)
+export interface FieldViewModelConstructor<I, V extends I, R>
+  extends ViewModelConstructor<I | null, V | null, R, FieldViewModel<V, R>> {
+  construct(initValue?: FieldViewModel<V, R> | I | null): FieldViewModel<V, R>
 }

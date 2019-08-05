@@ -16,7 +16,7 @@ import { FieldViewModel } from './FieldViewModel'
 // construction. Alas, I have not found an easy, readable, maintainable way to
 // do it yet.
 export abstract class AbstractBinder<V, R = V>
-  implements Binder<V | null, R>, ViewModelConstructor<V | null, R> {
+  implements Binder<V | null, R>, ViewModelConstructor<V | null, V | null, R> {
   // Non-null should be the default, just as in SQL.
   public optRequired: boolean = true
   public validators: Validator<V | null>[] = []
