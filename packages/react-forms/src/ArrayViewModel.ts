@@ -95,11 +95,9 @@ export class ArrayViewModel<V, R, M extends ViewModel<V, R>>
   }
 }
 
-export interface ArrayViewModelConstructor<
+export type ArrayViewModelConstructor<
   I,
   V extends I = I,
   R = V,
   M extends ViewModel<V, R> = ViewModel<V, R>
-> extends ViewModelConstructor<I[], V[], R[], ArrayViewModel<V, R, M>> {
-  construct(initValues?: ArrayViewModel<V, R, M> | I[]): ArrayViewModel<V, R, M>
-}
+> = ViewModelConstructor<I[], V[], R[], ArrayViewModel<V, R, M>>

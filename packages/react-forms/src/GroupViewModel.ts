@@ -126,17 +126,14 @@ function makeGroupProxy<G extends ViewModelGroup>(
   return Object.freeze(proxy)
 }
 
-export interface GroupViewModelConstructor<G extends ViewModelGroup>
-  extends ViewModelConstructor<
-    Partial<ValueGroup<G>>,
-    ValueGroup<G>,
-    ReprGroup<G>,
-    GroupViewModel<G>
-  > {
-  construct(
-    initValues?: GroupViewModel<G> | Partial<ValueGroup<G>>,
-  ): GroupViewModel<G>
-}
+export type GroupViewModelConstructor<
+  G extends ViewModelGroup
+> = ViewModelConstructor<
+  Partial<ValueGroup<G>>,
+  ValueGroup<G>,
+  ReprGroup<G>,
+  GroupViewModel<G>
+>
 
 export type ViewModelConstructorGroup = ObjectOf<ViewModelConstructor<unknown>>
 

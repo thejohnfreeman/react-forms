@@ -139,7 +139,8 @@ export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
   }
 }
 
-export interface FieldViewModelConstructor<I, V extends I = I, R = V>
-  extends ViewModelConstructor<I, V, R, FieldViewModel<V, R>> {
-  construct(initValue?: FieldViewModel<V, R> | I): FieldViewModel<V, R>
-}
+export type FieldViewModelConstructor<
+  I,
+  V extends I = I,
+  R = V
+> = ViewModelConstructor<I, V, R, FieldViewModel<V, R>>
