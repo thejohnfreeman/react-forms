@@ -1,5 +1,9 @@
 import * as React from 'react'
-import { Subtract } from 'utility-types'
+
+type Subtract<Props extends object, DefaultProps extends object> = Pick<
+  Props,
+  Exclude<keyof Props, keyof DefaultProps>
+>
 
 // Spread props generally require a type assertion:
 // https://github.com/Microsoft/TypeScript/issues/10727<Paste>
