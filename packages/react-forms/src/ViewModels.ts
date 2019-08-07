@@ -79,7 +79,7 @@ export namespace ViewModels {
     return new MoneyBinder(defaultValue)
   }
 
-  export function object<O extends object>(
+  export function object<O extends object = Option<number>>(
     defaultValue: O | null = null,
   ): ObjectBinder<O> {
     return new ObjectBinder(defaultValue)

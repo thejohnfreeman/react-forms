@@ -1,11 +1,12 @@
 import { ShouldBe } from './Binder'
 import { AbstractOptionalBinder } from './AbstractOptionalBinder'
+import { Option } from './OptionBinder'
 
 // A binder for objects selected from a list. They'll generally have a name
 // (or other human-readable representation) and a value (usually an
 // identifier).
 export class ObjectBinder<
-  V extends object = { text: string; value: number },
+  V extends object = Option<number>,
   R extends object = V
 > extends AbstractOptionalBinder<V, R> {
   public optShape: Record<string, string> = { text: 'text', value: 'value' }

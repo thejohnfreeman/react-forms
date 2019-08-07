@@ -36,9 +36,10 @@ async function models(vehicleType, make): Promise<Options> {
 }
 
 const CarSearchViewModel = ViewModels.group({
-  vehicleType: ViewModels.object(),
-  make: ViewModels.object(),
-  model: ViewModels.object(),
+  // TODO: Why is this necessary? These are the default type arguments.
+  vehicleType: ViewModels.object<{ text: string; value: number }>(),
+  make: ViewModels.object<{ text: string; value: number }>(),
+  model: ViewModels.object<{ text: string; value: number }>(),
 })
 
 export type CarSearchFormProps = {}

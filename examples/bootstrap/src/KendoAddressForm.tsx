@@ -37,8 +37,8 @@ class _AddressForm extends React.Component<AddressFormProps> {
 
   private readonly unsubZip = reaction(
     () => this.viewModel.$.zip,
-    async zip => {
-      if (zip.length < 5) {
+    async (zip: string | null) => {
+      if (!zip || zip.length < 5) {
         return
       }
       let response
@@ -52,7 +52,7 @@ class _AddressForm extends React.Component<AddressFormProps> {
       if (!place || zip !== response.data['post code']) {
         return
       }
-      const fields = this.viewModel.$
+      const fields = this.viewModel.value
       fields.city = place['place name']
       fields.state = place['state abbreviation']
     },

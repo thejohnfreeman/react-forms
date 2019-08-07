@@ -1,14 +1,14 @@
 {
-  "name": "@thejohnfreeman/react-forms-workspace",
   "private": true,
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "lint": "lerna run lint",
     "prepare": "lerna run prepare",
     "test": "lerna run test",
     "watch": "lerna run --parallel watch"
   },
   "devDependencies": {
-    "lerna": "^3.10.7"
+    "lerna": "^3.16.4"
   },
   "workspaces": [
     "examples/*",

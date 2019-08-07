@@ -13,7 +13,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 const LogInViewModel = ViewModels.group({
   username: ViewModels.text(),
   password: ViewModels.password().minLength(8),
-  rememberMe: ViewModels.boolean().optional(),
+  rememberMe: ViewModels.boolean(),
 })
 
 class _LogInForm extends React.Component<LogInFormProps> {
