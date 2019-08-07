@@ -84,7 +84,7 @@ out-of-date. I'll try to summarize what I know here.
    change the shared version number in `lerna.json`.
 
 4. If you want to add a development dependency for a package, add it to the
-   root package, unless it contains an executable used by a script, e.g.
-   `typescript` or `tslint`.
+   root package only with `yarn add -DW`. If you add a peer dependency to
+   a package, add it as a development dependency on the root package as well.
 
 [Lerna]: https://lerna.js.org/

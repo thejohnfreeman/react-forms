@@ -1,6 +1,6 @@
 {
   "name": "@thejohnfreeman/react-forms",
-  "version": "0.8.0-alpha.2",
+  "version": "0.8.0-alpha.3",
   "description": "Low effort, high quality forms in React.",
   "types": "dist/index.d.ts",
   "main": "dist/cjs/index.js",
@@ -41,17 +41,6 @@
     "url": "https://github.com/thejohnfreeman/react-forms/issues"
   },
   "homepage": "https://github.com/thejohnfreeman/react-forms#readme",
-  "devDependencies": {
-    "@types/jest": "^23.3.13",
-    "@types/react": "^16.7.22",
-    "jest": "^24.0.0",
-    "mobx": "^5.13.0",
-    "prettier": "^1.16.3",
-    "ts-jest": "^23.10.5",
-    "tslint": "^5.12.1",
-    "tslint-config-thejohnfreeman": "^1.0.2",
-    "typescript": "^3.5"
-  },
   "dependencies": {
     "dayjs": "^1.8.5",
     "just-map-values": "^1.1.0"

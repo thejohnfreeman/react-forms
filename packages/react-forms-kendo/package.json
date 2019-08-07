@@ -37,29 +37,6 @@
     "url": "https://github.com/thejohnfreeman/react-forms/issues"
   },
   "homepage": "https://github.com/thejohnfreeman/react-forms#readme",
-  "devDependencies": {
-    "@progress/kendo-data-query": "^1.5.0",
-    "@progress/kendo-react-buttons": "^2.6.1",
-    "@progress/kendo-react-dateinputs": "^2.6.1",
-    "@progress/kendo-react-dropdowns": "^2.6.1",
-    "@progress/kendo-react-inputs": "^2.6.1",
-    "@progress/kendo-react-intl": "^2.6.1",
-    "@thejohnfreeman/react-forms": "^0.8.0-alpha.2",
-    "@types/classnames": "^2.2.7",
-    "@types/lodash-es": "^4.17.1",
-    "@types/react": "^16.8.1",
-    "@types/recompose": "^0.30.3",
-    "@types/uuid": "^3.4.4",
-    "mobx": "^5.13.0",
-    "mobx-react": "^6.1.1",
-    "prettier": "^1.16.4",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "rxjs": "^6.4.0",
-    "tslint": "^5.12.1",
-    "tslint-config-thejohnfreeman": "^1.0.2",
-    "typescript": "^3.5"
-  },
   "peerDependencies": {
     "@progress/kendo-data-query": "^1.5.0",
     "@progress/kendo-react-buttons": "^2.6.1",
@@ -67,7 +44,7 @@
     "@progress/kendo-react-dropdowns": "^2.6.1",
     "@progress/kendo-react-inputs": "^2.6.1",
     "@progress/kendo-react-intl": "^2.6.1",
-    "@thejohnfreeman/react-forms": "^0.8.0-alpha.2",
+    "@thejohnfreeman/react-forms": "^0.8.0-alpha.3",
     "mobx": "^5.13.0",
     "mobx-react": "^6.1.1",
     "react": "^16.7.0",
@@ -77,12 +54,14 @@
   "publishConfig": {
     "access": "public"
   },
+  "devDependencies": {
+    "@thejohnfreeman/react-forms": "^0.8.0-alpha.3"
+  },
   "dependencies": {
     "change-case": "^3.1.0",
     "classnames": "^2.2.6",
     "lodash-es": "^4.17.11",
     "utility-types": "^3.4.1",
     "uuid": "^3.3.2"
-  },
-  "gitHead": "e6ea8d18f5bc58e9655355244d6e3a26864ea920"
+  }
 }
