@@ -6,7 +6,7 @@ export class TextBinder extends AbstractOptionalBinder<string> {
   public optMaxLength: number = Number.MAX_SAFE_INTEGER
   public optPattern?: RegExp
   // If true, do not trim the string in parse.
-  public optRaw: boolean = false
+  public optTrim: boolean = true
 
   public constructor(type = 'text', defaultValue: string | null = null) {
     super(type, defaultValue)
@@ -30,7 +30,7 @@ export class TextBinder extends AbstractOptionalBinder<string> {
   }
 
   public raw(): this {
-    this.optRaw = true
+    this.optTrim = false
     return this
   }
 
@@ -38,7 +38,7 @@ export class TextBinder extends AbstractOptionalBinder<string> {
     if (!repr) {
       return { value: null }
     }
-    if (!this.optRaw) {
+    if (this.optTrim) {
       repr = repr.trim()
     }
     return { value: repr }

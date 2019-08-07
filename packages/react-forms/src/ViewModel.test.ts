@@ -19,9 +19,13 @@ describe('FieldViewModel', () => {
       expect(model.valid).toEqual(true)
       expect(model.invalid).toEqual(false)
     })
-    it('can start invalid', () => {
+    it('can start invalid', async () => {
       const Model = ViewModels.text()
       const model = Model.construct()
+      expect(model.value).toBeNull()
+      expect(model.repr).toBe('')
+      await model.flushed
+      expect(model.errors).toHaveLength(1)
       expect(model.valid).toEqual(false)
       expect(model.invalid).toEqual(true)
     })

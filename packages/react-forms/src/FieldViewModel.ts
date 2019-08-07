@@ -29,6 +29,13 @@ export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
     this.binder.validate(this.initValue),
   )
 
+  // Return a promise that completes after all _currently pending_ changes are
+  // flushed to the view-model. Any subsequent changes need not be included.
+  @computed
+  public get flushed(): Promise<void> {
+    return this._errorsPromise
+  }
+
   @observable
   private _errors: Errors = []
 
