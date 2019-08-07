@@ -5,7 +5,6 @@ import { ViewModel, ViewModelConstructor } from './ViewModel'
 
 type PromiseLike<T> = T | Promise<T>
 
-// TODO: Add type parameter for `repr`.
 export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
   public constructor(
     private readonly binder: Binder<V, R>,
