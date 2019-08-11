@@ -11,5 +11,5 @@ export {
   ViewModelGroup,
   ViewModelGroupIsomorphicTo,
 } from './GroupViewModel'
-export { ViewModel } from './ViewModel'
+export { ViewModel, ViewModelConstructor } from './ViewModel'
 export { ViewModels } from './ViewModels'
