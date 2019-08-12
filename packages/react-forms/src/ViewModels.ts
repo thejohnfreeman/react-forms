@@ -10,7 +10,7 @@ import {
   ViewModelGroupIsomorphicTo,
 } from './GroupViewModel'
 import { IntegerBinder } from './IntegerBinder'
-import { MoneyBinder } from './MoneyBinder'
+import { NumberBinder } from './NumberBinder'
 import { ObjectBinder } from './ObjectBinder'
 import { map } from './Objects'
 import { Option, OptionBinder } from './OptionBinder'
@@ -75,8 +75,12 @@ export namespace ViewModels {
     return new IntegerBinder(defaultValue)
   }
 
-  export function money(defaultValue: number | null = null): MoneyBinder {
-    return new MoneyBinder(defaultValue)
+  export function money(defaultValue: number | null = 0.0): NumberBinder {
+    return new NumberBinder(defaultValue).minimum(0.0)
+  }
+
+  export function number(defaultValue: number | null = null): NumberBinder {
+    return new NumberBinder(defaultValue)
   }
 
   export function object<O extends object = Option<number>>(
