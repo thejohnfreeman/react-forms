@@ -2,17 +2,11 @@ import { ArrayViewModel, ArrayViewModelConstructor } from './ArrayViewModel'
 import { BooleanBinder } from './BooleanBinder'
 import { DateBinder } from './DateBinder'
 import { DateStringBinder } from './DateStringBinder'
-import {
-  GroupViewModel,
-  GroupViewModelConstructor,
-  ValueGroup,
-  ViewModelConstructorGroup,
-  ViewModelGroupIsomorphicTo,
-} from './GroupViewModel'
+import { GroupBinder } from './GroupBinder'
+import { ViewModelConstructorGroup } from './GroupViewModel'
 import { IntegerBinder } from './IntegerBinder'
 import { NumberBinder } from './NumberBinder'
 import { ObjectBinder } from './ObjectBinder'
-import { map } from './Objects'
 import { Option, OptionBinder } from './OptionBinder'
 import { TextBinder } from './TextBinder'
 import { ViewModel, ViewModelConstructor } from './ViewModel'
@@ -53,22 +47,8 @@ export namespace ViewModels {
 
   export function group<G extends ViewModelConstructorGroup>(
     ctors: G,
-  ): GroupViewModelConstructor<ViewModelGroupIsomorphicTo<G>> {
-    // TODO: Add a `debug()` method that tells `construct(...)` to log to
-    // console.
-    return {
-      construct(
-        initValues:
-          | GroupViewModel<ViewModelGroupIsomorphicTo<G>>
-          | Partial<ValueGroup<ViewModelGroupIsomorphicTo<G>>> = {},
-      ): GroupViewModel<ViewModelGroupIsomorphicTo<G>> {
-        return initValues instanceof GroupViewModel
-          ? initValues
-          : new GroupViewModel(map(ctors, (ctor, key) =>
-              ctor.construct(initValues[key]),
-            ) as ViewModelGroupIsomorphicTo<G>)
-      },
-    }
+  ): GroupBinder<G> {
+    return new GroupBinder(ctors)
   }
 
   export function integer(defaultValue: number | null = null): IntegerBinder {
