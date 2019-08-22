@@ -15,6 +15,11 @@ export class ArrayViewModel<V, R, M extends ViewModel<V, R>>
   public errors: React.ReactNode[] = []
 
   @computed
+  public get version(): any {
+    return this.items.map(vm => vm.version)
+  }
+
+  @computed
   public get invalid(): boolean {
     return !this.valid
   }

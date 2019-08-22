@@ -1,6 +1,7 @@
 import { computed, observable } from 'mobx'
 
-import { Errors } from './Binder'
+import { Errors } from './Errors'
+import { CompoundBinder } from './CompoundBinder'
 import { ObjectOf, Pluck, pluck } from './Objects'
 import { ViewModel, ViewModelConstructor } from './ViewModel'
 
@@ -9,19 +10,37 @@ export type ViewModelGroup = ObjectOf<ViewModel<unknown, unknown>>
 export type ValueGroup<G extends ViewModelGroup> = Pluck<G, 'value'>
 export type ReprGroup<G extends ViewModelGroup> = Pluck<G, 'repr'>
 
-// TODO: Rename to ObjectViewModel.
+export type VersionGroup<G extends ViewModelGroup> = {
+  [K in keyof G]: G[K]['version']
+}
+
+// TODO: Rename to `ObjectViewModel`.
+// TODO: Add `initValue` computed property.
 // We really want type aliases within class scopes.
 // https://github.com/Microsoft/TypeScript/issues/7061
 export class GroupViewModel<G extends ViewModelGroup>
   implements ViewModel<ValueGroup<G>, ReprGroup<G>> {
   private readonly proxy: ValueGroup<G>
 
-  public constructor(public readonly members: G) {
+  public constructor(
+    public readonly binder: CompoundBinder<G>,
+    public readonly members: G,
+  ) {
     this.proxy = makeGroupProxy(this)
   }
 
   @observable
   public errors: Errors = []
+
+  @computed
+  public get version(): VersionGroup<G> {
+    const version = {} as VersionGroup<G>
+    for (const [name, vm] of Object.entries(this.members)) {
+      // https://github.com/microsoft/TypeScript/issues/32771
+      version[name as keyof G] = vm.version
+    }
+    return version
+  }
 
   @computed
   public get invalid(): boolean {

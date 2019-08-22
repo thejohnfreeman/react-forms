@@ -3,8 +3,12 @@ import { BooleanBinder } from './BooleanBinder'
 import { DateBinder } from './DateBinder'
 import { DateStringBinder } from './DateStringBinder'
 import { GroupBinder } from './GroupBinder'
-import { ViewModelConstructorGroup } from './GroupViewModel'
+import {
+  ViewModelConstructorGroup,
+  ViewModelGroupIsomorphicTo,
+} from './GroupViewModel'
 import { IntegerBinder } from './IntegerBinder'
+import { IntegerStringBinder } from './IntegerStringBinder'
 import { NumberBinder } from './NumberBinder'
 import { ObjectBinder } from './ObjectBinder'
 import { Option, OptionBinder } from './OptionBinder'
@@ -47,12 +51,18 @@ export namespace ViewModels {
 
   export function group<G extends ViewModelConstructorGroup>(
     ctors: G,
-  ): GroupBinder<G> {
+  ): GroupBinder<ViewModelGroupIsomorphicTo<G>> {
     return new GroupBinder(ctors)
   }
 
   export function integer(defaultValue: number | null = null): IntegerBinder {
     return new IntegerBinder(defaultValue)
+  }
+
+  export function integerString(
+    defaultValue: number | null = null,
+  ): IntegerStringBinder {
+    return new IntegerStringBinder(defaultValue)
   }
 
   export function money(defaultValue: number | null = 0.0): NumberBinder {

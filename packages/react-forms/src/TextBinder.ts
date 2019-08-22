@@ -1,5 +1,5 @@
 import { AbstractOptionalBinder } from './AbstractOptionalBinder'
-import { Errors, ShouldBe } from './Binder'
+import { ShouldBe } from './Binder'
 
 export class TextBinder extends AbstractOptionalBinder<string> {
   public optMinLength: number = 0
@@ -10,6 +10,27 @@ export class TextBinder extends AbstractOptionalBinder<string> {
 
   public constructor(type = 'text', defaultValue: string | null = null) {
     super(type, defaultValue)
+    this.test((value: string | null) => {
+      if (typeof value !== 'string') {
+        return
+      }
+      const errors = []
+      if (value.length < this.optMinLength) {
+        errors.push(
+          // tslint:disable-next-line:max-line-length
+          `Please enter at least ${this.optMinLength} characters (currently ${value.length} characters).`,
+        )
+      } else if (value.length > this.optMaxLength) {
+        errors.push(
+          // tslint:disable-next-line:max-line-length
+          `Please enter no more than ${this.optMaxLength} characters (currently ${value.length} characters).`,
+        )
+      }
+      if (this.optPattern && !this.optPattern.test(value)) {
+        errors.push(`Please match this pattern: ${this.optPattern}`)
+      }
+      return errors
+    })
   }
 
   public minLength(minLength: number): this {
@@ -42,29 +63,6 @@ export class TextBinder extends AbstractOptionalBinder<string> {
       repr = repr.trim()
     }
     return { value: repr }
-  }
-
-  public async validate(value: string | null): Promise<Errors> {
-    const errors: Errors = await super.validate(value)
-    if (typeof value === 'string') {
-      if (value.length < this.optMinLength) {
-        errors.push(
-          `Please enter at least ${this.optMinLength} characters (currently ${
-            value.length
-          } characters).`,
-        )
-      } else if (value.length > this.optMaxLength) {
-        errors.push(
-          `Please enter no more than ${
-            this.optMaxLength
-          } characters (currently ${value.length} characters).`,
-        )
-      }
-      if (this.optPattern && !this.optPattern.test(value)) {
-        errors.push(`Please match this pattern: ${this.optPattern}`)
-      }
-    }
-    return errors
   }
 
   public render(value: string | null): string {

@@ -1,4 +1,3 @@
-import { Errors } from './Binder'
 import { AbstractBinder } from './AbstractBinder'
 
 // An `AbstractOptionalBinder` should really be divided into two classes:
@@ -36,18 +35,15 @@ export abstract class AbstractOptionalBinder<V, R = V> extends AbstractBinder<
     public readonly defaultValue: V | null = null,
   ) {
     super(type, defaultValue)
+    this.test((value: V | null) => {
+      if (value === null && this.optRequired) {
+        return 'Please enter this field.'
+      }
+    })
   }
 
   public optional(optional: boolean = true): this {
     this.optRequired = !optional
     return this
-  }
-
-  public async validate(value: V | null): Promise<Errors> {
-    const errors = await super.validate(value)
-    if (value === null && this.optRequired) {
-      errors.push('Please enter this field.')
-    }
-    return errors
   }
 }

@@ -1,37 +1,42 @@
+import { CompoundBinder, CompoundValidatorLike } from './CompoundBinder'
 import {
   GroupViewModel,
   GroupViewModelConstructor,
   ValueGroup,
   ViewModelConstructorGroup,
-  ViewModelGroupIsomorphicTo,
+  ViewModelGroup,
 } from './GroupViewModel'
 import { map } from './Objects'
 
-export class GroupBinder<G extends ViewModelConstructorGroup>
-  implements GroupViewModelConstructor<ViewModelGroupIsomorphicTo<G>> {
+export class GroupBinder<G extends ViewModelGroup>
+  implements CompoundBinder<G>, GroupViewModelConstructor<G> {
   public readonly type = 'group'
 
-  public defaultValue: Partial<ValueGroup<ViewModelGroupIsomorphicTo<G>>> = {}
+  public readonly validators: CompoundValidatorLike<G>[] = []
 
-  public constructor(private readonly ctors: G) {}
+  public defaultValue: Partial<ValueGroup<G>> = {}
 
-  public default(
-    defaultValue: Partial<ValueGroup<ViewModelGroupIsomorphicTo<G>>>,
-  ): this {
+  public constructor(private readonly ctors: ViewModelConstructorGroup) {}
+
+  public default(defaultValue: Partial<ValueGroup<G>>): this {
     this.defaultValue = defaultValue
     return this
   }
 
+  public test(compoundValidatorLike: CompoundValidatorLike<G>): this {
+    this.validators.push(compoundValidatorLike)
+    return this
+  }
+
   public construct(
-    initValues:
-      | GroupViewModel<ViewModelGroupIsomorphicTo<G>>
-      | Partial<ValueGroup<ViewModelGroupIsomorphicTo<G>>> = this.defaultValue,
-  ): GroupViewModel<ViewModelGroupIsomorphicTo<G>> {
+    initValues: GroupViewModel<G> | Partial<ValueGroup<G>> = this.defaultValue,
+  ): GroupViewModel<G> {
     if (initValues instanceof GroupViewModel) {
       return initValues
     }
-    return new GroupViewModel(map(this.ctors, (ctor, key) =>
+    const members = map(this.ctors, (ctor, key) =>
       ctor.construct(initValues[key]),
-    ) as ViewModelGroupIsomorphicTo<G>)
+    ) as G
+    return new GroupViewModel(this, members)
   }
 }

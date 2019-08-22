@@ -1,9 +1,10 @@
 import { action, computed, observable } from 'mobx'
 
-import { Binder, Errors, ShouldBe } from './Binder'
+import { Binder, ShouldBe } from './Binder'
+import { Errors, ErrorsLike, PromiseLike, ValidatorLike } from './Errors'
 import { ViewModel, ViewModelConstructor } from './ViewModel'
 
-type PromiseLike<T> = T | Promise<T>
+export type Version = Map<any, Errors> & { readonly __tag: unique symbol }
 
 export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
   public constructor(
@@ -14,41 +15,65 @@ export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
   @observable
   private _value: V = this.initValue
 
-  private _makeErrorsPromise(promise: Promise<Errors>) {
-    const errorsPromise = promise.then(errors => {
-      // Only the last assigned promise wins.
-      if (this._errorsPromise === errorsPromise) {
-        this._errors = errors
-      }
-    })
-    return errorsPromise
-  }
-
-  private _errorsPromise: Promise<void> = this._makeErrorsPromise(
-    this.binder.validate(this.initValue),
-  )
-
-  // Return a promise that completes after all _currently pending_ changes are
-  // flushed to the view-model. Any subsequent changes need not be included.
-  @computed
-  public get flushed(): Promise<void> {
-    return this._errorsPromise
-  }
+  @observable
+  private _repr: R = this.binder.render(this.initValue)
 
   @observable
-  private _errors: Errors = []
+  private _errorsMap: Map<any, Errors> = new Map()
 
   @computed
   public get errors(): Errors {
-    return this._errors
+    return ([] as Errors).concat(...this._errorsMap.values())
   }
 
-  private setErrors(promiseLike: PromiseLike<Errors>) {
-    this._errorsPromise = this._makeErrorsPromise(Promise.resolve(promiseLike))
+  // Errors come in waves of 1 or more promises. Every wave goes into one
+  // array. We track the last promise so that tests can wait for all changes
+  // in flight.
+  @computed
+  public get version(): Version {
+    return this._errorsMap as Version
   }
 
+  public async setErrors(
+    errorsLike: PromiseLike<ErrorsLike> = [],
+    key: any = this,
+    version: Version = this.version,
+  ) {
+    const errors = Errors(await errorsLike)
+    if (errors.length === 0) {
+      version.delete(key)
+    } else {
+      version.set(key, errors)
+    }
+  }
+
+  public async addErrors(
+    errorsLike: PromiseLike<ErrorsLike>,
+    key: any = this,
+    version: Version = this.version,
+  ) {
+    const errors = Errors(await errorsLike)
+    if (errors.length === 0) {
+      return
+    }
+    const value = version.get(key) || []
+    value.push(...errors)
+    version.set(key, value)
+  }
+
+  // A promise that completes after all _currently pending_ changes are
+  // flushed to the view-model. Any subsequent changes need not be included.
   @observable
-  private _repr: R = this.binder.render(this.initValue)
+  public flushed: Promise<unknown> = this.validate()
+
+  private async validate(): Promise<unknown> {
+    const promises = this.binder.validators.map(
+      (validatorLike: ValidatorLike<V>) =>
+        this.setErrors(validatorLike(this._value), validatorLike),
+    )
+    const promise = Promise.all(promises)
+    return promise
+  }
 
   @observable
   public touched: boolean = false
@@ -123,7 +148,8 @@ export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
 
   public set value(value: V) {
     this._value = value
-    this.setErrors(this.binder.validate(this._value))
+    this._errorsMap = new Map()
+    this.flushed = this.validate()
     this._repr = this.binder.render(value)
   }
 
@@ -135,13 +161,14 @@ export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
   public set repr(repr: R) {
     this.touched = true
     this._repr = repr
+    this._errorsMap = new Map()
     const parsed: ShouldBe<V> = this.binder.parse(repr)
     if ('errors' in parsed) {
-      this.setErrors(parsed.errors)
-      return
+      this.flushed = this.setErrors(parsed.errors)
+    } else {
+      this._value = parsed.value
+      this.flushed = this.validate()
     }
-    this._value = parsed.value
-    this.setErrors(this.binder.validate(this._value))
   }
 }
 

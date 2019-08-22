@@ -1,8 +1,10 @@
 import { Binder, ShouldBe } from './Binder'
+import { ValidatorLike } from './Errors'
 import { ViewModel, ViewModelConstructor } from './ViewModel'
 
 // A binder for debugging other binders. It proxies another binder, logging
 // each method's arguments and return value.
+// TODO: Try a Proxy.
 export class DebugBinder<I, V extends I, R>
   implements Binder<V, R>, ViewModelConstructor<I, V, R> {
   public constructor(
@@ -15,6 +17,10 @@ export class DebugBinder<I, V extends I, R>
 
   public get defaultValue() {
     return this._target.defaultValue
+  }
+
+  public get validators() {
+    return this._target.validators
   }
 
   public construct(
@@ -35,10 +41,13 @@ export class DebugBinder<I, V extends I, R>
     return parsed
   }
 
-  public async validate(value: V): Promise<React.ReactNode[]> {
-    const errors = await this._target.validate(value)
-    console.log('validate(', value, ') =>', errors)
-    return errors
+  public test(validatorLike: ValidatorLike<V>): this {
+    this._target.validators.push(async (value: V) => {
+      const errors = await validatorLike(value)
+      console.log('validate(', value, ') =>', errors)
+      return errors
+    })
+    return this
   }
 
   public render(value: V): R {

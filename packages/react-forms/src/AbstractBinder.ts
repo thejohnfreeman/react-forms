@@ -1,17 +1,11 @@
-import {
-  Binder,
-  Errors,
-  ShouldBe,
-  validator,
-  Validator,
-  ValidatorLike,
-} from './Binder'
+import { Binder, ShouldBe } from './Binder'
+import { ValidatorLike } from './Errors'
 import { DebugBinder } from './DebugBinder'
 import { FieldViewModel, FieldViewModelConstructor } from './FieldViewModel'
 
 export abstract class AbstractBinder<V, R = V>
   implements Binder<V, R>, FieldViewModelConstructor<V, V, R> {
-  public validators: Validator<V>[] = []
+  public readonly validators: ValidatorLike<V>[] = []
 
   public constructor(
     public readonly type: string,
@@ -19,7 +13,7 @@ export abstract class AbstractBinder<V, R = V>
   ) {}
 
   public test(validatorLike: ValidatorLike<V>): this {
-    this.validators.push(validator(validatorLike))
+    this.validators.push(validatorLike)
     return this
   }
 
@@ -41,11 +35,6 @@ export abstract class AbstractBinder<V, R = V>
   }
 
   public abstract parse(repr: R): ShouldBe<V>
-
-  public async validate(value: V): Promise<Errors> {
-    const promises = this.validators.map(validator => validator(value))
-    return ([] as Errors).concat(...(await Promise.all(promises)))
-  }
 
   public abstract render(value: V): R
 }

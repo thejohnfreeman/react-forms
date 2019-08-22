@@ -1,10 +1,13 @@
+import { Errors } from './Errors'
+
 export interface ViewModel<V, R = V> {
   readonly clean: boolean
   clear: () => void
   readonly dirty: boolean
   disabled: boolean
   enabled: boolean
-  errors: React.ReactNode[]
+  errors: Errors
+  version: any
   readonly invalid: boolean
   reset: () => void
   save: () => void

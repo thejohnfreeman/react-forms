@@ -1,4 +1,3 @@
-import { Errors } from './Binder'
 import { IdentityOptionalBinder } from './IdentityOptionalBinder'
 
 export class NumberBinder extends IdentityOptionalBinder<number> {
@@ -10,6 +9,17 @@ export class NumberBinder extends IdentityOptionalBinder<number> {
     type: string = 'number',
   ) {
     super(type, defaultValue)
+    this.test((value: number | null) => {
+      if (typeof value !== 'number') {
+        return
+      }
+      if (value < this.optMinimum) {
+        return `Must be greater than ${this.optMinimum}.`
+      }
+      if (value > this.optMaximum) {
+        return `Must be less than ${this.optMaximum}.`
+      }
+    })
   }
 
   public minimum(minimum: number): this {
@@ -20,17 +30,5 @@ export class NumberBinder extends IdentityOptionalBinder<number> {
   public maximum(maximum: number): this {
     this.optMaximum = maximum
     return this
-  }
-
-  public async validate(value: number | null): Promise<Errors> {
-    const errors: Errors = await super.validate(value)
-    if (typeof value === 'number') {
-      if (value < this.optMinimum) {
-        errors.push(`Must be greater than ${this.optMinimum}.`)
-      } else if (value > this.optMaximum) {
-        errors.push(`Must be less than ${this.optMaximum}.`)
-      }
-    }
-    return errors
   }
 }
