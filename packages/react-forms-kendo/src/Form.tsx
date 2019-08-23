@@ -15,7 +15,7 @@ export const FormContext = React.createContext<{
 export type FormProps<G extends ViewModelGroup> = {
   className?: string
   viewModel?: GroupViewModel<G>
-  onSubmit?: (value: ValueGroup<G>) => void
+  onSubmit: (value: ValueGroup<G>) => void
 }
 
 // Require users to set `key` on `Form`s? It triggers state reconstruction and
@@ -25,6 +25,9 @@ export class Form<
 > extends React.Component<FormProps<G>> {
   // If the context is non-null, this is a nested form.
   public static contextType = FormContext
+  public static defaultProps = {
+    onSubmit: () => {},
+  }
 
   // This method may go unused, but we cannot conditionally initialize it
   // inside the constructor because the context is not available there.
@@ -36,16 +39,8 @@ export class Form<
   }
 
   public componentDidMount() {
-    if (this.parent) {
-      // We are a nested form.
-      if (this.props.onSubmit) {
-        console.error('onSubmit prop to nested form will be ignored')
-      }
-    } else {
-      // We are a root form.
-      if (!this.props.onSubmit) {
-        console.error('missing onSubmit prop on root form')
-      }
+    if (this.parent && this.props.onSubmit) {
+      console.error('onSubmit prop to nested form will be ignored')
     }
   }
 
