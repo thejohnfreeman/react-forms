@@ -131,7 +131,7 @@ describe('GroupViewModel', () => {
   })
 
   describe('custom validator', () => {
-    it('is called', () => {
+    it.skip('is called', () => {
       const Model = ViewModels.group({
         name: ViewModels.text(),
       }).test(() => ({ name: 'a' }))
