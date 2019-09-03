@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-type Subtract<Props extends object, DefaultProps extends object> = Pick<
+export type Subtract<Props extends object, DefaultProps extends object> = Pick<
   Props,
   Exclude<keyof Props, keyof DefaultProps>
 >
