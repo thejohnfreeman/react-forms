@@ -9,8 +9,9 @@ import * as React from 'react'
 
 import { Field } from './Field'
 import { errorsToMessage } from './Message'
+import { withRef, WithRefProps } from './refs'
 
-export interface NumericInputProps extends NumericTextBoxProps {
+export interface NumericInputProps extends NumericTextBoxProps, WithRefProps {
   inputClassName?: string
   label?: string
   name: string
@@ -20,6 +21,7 @@ export interface NumericInputProps extends NumericTextBoxProps {
 class _NumericInput extends Field<NumericInputProps> {
   public render() {
     const {
+      innerRef,
       inputClassName,
       label,
       name,
@@ -27,7 +29,7 @@ class _NumericInput extends Field<NumericInputProps> {
       ...kendoProps
     } = this.props
     return (
-      <label className={classNames(rootClassName, 'k-form-field')}>
+      <label className={classNames(rootClassName, 'k-form-field')} ref={innerRef}>
         <span>{label || titleCase(name)}</span>
         <NumericTextBox
           className={classNames(inputClassName, 'form-control')}
@@ -51,4 +53,4 @@ class _NumericInput extends Field<NumericInputProps> {
   }
 }
 
-export const NumericInput = observer(_NumericInput)
+export const NumericInput = withRef(observer(_NumericInput))

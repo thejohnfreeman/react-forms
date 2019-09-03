@@ -9,8 +9,9 @@ import * as React from 'react'
 
 import { Field } from './Field'
 import { errorsToMessage } from './Message'
+import { withRef, WithRefProps } from './refs'
 
-export type DatePickerProps = KendoDatePickerProps & {
+export interface DatePickerProps extends KendoDatePickerProps, WithRefProps {
   inputClassName?: string
   label?: React.ReactNode
   name: string
@@ -20,6 +21,7 @@ export type DatePickerProps = KendoDatePickerProps & {
 class _DatePicker extends Field<DatePickerProps> {
   public render() {
     const {
+      innerRef,
       inputClassName,
       label,
       name,
@@ -27,7 +29,10 @@ class _DatePicker extends Field<DatePickerProps> {
       ...kendoProps
     } = this.props
     return (
-      <label className={classNames(rootClassName, 'k-form-field')}>
+      <label
+        className={classNames(rootClassName, 'k-form-field')}
+        ref={innerRef}
+      >
         <span>{label || titleCase(name)}</span>
         <KendoDatePicker
           className={classNames(inputClassName, 'form-control')}
@@ -48,4 +53,4 @@ class _DatePicker extends Field<DatePickerProps> {
   }
 }
 
-export const DatePicker = observer(_DatePicker)
+export const DatePicker = withRef(observer(_DatePicker))

@@ -9,9 +9,10 @@ import * as React from 'react'
 
 import { Field } from './Field'
 import { errorsToMessage } from './Message'
+import { withRef, WithRefProps } from './refs'
 
 // `name` is optional in `KendoInputProps`
-export type InputProps = KendoInputProps & {
+export interface InputProps extends KendoInputProps, WithRefProps {
   inputClassName?: string
   label?: string
   name: string
@@ -22,6 +23,7 @@ export type InputProps = KendoInputProps & {
 class _Input extends Field<InputProps> {
   public render() {
     const {
+      innerRef,
       inputClassName,
       label,
       name,
@@ -31,7 +33,10 @@ class _Input extends Field<InputProps> {
     } = this.props
     const opts = this.field.binder
     return (
-      <label className={classNames(rootClassName, 'k-form-field')}>
+      <label
+        className={classNames(rootClassName, 'k-form-field')}
+        ref={innerRef}
+      >
         <span>{label || titleCase(name)}</span>
         <KendoInput
           className={classNames(inputClassName, 'form-control')}
@@ -59,4 +64,4 @@ class _Input extends Field<InputProps> {
   }
 }
 
-export const Input = observer(_Input)
+export const Input = withRef(observer(_Input))
