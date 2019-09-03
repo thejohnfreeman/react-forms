@@ -11,8 +11,9 @@ import * as React from 'react'
 import { Field } from './Field'
 import { errorsToMessage } from './Message'
 import { newOptionsSource, OptionsLike, OptionsSource } from './OptionsSource'
+import { withRef, WithRefProps } from './refs'
 
-export type ComboBoxProps = KendoComboBoxProps & {
+export interface ComboBoxProps extends KendoComboBoxProps, WithRefProps {
   inputClassName?: string
   label?: string
   name: string
@@ -34,6 +35,7 @@ class _ComboBox extends Field<ComboBoxProps> {
 
   public render() {
     const {
+      innerRef,
       inputClassName,
       label,
       name,
@@ -42,7 +44,10 @@ class _ComboBox extends Field<ComboBoxProps> {
       ...kendoProps
     } = this.props
     return (
-      <label className={classNames(rootClassName, 'k-form-field')}>
+      <label
+        className={classNames(rootClassName, 'k-form-field')}
+        ref={innerRef}
+      >
         <span>{label || titleCase(name)}</span>
         <KendoComboBox
           className={classNames(inputClassName, 'form-control')}
@@ -70,4 +75,4 @@ class _ComboBox extends Field<ComboBoxProps> {
   }
 }
 
-export const ComboBox = observer(_ComboBox)
+export const ComboBox = withRef(observer(_ComboBox))

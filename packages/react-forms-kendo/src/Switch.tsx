@@ -9,8 +9,9 @@ import {
 import * as React from 'react'
 
 import { Field } from './Field'
+import { withRef, WithRefProps } from './refs'
 
-export type SwitchProps = KendoSwitchProps & {
+export interface SwitchProps extends KendoSwitchProps, WithRefProps {
   inputClassName?: string
   label?: string
   name: string
@@ -24,6 +25,7 @@ class _Switch extends Field<SwitchProps> {
 
   public render() {
     const {
+      innerRef,
       inputClassName,
       label,
       name,
@@ -31,7 +33,10 @@ class _Switch extends Field<SwitchProps> {
       ...kendoProps
     } = this.props
     return (
-      <label className={classNames(rootClassName, 'k-form-field')}>
+      <label
+        className={classNames(rootClassName, 'k-form-field')}
+        ref={innerRef}
+      >
         <span>{label || titleCase(name)}</span>
         <KendoSwitch
           className={classNames(inputClassName, 'form-control')}
@@ -45,4 +50,4 @@ class _Switch extends Field<SwitchProps> {
   }
 }
 
-export const Switch = observer(_Switch)
+export const Switch = withRef(observer(_Switch))
