@@ -1,6 +1,6 @@
 {
   "name": "material",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "private": true,
   "description": "Examples in Material UI.",
   "author": "John Freeman <jfreeman08@gmail.com>",
@@ -13,7 +13,7 @@
     "@material-ui/core": "^3.9.2",
     "@progress/kendo-theme-material": "^2.2.0",
     "@thejohnfreeman/observer": "^1.0.0",
-    "@thejohnfreeman/react-forms": "^0.9.0",
-    "@thejohnfreeman/react-forms-kendo": "^0.9.0"
+    "@thejohnfreeman/react-forms": "^0.10.0",
+    "@thejohnfreeman/react-forms-kendo": "^0.10.0"
   }
 }
