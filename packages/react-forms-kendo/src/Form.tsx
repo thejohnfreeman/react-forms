@@ -18,6 +18,8 @@ export type FormProps<G extends ViewModelGroup> = {
   onSubmit: (value: ValueGroup<G>) => void
 }
 
+const defaultOnSubmit = () => {}
+
 // Require users to set `key` on `Form`s? It triggers state reconstruction and
 // lets us ignore props after construction.
 export class Form<
@@ -26,7 +28,7 @@ export class Form<
   // If the context is non-null, this is a nested form.
   public static contextType = FormContext
   public static defaultProps = {
-    onSubmit: () => {},
+    onSubmit: defaultOnSubmit,
   }
 
   // This method may go unused, but we cannot conditionally initialize it
@@ -39,7 +41,7 @@ export class Form<
   }
 
   public componentDidMount() {
-    if (this.parent && this.props.onSubmit) {
+    if (this.parent && this.props.onSubmit !== defaultOnSubmit) {
       console.error('onSubmit prop to nested form will be ignored')
     }
   }
