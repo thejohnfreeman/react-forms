@@ -29,7 +29,10 @@ class _NumericInput extends Field<NumericInputProps> {
       ...kendoProps
     } = this.props
     return (
-      <label className={classNames(rootClassName, 'k-form-field')} ref={innerRef}>
+      <label
+        className={classNames(rootClassName, 'k-form-field')}
+        ref={innerRef}
+      >
         <span>{label || titleCase(name)}</span>
         <NumericTextBox
           className={classNames(inputClassName, 'form-control')}
