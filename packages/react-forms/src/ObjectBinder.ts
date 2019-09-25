@@ -1,3 +1,5 @@
+import compare from 'just-compare'
+
 import { ShouldBe } from './Binder'
 import { AbstractOptionalBinder } from './AbstractOptionalBinder'
 import { Option } from './OptionBinder'
@@ -18,6 +20,10 @@ export class ObjectBinder<
   public to(shape: Record<string, string>): this {
     this.optShape = shape
     return this
+  }
+
+  public equals(a: V | null, b: V | null): boolean {
+    return compare(a, b)
   }
 
   public parse(repr: R | undefined): ShouldBe<V | null> {

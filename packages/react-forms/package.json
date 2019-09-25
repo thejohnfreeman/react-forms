@@ -43,6 +43,7 @@
   "homepage": "https://github.com/thejohnfreeman/react-forms#readme",
   "dependencies": {
     "dayjs": "^1.8.5",
+    "just-compare": "^1.3.0",
     "just-map-values": "^1.1.0"
   },
   "peerDependencies": {
