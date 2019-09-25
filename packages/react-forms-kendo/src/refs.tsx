@@ -7,9 +7,9 @@ export interface WithRefProps {
   innerRef: React.Ref<any>
 }
 
-export const withRef = <Props extends object>(
+export const withRef = <Props extends WithRefProps>(
   Component: React.ComponentType<Props>,
-): React.ComponentType<Props> =>
+) =>
   React.forwardRef((props: Subtract<Props, WithRefProps>, ref) => (
     <Component innerRef={ref} {...(props as Props)} />
   )) as any
