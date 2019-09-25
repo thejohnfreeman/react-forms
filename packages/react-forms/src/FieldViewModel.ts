@@ -7,16 +7,20 @@ import { ViewModel, ViewModelConstructor } from './ViewModel'
 export type Version = Map<any, Errors> & { readonly __tag: unique symbol }
 
 export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
-  public constructor(
-    private readonly binder: Binder<V, R>,
-    public initValue: V,
-  ) {}
+  @observable
+  public initValue: V
 
   @observable
-  private _value: V = this.initValue
+  private _value: V
 
   @observable
-  private _repr: R = this.binder.render(this.initValue)
+  private _repr: R
+
+  public constructor(private readonly binder: Binder<V, R>, initValue: V) {
+    this.initValue = initValue
+    this._value = initValue
+    this._repr = binder.render(initValue)
+  }
 
   @observable
   private _errorsMap: Map<any, Errors> = new Map()
@@ -101,6 +105,7 @@ export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
     this.value = this.initValue
   }
 
+  @action
   public save() {
     this.initValue = this.value
   }
