@@ -1,6 +1,6 @@
 {
   "name": "bootstrap",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "private": true,
   "description": "Examples in Material UI.",
   "author": "John Freeman <jfreeman08@gmail.com>",
@@ -12,8 +12,8 @@
   "dependencies": {
     "@progress/kendo-theme-bootstrap": "^3.2.0",
     "@thejohnfreeman/observer": "^1.0.0",
-    "@thejohnfreeman/react-forms": "^0.10.2",
-    "@thejohnfreeman/react-forms-kendo": "^0.10.2",
+    "@thejohnfreeman/react-forms": "^0.10.3",
+    "@thejohnfreeman/react-forms-kendo": "^0.10.3",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "react-bootstrap": "^1.0.0-beta.10"
