@@ -16,10 +16,16 @@ export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
   @observable
   private _repr: R
 
+  // A promise that completes after all _currently pending_ changes are
+  // flushed to the view-model. Any subsequent changes need not be included.
+  @observable
+  public flushed: Promise<unknown>
+
   public constructor(private readonly binder: Binder<V, R>, initValue: V) {
     this.initValue = initValue
     this._value = initValue
     this._repr = binder.render(initValue)
+    this.flushed = this.validate()
   }
 
   @observable
@@ -64,11 +70,6 @@ export class FieldViewModel<V, R = V> implements ViewModel<V, R> {
     value.push(...errors)
     version.set(key, value)
   }
-
-  // A promise that completes after all _currently pending_ changes are
-  // flushed to the view-model. Any subsequent changes need not be included.
-  @observable
-  public flushed: Promise<unknown> = this.validate()
 
   private async validate(): Promise<unknown> {
     const promises = this.binder.validators.map(
