@@ -1,5 +1,5 @@
 import { titleCase } from 'change-case'
-import classNames from 'classnames'
+import classNames from 'classnames/dedupe'
 import { action } from 'mobx'
 import { observer } from 'mobx-react'
 import {
@@ -31,9 +31,9 @@ class _SwitchButton extends Field<SwitchButtonProps> {
       ...kendoProps
     } = this.props
     return (
-      <p className={classNames(rootClassName, 'k-form-field')}>
+      <p className={classNames('k-form-field', rootClassName)}>
         <KendoButton
-          className={classNames(inputClassName, 'form-control')}
+          className={classNames('form-control', inputClassName)}
           name={name}
           onClick={this.onChange}
           selected={this.field.repr}

@@ -1,5 +1,5 @@
 import { titleCase } from 'change-case'
-import classNames from 'classnames'
+import classNames from 'classnames/dedupe'
 import { observer } from 'mobx-react'
 import {
   DatePicker as KendoDatePicker,
@@ -30,12 +30,12 @@ class _DatePicker extends Field<DatePickerProps> {
     } = this.props
     return (
       <label
-        className={classNames(rootClassName, 'k-form-field')}
+        className={classNames('k-form-field', rootClassName)}
         ref={innerRef}
       >
         <span>{label || titleCase(name)}</span>
         <KendoDatePicker
-          className={classNames(inputClassName, 'form-control')}
+          className={classNames('form-control', inputClassName)}
           disabled={this.field.disabled}
           name={name}
           onChange={this.context.form.onChange}

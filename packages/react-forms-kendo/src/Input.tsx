@@ -1,5 +1,5 @@
 import { titleCase } from 'change-case'
-import classNames from 'classnames'
+import classNames from 'classnames/dedupe'
 import { observer } from 'mobx-react'
 import {
   Input as KendoInput,
@@ -34,12 +34,12 @@ class _Input extends Field<InputProps> {
     const opts = this.field.binder
     return (
       <label
-        className={classNames(rootClassName, 'k-form-field')}
+        className={classNames('k-form-field', rootClassName)}
         ref={innerRef}
       >
         <span>{label || titleCase(name)}</span>
         <KendoInput
-          className={classNames(inputClassName, 'form-control')}
+          className={classNames('form-control', inputClassName)}
           disabled={this.field.disabled}
           maxLength={opts.optMaxLength}
           minLength={opts.optMinLength}

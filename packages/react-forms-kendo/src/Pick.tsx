@@ -1,5 +1,5 @@
 import { titleCase } from 'change-case'
-import classNames from 'classnames'
+import classNames from 'classnames/dedupe'
 import { action } from 'mobx'
 import { observer } from 'mobx-react'
 import * as React from 'react'
@@ -29,13 +29,13 @@ class _Pick extends Field<PickProps> {
     return (
       <div
         className={classNames(
-          rootClassName,
           'custom-control',
           `custom-${type}`,
+          rootClassName,
         )}
       >
         <input
-          className={classNames(inputClassName, 'custom-control-input')}
+          className={classNames('custom-control-input', inputClassName)}
           checked={this.field.repr}
           disabled={this.field.disabled}
           id={this.id}
