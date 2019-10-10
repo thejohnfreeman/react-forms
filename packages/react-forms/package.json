@@ -1,6 +1,6 @@
 {
   "name": "@thejohnfreeman/react-forms",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "description": "Low effort, high quality forms in React.",
   "types": "dist/index.d.ts",
   "main": "dist/cjs/index.js",
