@@ -27,7 +27,7 @@ export class ObjectBinder<
   }
 
   public parse(repr: R | undefined): ShouldBe<V | null> {
-    if (typeof repr === 'undefined') {
+    if (typeof repr === 'undefined' || repr === null) {
       return { value: null }
     }
     const value = {} as V
